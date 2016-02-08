@@ -2,7 +2,7 @@
 {% block content %}
 <ul>
 {% for abbreviation, fullname in languages_available.items %}
-	<li><a href="requests/{{ abbreviation }}">{{ fullname }}</a></li>
+	<li><a href="/requests/{{ abbreviation }}">{{ fullname }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
