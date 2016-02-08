@@ -1,7 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Wikipedia Requests -- Interface Strings
+# Copyright (C) 2016 James Hare
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# James Hare <jamesmhare@gmail.com>, 2016.
 #
 #, fuzzy
 msgid ""
@@ -19,24 +19,24 @@ msgstr ""
 
 #: views.py:13
 msgid "Wikipedia Requests"
-msgstr ""
+msgstr "Wikipedia Requests"
 
 #: views.py:14
 msgid "Login via Wikipedia"
-msgstr ""
+msgstr "Login via Wikipedia"
 
 #: views.py:15
 msgid "Search"
-msgstr ""
+msgstr "Search"
 
 #: views.py:16
 msgid "Add"
-msgstr ""
+msgstr "Add"
 
 #: views.py:17
 msgid "Help"
-msgstr ""
+msgstr "Help"
 
 #: views.py:18
 msgid "About"
-msgstr ""
+msgstr "About"

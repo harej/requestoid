@@ -1,5 +1,5 @@
 import gettext
-import locale
+import os
 from django.shortcuts import render
 
 def interface_messages(langcode):
@@ -7,7 +7,8 @@ def interface_messages(langcode):
     Provides a dictionary to feed into the context, with an ISO 639-1 or -2 language code as input.
     '''
 
-    translation = gettext.translation('interface', localedir='locale/', languages=[langcode])
+    translation_directory = os.path.join(os.getcwd(), 'locale')
+    translation = gettext.translation('interface', localedir=translation_directory, languages=[langcode])
     translation.install()
 
     output = {
