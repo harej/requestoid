@@ -7,7 +7,7 @@ def select_language(request):
 
     context = {
                   'language': 'en',
-                  'languages_available': available
+                  'available': available
               }
 
     return render(request, 'requestoid/select_language.html', context = context)
