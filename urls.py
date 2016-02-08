@@ -18,6 +18,6 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.Views.select_language),  # Views! Views! Views, views, views, views, views views views views views views has a has a has a has a kind of mystery
+    url(r'^$', views.select_language),  # Views! Views! Views, views, views, views, views views views views views views has a has a has a has a kind of mystery
     url(r'^admin/', admin.site.urls),
 ]

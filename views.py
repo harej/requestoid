@@ -21,16 +21,16 @@ def interface_messages(langcode):
     return output
 
 
-class Views:
-    def select_language(self, request):
-        available = [
-                         {'code': 'en', 'label': 'English'}
-                    ]
 
-        context = {
-                      'interface': interface_messages('en'),
-                      'language': 'en',
-                      'available': available
-                  }
+def select_language(request):
+    available = [
+                    {'code': 'en', 'label': 'English'}
+                ]
 
-        return render(request, 'requestoid/select_language.html', context = context)
+    context = {
+                  'interface': interface_messages('en'),
+                  'language': 'en',
+                  'available': available
+              }
+
+    return render(request, 'requestoid/select_language.html', context = context)
