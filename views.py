@@ -7,7 +7,7 @@ def interface_messages(langcode):
     Provides a dictionary to feed into the context, with an ISO 639-1 or -2 language code as input.
     '''
 
-    translation = gettext.translation('interface', localedir='requestoid/locale/', languages=[langcode])
+    translation = gettext.translation('interface', localedir='locale/', languages=[langcode])
     translation.install()
 
     output = {
