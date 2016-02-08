@@ -1,11 +1,11 @@
 from django.shortcuts import render
 
 def select_language(request):
-	available = {
+    available = {
 	                 'en': 'English'
 	            }
 
-	context = {
+    context = {
 	              'language': 'en',
 	              'languages_available': available
 	          }
