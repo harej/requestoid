@@ -2,7 +2,8 @@ from django.shortcuts import render
 
 def select_language(request):
     available = [
-                     ['en', 'English']
+                     ['en', 'English'],
+                     ['fr', 'français']
                 ]
 
     context = {
