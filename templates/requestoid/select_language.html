@@ -1,8 +1,8 @@
 {% extends 'requestoid/base.html' %}
 {% block content %}
 <ul>
-{% for abbreviation in languages_available %}
-	<li><a href="requests/{{ abbreviation }}">{{ abbreviation }}</a></li>
+{% for abbreviation, fullname in languages_available %}
+	<li><a href="requests/{{ abbreviation }}">{{ fullname }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
