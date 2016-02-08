@@ -1,7 +1,7 @@
 {% extends 'requestoid/base.html' %}
 {% block content %}
 <ul>
-{% for code, fullname in languages_available %}
+{% for code, fullname in languages_available.items() %}
 	<li><a href="requests/{{ code }}">{{ fullname }}</a></li>
 {% endfor %}
 </ul>
