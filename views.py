@@ -11,7 +11,7 @@ def interface_messages(langcode):
 
     translation_directory = os.path.join(os.getcwd(), 'locale')
     translation = gettext.translation('interface', localedir=translation_directory, languages=[langcode])
-    translation.install()
+    _ = translation.gettext
 
     output = {
                 'brand': _('Wikipedia Requests'),
