@@ -1,5 +1,8 @@
+import configparser
 import gettext
+import os
 from django.shortcuts import render
+from mwoauth import ConsumerToken, Handshaker
 
 # Views! Views! Views, views, views, views, views views views views views views has a has a has a has a kind of mystery
 
@@ -60,3 +63,14 @@ def homepage(request, langcode):  # /requests/en
               }
 
     return render(request, 'requestoid/homepage.html', context = context)
+
+def auth(request, langcode):  # /requests/en/auth
+    keyfile = configparser.ConfigParser()
+    keyfile.read([os.path.expanduser('~/.oauth.ini')])
+    consumer_key = loginfile.get('oauth', 'consumer_key')
+    consumer_secret = loginfile.get('oauth', 'consumer_secret')
+    consumer_token = ConsumerToken(consumer_key, consumer_secret)
+    handshaker = Handshaker("https://en.wikipedia.org/w/index.php", consumer_token)
+    redirect, request_token = handshaker.initiate()
+
+    return HttpResponseRedirect(redirect)  # todo: finish
