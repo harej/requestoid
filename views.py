@@ -55,6 +55,7 @@ def homepage(request, langcode):  # /requests/en
 
     context = {
                   'interface': interface_messages(langcode),
+                  'language': langcode,
                   'content': content
               }
 
