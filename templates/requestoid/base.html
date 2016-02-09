@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.1.8/semantic.min.css" />
 </head>
 <body>
-<div class="ui borderless main menu">
-    <a class="brand item" href="/requests/{{ language }}">{{ interface.brand }}</a>
+<div class="ui borderless main menu" style="font-size:12pt;">
+    <a class="brand item" href="/requests/{{ language }}" style="font-weight:bold; color:#fff; background:#000">{{ interface.brand|upper }}</a>
     <a class="item" href="/requests/{{ language }}/list">{{ interface.search }}</a>
     <a class="item" href="/requests/{{ language }}/add">{{ interface.add }}</a>
     <a class="item" href="/requests/{{ language }}/help">{{ interface.help }}</a>
@@ -13,7 +13,8 @@
     <a class="right floated item" href="/requests/auth">{{ interface.login_via_wikipedia }}</a>
 </div>
 
-<div class="ui main text container">
+<div class="ui main text container" style="padding-top:1em;">
+<h1 class="ui header">Test</h1>
 {% block content %}
 {% endblock %}
 </div>
