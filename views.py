@@ -50,12 +50,7 @@ def homepage(request, langcode):  # /requests/en
 
     content = {
                   'headline': _('Help fill in the gaps on Wikipedia'),
-                  'intro': _('The Wikipedia Requests system is a new tool to centralize '
-                             'the various lists of requests around Wikipedia, including '
-                             'lists of missing articles and requests to improve existing'
-                             ' articles. Requests are tagged by category and WikiProject,'
-                             ' making it easier to find requests based on what your interests '
-                             'are. We just started work on this, so check back later!')
+                  'intro': _('The Wikipedia Requests system is a new tool to centralize the various lists of requests around Wikipedia, including lists of missing articles and requests to improve existing articles. Requests are tagged by category and WikiProject, making it easier to find requests based on what your interests are. We just started work on this, so check back later!')
               }
 
     context = {
