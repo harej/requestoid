@@ -45,19 +45,17 @@ def select_language(request):  # /requests
 
 def homepage(request, langcode):  # /requests/en
 
-    intro = ('The Wikipedia Requests system is a new tool to centralize '
-             'the various lists of requests around Wikipedia, including '
-             'lists of missing articles and requests to improve existing'
-             ' articles. Requests are tagged by category and WikiProject,'
-             ' making it easier to find requests based on what your interests '
-             'are. We just started work on this, so check back later!')
-
     translation = gettext.translation('homepage', localedir=LOCALEDIR, languages=[langcode])
     _ = translation.getttext
 
     content = {
                   'headline': _('Help fill in the gaps on Wikipedia'),
-                  'intro': _(intro)
+                  'intro': _('The Wikipedia Requests system is a new tool to centralize '
+                             'the various lists of requests around Wikipedia, including '
+                             'lists of missing articles and requests to improve existing'
+                             ' articles. Requests are tagged by category and WikiProject,'
+                             ' making it easier to find requests based on what your interests '
+                             'are. We just started work on this, so check back later!')
               }
 
     context = {
