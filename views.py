@@ -67,8 +67,8 @@ def homepage(request, langcode):  # /requests/en
 def auth(request, langcode):  # /requests/en/auth
     keyfile = configparser.ConfigParser()
     keyfile.read([os.path.expanduser('~/.oauth.ini')])
-    consumer_key = loginfile.get('oauth', 'consumer_key')
-    consumer_secret = loginfile.get('oauth', 'consumer_secret')
+    consumer_key = keyfile.get('oauth', 'consumer_key')
+    consumer_secret = keyfile.get('oauth', 'consumer_secret')
     consumer_token = ConsumerToken(consumer_key, consumer_secret)
     handshaker = Handshaker("https://en.wikipedia.org/w/index.php", consumer_token)
     redirect, request_token = handshaker.initiate()
