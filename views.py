@@ -6,7 +6,8 @@ from mwoauth import ConsumerToken, Handshaker
 
 # Views! Views! Views, views, views, views, views views views views views views has a has a has a has a kind of mystery
 
-LOCALEDIR = '/var/www/django-src/requestoid/requestoid/locale'
+ROOTDIR = '/var/www/django-src/requestoid/requestoid'
+LOCALEDIR = ROOTDIR + '/locale'
 
 def interface_messages(langcode):
     '''
@@ -66,7 +67,7 @@ def homepage(request, langcode):  # /requests/en
 
 def auth(request, langcode):  # /requests/en/auth
     keyfile = configparser.ConfigParser()
-    keyfile.read([os.path.expanduser('./.oauth.ini')])
+    keyfile.read([os.path.expanduser(ROOTDIR + '/.oauth.ini')])
     consumer_key = keyfile.get('oauth', 'consumer_key')
     consumer_secret = keyfile.get('oauth', 'consumer_secret')
     consumer_token = ConsumerToken(consumer_key, consumer_secret)
