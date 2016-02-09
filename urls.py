@@ -19,6 +19,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.select_language),  # /requests
-    url(r'^\/(?P<langcode>([^\/])*)$', views.homepage),  # /requests/en
+    url(r'^(?P<langcode>([^\/])*)$', views.homepage),  # /requests/en
     url(r'^admin/', admin.site.urls),
 ]
