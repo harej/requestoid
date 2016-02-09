@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="ui borderless main menu" style="font-size:12pt;">
-    <a class="brand item" href="/requests/{{ language }}" style="font-weight:bold; color:#fff; background:#000">{{ interface.brand|upper }}</a>
+    <a class="brand item" href="/requests/{{ language }}" style="font-weight:bold; color:#fff; background:#3C6AFF">{{ interface.brand|upper }}</a>
     <a class="item" href="/requests/{{ language }}/list">{{ interface.search }}</a>
     <a class="item" href="/requests/{{ language }}/add">{{ interface.add }}</a>
     <a class="item" href="/requests/{{ language }}/help">{{ interface.help }}</a>
@@ -14,7 +14,6 @@
 </div>
 
 <div class="ui main text container" style="padding-top:1em;">
-<h1 class="ui header">Test</h1>
 {% block content %}
 {% endblock %}
 </div>
