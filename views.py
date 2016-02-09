@@ -1,5 +1,4 @@
 import gettext
-import os
 from django.shortcuts import render
 
 def interface_messages(langcode):
@@ -9,8 +8,8 @@ def interface_messages(langcode):
 
     LANGUAGE = langcode
 
-    translation_directory = os.path.join(os.getcwd(), 'locale')
-    translation = gettext.translation('interface', localedir=translation_directory, languages=[langcode])
+
+    translation = gettext.translation('interface', localedir='/var/www/django-src/requestoid/requestoid/locale', languages=[langcode])
     _ = translation.gettext
 
     output = {
