@@ -46,7 +46,7 @@ def select_language(request):  # /requests
 def homepage(request, langcode):  # /requests/en
 
     translation = gettext.translation('homepage', localedir=LOCALEDIR, languages=[langcode])
-    _ = translation.getttext
+    _ = translation.gettext
 
     content = {
                   'headline': _('Help fill in the gaps on Wikipedia'),
