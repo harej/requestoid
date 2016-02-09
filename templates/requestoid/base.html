@@ -2,26 +2,18 @@
 <html>
 <head>
 <link rel="stylesheet" href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.1.8/semantic.min.css" />
-<style>
-.main {
-    margin: 2em;
-    color: black;
-}
-</style>
 </head>
 <body>
-<div class="ui top fixed menu">
-  <div class="item">
-    <a href="/requests/{{ language }}">{{ interface.brand }}</a>
-  </div>
-  <a class="item" href="/requests/auth">{{ interface.login_via_wikipedia }}</a>
-  <a class="item" href="/requests/{{ language }}/list">{{ interface.search }}</a>
-  <a class="item" href="/requests/{{ language }}/add">{{ interface.add }}</a>
-  <a class="item" href="/requests/{{ language }}/help">{{ interface.help }}</a>
-  <a class="item" href="/requests/{{ language }}/about">{{ interface.about }}</a>
+<div class="ui borderless main menu">
+    <a class="brand item" href="/requests/{{ language }}">{{ interface.brand }}</a>
+    <a class="item" href="/requests/{{ language }}/list">{{ interface.search }}</a>
+    <a class="item" href="/requests/{{ language }}/add">{{ interface.add }}</a>
+    <a class="item" href="/requests/{{ language }}/help">{{ interface.help }}</a>
+    <a class="item" href="/requests/{{ language }}/about">{{ interface.about }}</a>
+    <a class="right floated item" href="/requests/auth">{{ interface.login_via_wikipedia }}</a>
 </div>
 
-<div class="main">
+<div class="ui main text container">
 {% block content %}
 {% endblock %}
 </div>
