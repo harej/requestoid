@@ -2,6 +2,7 @@ import configparser
 import gettext
 import os
 from django.shortcuts import render
+from django.http.response import HttpResponseRedirect
 from mwoauth import ConsumerToken, Handshaker
 
 # Views! Views! Views, views, views, views, views views views views views views has a has a has a has a kind of mystery
@@ -74,4 +75,7 @@ def auth(request, langcode):  # /requests/en/auth
     handshaker = Handshaker("https://en.wikipedia.org/w/index.php", consumer_token)
     redirect, request_token = handshaker.initiate()
 
-    return HttpResponseRedirect(redirect)  # todo: finish
+    return HttpResponseRedirect(redirect)  # This hands the user off off to Wikimedia; user returns to the website via the callback view which implements the session
+
+def callback(request, langcode):  # /requests/callback/en    # also find a way to account for GET parameters?
+    pass  # will work on this later
