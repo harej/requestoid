@@ -19,7 +19,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.select_language),  # /requests
-    url(r'^callback\/(?P<langcode>([^\/])*)$', views.callback),  # /requests/callback/en
+    url(r'^callback\/(?P<langcode>([^\/])*)\/(?P<request_token>([^\/])*)$', views.callback),  # /requests/callback/en
     url(r'^(?!callback)(?P<langcode>([^\/])*)$', views.homepage),  # /requests/en
     url(r'^(?!callback)(?P<langcode>([^\/])*)\/auth$', views.auth),  # /requests/en/auth
     url(r'^admin/', admin.site.urls),
