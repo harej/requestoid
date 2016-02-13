@@ -10,7 +10,26 @@ from mwoauth import ConsumerToken, Handshaker
 ROOTDIR = '/var/www/django-src/requestoid/requestoid'
 LOCALEDIR = ROOTDIR + '/locale'
 
-def interface_messages(langcode):
+
+def requests_handshaker():
+    keyfile = configparser.ConfigParser()
+    keyfile.read([os.path.expanduser(ROOTDIR + '/.oauth.ini')])
+    consumer_key = keyfile.get('oauth', 'consumer_key')
+    consumer_secret = keyfile.get('oauth', 'consumer_secret')
+    consumer_token = ConsumerToken(consumer_key, consumer_secret)
+    return Handshaker("https://meta.wikimedia.org/w/index.php", consumer_token)
+
+
+def get_username(request):
+    handshaker = requests_handshaker()
+    if request.COOKIES.has_key( 'access' ):
+        access_token = request.COOKIES[ 'access' ]
+        return handshaker.identify(access_token)
+    else:
+        return None
+
+
+def interface_messages(request, langcode):
     '''
     Provides a dictionary to feed into the context, with an ISO 639-1 or -2 language code as input.
     '''
@@ -30,9 +49,14 @@ def interface_messages(langcode):
                 'about': _('About')
              }
 
+    username = get_username(request)
+    if username not None:
+        output['username'] = username  # leave 'username' key unset if no session
+
     return output
 
 
+###
 
 def select_language(request):  # /requests
     available = [
@@ -40,7 +64,7 @@ def select_language(request):  # /requests
                 ]
 
     context = {
-                  'interface': interface_messages('en'),
+                  'interface': interface_messages(request, 'en'),
                   'language': 'en',
                   'available': available
               }
@@ -59,23 +83,25 @@ def homepage(request, langcode):  # /requests/en
               }
 
     context = {
-                  'interface': interface_messages(langcode),
+                  'interface': interface_messages(request, langcode),
                   'language': langcode,
                   'content': content
               }
 
     return render(request, 'requestoid/homepage.html', context = context)
 
+
 def auth(request, langcode):  # /requests/en/auth
-    keyfile = configparser.ConfigParser()
-    keyfile.read([os.path.expanduser(ROOTDIR + '/.oauth.ini')])
-    consumer_key = keyfile.get('oauth', 'consumer_key')
-    consumer_secret = keyfile.get('oauth', 'consumer_secret')
-    consumer_token = ConsumerToken(consumer_key, consumer_secret)
-    handshaker = Handshaker("https://en.wikipedia.org/w/index.php", consumer_token)
+    handshaker = requests_handshaker()
     redirect, request_token = handshaker.initiate()
+    return HttpResponseRedirect(redirect)  # This hands the user off to Wikimedia; user returns to the website via the callback view which implements the session
 
-    return HttpResponseRedirect(redirect)  # This hands the user off off to Wikimedia; user returns to the website via the callback view which implements the session
 
-def callback(request, langcode):  # /requests/callback/en    # also find a way to account for GET parameters?
-    pass  # will work on this later
+def callback(request, langcode):  # /requests/callback/en
+    oauth_verifier = request.GET['oauth_verifier']
+    oauth_token = request.GET['oauth_token']
+    handshaker = requests_handshaker()
+    access_token = handshaker.complete(oauth_token, oauth_verifier)
+    response = HttpResponseRedirect("https://wpx.wmflabs.org/requests/" + langcode)
+    response.set_cookie('access', access_token)
+    return response

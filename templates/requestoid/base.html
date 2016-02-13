@@ -10,7 +10,13 @@
     <a class="item" href="/requests/{{ language }}/add">{{ interface.add }}</a>
     <a class="item" href="/requests/{{ language }}/help">{{ interface.help }}</a>
     <a class="item" href="/requests/{{ language }}/about">{{ interface.about }}</a>
-    <a class="right floated item" href="/requests/{{ language }}/auth">{{ interface.login_via_wikipedia }}</a>
+    <a class="right floated item" href="/requests/{{ language }}/auth">
+    {% if interface.username %}
+    	{{ interface.username }}
+	{% else %}
+		{{ interface.login_via_wikipedia }}
+	{% endif %}
+	</a>
 </div>
 
 <div class="ui main text container" style="padding-top:1em;">
