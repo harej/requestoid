@@ -50,7 +50,7 @@ def interface_messages(request, langcode):
              }
 
     username = get_username(request)
-    if username not None:
+    if username != None:
         output['username'] = username  # leave 'username' key unset if no session
 
     return output
