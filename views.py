@@ -22,7 +22,7 @@ def requests_handshaker():
 
 def get_username(request):
     handshaker = requests_handshaker()
-    if request.COOKIES.has_key( 'access' ):
+    if 'access' in request.COOKIES:
         access_token = request.COOKIES[ 'access' ]
         return handshaker.identify(access_token)
     else:
