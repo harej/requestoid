@@ -23,7 +23,7 @@ def requests_handshaker():
 def get_username(request):
     handshaker = requests_handshaker()
     if 'access' in request.COOKIES:
-        access_token = request.COOKIES[ 'access' ]
+        access_token = request.session['access_token']
         return handshaker.identify(access_token)
     else:
         return None
@@ -94,15 +94,17 @@ def homepage(request, langcode):  # /requests/en
 def auth(request, langcode):  # /requests/en/auth
     handshaker = requests_handshaker()
     redirect, request_token = handshaker.initiate()
-    redirect = redirect + "&callback=en%2F" + request_token  # This is really hacky but whatever
+    request.session['request_token'] = request_token
+    redirect = redirect + '&callback=' + langcode  # This is really hacky but whatever
     return HttpResponseRedirect(redirect)  # This hands the user off to Wikimedia; user returns to the website via the callback view which implements the session
 
 
-def callback(request, langcode, request_token):  # /requests/callback/en
+def callback(request, langcode):  # /requests/callback/en
     oauth_verifier = request.GET['oauth_verifier']
     oauth_token = request.GET['oauth_token']
     handshaker = requests_handshaker()
-    access_token = handshaker.complete(request_token, "oauth_verifier=" + oauth_verifier + "&oauth_token=" + oauth_token)
-    response = HttpResponseRedirect("https://wpx.wmflabs.org/requests/" + langcode)
-    response.set_cookie('access', access_token)
+    request_token = request..session['request_token']
+    access_token = handshaker.complete(request_token, 'oauth_verifier=' + oauth_verifier + '&oauth_token=' + oauth_token)
+    response = HttpResponseRedirect('https://wpx.wmflabs.org/requests/' + langcode)
+    response.session['access_token'] = access_token
     return response
