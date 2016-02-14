@@ -103,7 +103,7 @@ def callback(request, langcode):  # /requests/callback/en
     oauth_verifier = request.GET['oauth_verifier']
     oauth_token = request.GET['oauth_token']
     handshaker = requests_handshaker()
-    request_token = request..session['request_token']
+    request_token = request.session['request_token']
     access_token = handshaker.complete(request_token, 'oauth_verifier=' + oauth_verifier + '&oauth_token=' + oauth_token)
     response = HttpResponseRedirect('https://wpx.wmflabs.org/requests/' + langcode)
     response.session['access_token'] = access_token
