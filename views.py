@@ -104,7 +104,9 @@ def callback(request):  # /requests/callback
     oauth_verifier = request.GET['oauth_verifier']
     oauth_token = request.GET['oauth_token']
     handshaker = requests_handshaker()
-    request_token = tokens.RequestToken(key=request.session['request_token_key'], secret=request.session['request_token_secret'])
+    request_key = request.session['request_token_key'].encode('utf-8')
+    request_secret = request.session['request_token_secret'].encode('utf-8')
+    request_token = tokens.RequestToken(key=request_key, secret=request_secret)
     access_token = handshaker.complete(request_token, 'oauth_verifier=' + oauth_verifier + '&oauth_token=' + oauth_token)
     response = HttpResponseRedirect('https://wpx.wmflabs.org/requests/' + request.session['langcode'])
     response.session['access_token'] = access_token
