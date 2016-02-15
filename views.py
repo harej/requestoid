@@ -98,7 +98,7 @@ def auth(request):  # /requests/en/auth
     redirect, request_token = handshaker.initiate()
     request.session['request_token_key'] = request_token.key.decode('utf-8')
     request.session['request_token_secret'] = request_token.secret.decode('utf-8')
-    request.session['return_to'] = request.HTTP_REFERER
+    request.session['return_to'] = request.meta['HTTP_REFERER']
     return HttpResponseRedirect(redirect)  # This hands the user off to Wikimedia; user returns to the website via the callback view which implements the session
 
 
