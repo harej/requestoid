@@ -10,11 +10,10 @@
     <a class="item" href="/requests/{{ language }}/add" style="color:#fff;">{{ interface.add }}</a>
     <a class="item" href="/requests/{{ language }}/help" style="color:#fff;">{{ interface.help }}</a>
     <a class="item" href="/requests/{{ language }}/about" style="color:#fff;">{{ interface.about }}</a>
-    <a class="right floated item" href="/requests/auth" style="color:#fff;">
     {% if interface.username %}
-    	{{ interface.username }}
+    <a class="right floated item" href="https://meta.wikimedia.org/wiki/Special:CentralAuth/{{ interface.username }}" style="color:#fff;">{{ interface.username }}</a>
 	{% else %}
-		{{ interface.login_via_wikipedia }}
+	<a class="right floated item" href="/requests/auth" style="color:#fff;">{{ interface.login_via_wikipedia }}</a>
 	{% endif %}
 	</a>
 </div>
