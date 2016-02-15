@@ -22,8 +22,10 @@ def requests_handshaker():
 
 def get_username(request):
     handshaker = requests_handshaker()
-    if 'access' in request.COOKIES:
-        access_token = request.session['access_token']
+    if 'access_token_key' in request.session:
+        access_key = request.session['access_token_key'].encode('utf-8')
+        access_secret = request.session['access_token_secret'].encode('utf-8')
+        access_token = tokens.AccessToken(key=access_key, secret=access_secret)
         return handshaker.identify(access_token)
     else:
         return None
@@ -108,6 +110,6 @@ def callback(request):  # /requests/callback
     request_secret = request.session['request_token_secret'].encode('utf-8')
     request_token = tokens.RequestToken(key=request_key, secret=request_secret)
     access_token = handshaker.complete(request_token, 'oauth_verifier=' + oauth_verifier + '&oauth_token=' + oauth_token)
-    response = HttpResponseRedirect('https://wpx.wmflabs.org/requests/' + request.session['langcode'])
-    response.session['access_token'] = access_token
-    return response
+    request.session['access_token_key'] = access_token.decode('utf-8')
+    request.session['access_token_secret'] = access_token.secret('utf-8')
+    return HttpResponseRedirect('https://wpx.wmflabs.org/requests/' + request.session['langcode'])
