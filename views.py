@@ -94,8 +94,8 @@ def homepage(request, langcode):  # /requests/en
 def auth(request, langcode):  # /requests/en/auth
     handshaker = requests_handshaker()
     redirect, request_token = handshaker.initiate()
-    request.session['request_token_key'] = str(request_token.key)
-    request.session['request_token_secret'] = str(request_token.secret)
+    request.session['request_token_key'] = repr(request_token.key)
+    request.session['request_token_secret'] = repr(request_token.secret)
     request.session['langcode'] = str(langcode)
     return HttpResponseRedirect(redirect)  # This hands the user off to Wikimedia; user returns to the website via the callback view which implements the session
 
