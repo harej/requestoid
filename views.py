@@ -26,7 +26,7 @@ def get_username(request):
         access_key = request.session['access_token_key'].encode('utf-8')
         access_secret = request.session['access_token_secret'].encode('utf-8')
         access_token = tokens.AccessToken(key=access_key, secret=access_secret)
-        return handshaker.identify(access_token)
+        return handshaker.identify(access_token)['username']
     else:
         return None
 
