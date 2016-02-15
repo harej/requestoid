@@ -110,6 +110,6 @@ def callback(request):  # /requests/callback
     request_secret = request.session['request_token_secret'].encode('utf-8')
     request_token = tokens.RequestToken(key=request_key, secret=request_secret)
     access_token = handshaker.complete(request_token, 'oauth_verifier=' + oauth_verifier + '&oauth_token=' + oauth_token)
-    request.session['access_token_key'] = access_token.decode('utf-8')
-    request.session['access_token_secret'] = access_token.secret('utf-8')
+    request.session['access_token_key'] = access_token.key.decode('utf-8')
+    request.session['access_token_secret'] = access_token.secret.decode('utf-8')
     return HttpResponseRedirect('https://wpx.wmflabs.org/requests/' + request.session['langcode'])
