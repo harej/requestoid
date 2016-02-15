@@ -95,7 +95,7 @@ def auth(request, langcode):  # /requests/en/auth
     handshaker = requests_handshaker()
     redirect, request_token = handshaker.initiate()
     request.session['request_token'] = str(request_token)
-    redirect = redirect + '&redirect_uri=' + langcode  # This is really hacky but whatever
+    redirect = redirect + '&redirect_uri=https://wpx.wmflabs.org/requests/callback/' + langcode  # This is really hacky but whatever
     return HttpResponseRedirect(redirect)  # This hands the user off to Wikimedia; user returns to the website via the callback view which implements the session
 
 
