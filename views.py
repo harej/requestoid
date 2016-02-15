@@ -3,7 +3,7 @@ import gettext
 import os
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
-from mwoauth import ConsumerToken, Handshaker
+from mwoauth import ConsumerToken, Handshaker, tokens
 
 # Views! Views! Views, views, views, views, views views views views views views has a has a has a has a kind of mystery
 
@@ -104,7 +104,7 @@ def callback(request):  # /requests/callback
     oauth_verifier = request.GET['oauth_verifier']
     oauth_token = request.GET['oauth_token']
     handshaker = requests_handshaker()
-    request_token = mwoauth.tokens.RequestToken(key=request.session['request_token_key'], secret=request.session['request_token_secret'])
+    request_token = tokens.RequestToken(key=request.session['request_token_key'], secret=request.session['request_token_secret'])
     access_token = handshaker.complete(request_token, 'oauth_verifier=' + oauth_verifier + '&oauth_token=' + oauth_token)
     response = HttpResponseRedirect('https://wpx.wmflabs.org/requests/' + request.session['langcode'])
     response.session['access_token'] = access_token
