@@ -4,13 +4,13 @@
 <link rel="stylesheet" href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.1.8/semantic.min.css" />
 </head>
 <body>
-<div class="ui borderless main menu" style="font-size:12pt;">
-    <a class="brand item" href="/requests/{{ language }}" style="color:#fff; background:#3C6AFF">{{ interface.brand }}</a>
-    <a class="item" href="/requests/{{ language }}/list">{{ interface.search }}</a>
-    <a class="item" href="/requests/{{ language }}/add">{{ interface.add }}</a>
-    <a class="item" href="/requests/{{ language }}/help">{{ interface.help }}</a>
-    <a class="item" href="/requests/{{ language }}/about">{{ interface.about }}</a>
-    <a class="right floated item" href="/requests/auth">
+<div class="ui borderless main menu" style="font-size:12pt; background:#666">
+    <a class="brand item" href="/requests/{{ language }}" style="color:#fff;">{{ interface.brand }}</a>
+    <a class="item" href="/requests/{{ language }}/list" style="color:#fff;">{{ interface.search }}</a>
+    <a class="item" href="/requests/{{ language }}/add" style="color:#fff;">{{ interface.add }}</a>
+    <a class="item" href="/requests/{{ language }}/help" style="color:#fff;">{{ interface.help }}</a>
+    <a class="item" href="/requests/{{ language }}/about" style="color:#fff;">{{ interface.about }}</a>
+    <a class="right floated item" href="/requests/auth" style="color:#fff;">
     {% if interface.username %}
     	{{ interface.username }}
 	{% else %}
