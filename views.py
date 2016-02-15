@@ -94,7 +94,8 @@ def homepage(request, langcode):  # /requests/en
 def auth(request, langcode):  # /requests/en/auth
     handshaker = requests_handshaker()
     redirect, request_token = handshaker.initiate()
-    request.session['request_token'] = str(request_token)
+    request.session['request_token_key'] = str(request_token.key)
+    request.session['request_token_secret'] = str(request_token.secret)
     request.session['langcode'] = str(langcode)
     return HttpResponseRedirect(redirect)  # This hands the user off to Wikimedia; user returns to the website via the callback view which implements the session
 
@@ -103,7 +104,7 @@ def callback(request):  # /requests/callback
     oauth_verifier = request.GET['oauth_verifier']
     oauth_token = request.GET['oauth_token']
     handshaker = requests_handshaker()
-    request_token = request.session['request_token']
+    request_token = mwoauth.tokens.RequestToken(key=request.session['request_token_key'], secret=request.session['request_token_secret'])
     access_token = handshaker.complete(request_token, 'oauth_verifier=' + oauth_verifier + '&oauth_token=' + oauth_token)
     response = HttpResponseRedirect('https://wpx.wmflabs.org/requests/' + request.session['langcode'])
     response.session['access_token'] = access_token
