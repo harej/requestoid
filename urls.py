@@ -19,8 +19,8 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.select_language),  # /requests
-    url(r'^callback$', views.callback),  # /requests/callback/en
+    url(r'^auth$', views.auth),  # /requests/auth
+    url(r'^callback$', views.callback),  # /requests/callback
     url(r'^(?P<langcode>([^\/])*)$', views.homepage),  # /requests/en
-    url(r'^(?P<langcode>([^\/])*)\/auth$', views.auth),  # /requests/en/auth
     url(r'^admin/', admin.site.urls),
 ]
