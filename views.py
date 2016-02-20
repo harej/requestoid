@@ -36,7 +36,7 @@ def interface_messages(request, langcode):
     Provides a dictionary to feed into the context, with an ISO 639-1 or -2 language code as input.
     '''
 
-    translation = Worldly()
+    translation = Worldly(ROOTDIR + "/i18n.yaml")
     translation.use_language = langcode
     _ = translation.render
 
@@ -74,7 +74,7 @@ def select_language(request):  # /requests
 
 def homepage(request, langcode):  # /requests/en
 
-    translation = Worldly()
+    translation = Worldly(ROOTDIR + "/i18n.yaml")
     translation.use_language = langcode
     _ = translation.render
 
