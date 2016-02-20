@@ -1,9 +1,9 @@
 import configparser
-import gettext
 import os
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from mwoauth import ConsumerToken, Handshaker, tokens
+from worldly import Worldly
 
 # Views! Views! Views, views, views, views, views views views views views views has a has a has a has a kind of mystery
 
@@ -36,11 +36,9 @@ def interface_messages(request, langcode):
     Provides a dictionary to feed into the context, with an ISO 639-1 or -2 language code as input.
     '''
 
-    LANGUAGE = langcode
-
-
-    translation = gettext.translation('interface', localedir=LOCALEDIR, languages=[langcode])
-    _ = translation.gettext
+    translation = Worldly()
+    translation.use_language = langcode
+    _ = translation.render
 
     output = {
                 'brand': _('Wikipedia Requests'),
@@ -76,12 +74,13 @@ def select_language(request):  # /requests
 
 def homepage(request, langcode):  # /requests/en
 
-    translation = gettext.translation('homepage', localedir=LOCALEDIR, languages=[langcode])
-    _ = translation.gettext
+    translation = Worldly()
+    translation.use_language = langcode
+    _ = translation.render
 
     content = {
                   'headline': _('Help fill in the gaps on Wikipedia'),
-                  'intro': _('The Wikipedia Requests system is a new tool to centralize the various lists of requests around Wikipedia, including lists of missing articles and requests to improve existing articles. Requests are tagged by category and WikiProject, making it easier to find requests based on what your interests are. We just started work on this, so check back later!')
+                  'intro': _('homepage_intro')
               }
 
     context = {

@@ -1,0 +1,27 @@
+# Interface
+
+"Wikipedia Requests":
+  en: Wikipedia Requests
+
+"Login via Wikipedia":
+  en: Login via Wikipedia
+
+"Search":
+  en: Search
+
+"Add":
+  en: Add
+
+"Help":
+  en: Help
+
+"About":
+  en: About
+
+# Home page
+
+"Help fill in the gaps on Wikipedia":
+  en: Help fill in the gaps on Wikipedia
+
+"homepage_intro":
+  en: "The Wikipedia Requests system is a new tool to centralize the various lists of requests around Wikipedia, including lists of missing articles and requests to improve existing articles. Requests are tagged by category and WikiProject, making it easier to find requests based on what your interests are. We just started work on this, so check back later!"
