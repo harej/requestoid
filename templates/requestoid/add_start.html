@@ -2,14 +2,14 @@
 {% block content %}
 <h1>{{ content.headline }}</h1>
 <p>{{ content.explanation }}</p>
-<form>
+<form action="/requests/add" method="get">
 <div class="ui action big fluid input">
-  <input type="text" placeholder="{{ content.inputlabel}}">
+  <input type="text" name="pagetitle" placeholder="{{ content.inputlabel}}">
   <button class="ui blue button">{{ content.button }}</button>
 </div>
 <div style="clear:both; margin-top:-1px;"></div>
 <div class="ui right mini labeled input">
-  <input type="text" style="width:75px;" placeholder="{{ language }}">
+  <input type="text" name="language" style="width:75px;" placeholder="{{ language }}">
   <div class="ui basic label">
     .wikipedia.org
   </div>
