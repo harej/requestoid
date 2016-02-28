@@ -10,6 +10,10 @@ from worldly import Worldly
 ROOTDIR = '/var/www/django-src/requestoid/requestoid'
 LOCALEDIR = ROOTDIR + '/locale'
 
+translation = Worldly(ROOTDIR + "/i18n.yaml")
+translation.use_language = langcode
+_ = translation.render
+
 
 def requests_handshaker():
     keyfile = configparser.ConfigParser()
@@ -35,10 +39,6 @@ def interface_messages(request, langcode):
     '''
     Provides a dictionary to feed into the context, with an ISO 639-1 or -2 language code as input.
     '''
-
-    translation = Worldly(ROOTDIR + "/i18n.yaml")
-    translation.use_language = langcode
-    _ = translation.render
 
     output = {
                 'brand': _('Wikipedia Requests'),
@@ -73,10 +73,6 @@ def select_language(request):  # /requests
 
 
 def homepage(request, langcode):  # /requests/en
-
-    translation = Worldly(ROOTDIR + "/i18n.yaml")
-    translation.use_language = langcode
-    _ = translation.render
 
     content = {
                   'headline': _('Help fill in the gaps on Wikipedia'),
@@ -113,11 +109,8 @@ def callback(request):  # /requests/callback
     request.session['access_token_secret'] = access_token.secret.decode('utf-8')
     return HttpResponseRedirect(request.session['return_to'])
 
-def add_start(request, langcode):  # /requests/en/add
-    translation = Worldly(ROOTDIR + "/i18n.yaml")
-    translation.use_language = langcode
-    _ = translation.render
-    
+def add(request, langcode):  # /requests/en/add
+
     content = {
                   'headline': _('add_start_headline'),
                   'inputlabel': _('add_start_input_label'),

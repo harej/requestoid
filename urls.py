@@ -22,6 +22,6 @@ urlpatterns = [
     url(r'^auth$', views.auth),  # /requests/auth
     url(r'^callback$', views.callback),  # /requests/callback
     url(r'^(?P<langcode>([^\/])*)$', views.homepage),  # /requests/en
-    url(r'^(?P<langcode>([^\/])*)\/add$', views.add_start),  # /requests/en/add
+    url(r'^(?P<langcode>([^\/])*)\/add$', views.add),  # /requests/en/add
     url(r'^admin/', admin.site.urls),
 ]
