@@ -27,7 +27,7 @@ def GetCategories(language, pageid):
 	else:
 		output = ''
 		for entry in result[0]:
-			output += entry.replace('_', ' ') + '\n'
+			output += entry.decode('utf-8').replace('_', ' ') + '\n'
 		return output
 
 def GetWikiProjects(language, pagetitle):
