@@ -112,20 +112,25 @@ def callback(request):  # /requests/callback
     return HttpResponseRedirect(request.session['return_to'])
 
 def add(request, langcode):  # /requests/en/add
+
     translation.use_language = langcode
     _ = translation.render
 
-    content = {
-                  'headline': _('add_start_headline'),
-                  'inputlabel': _('add_start_input_label'),
-                  'explanation': _('add_start_explanation'),
-                  'button': _('add_start_button_label')
-              }
+    if request.GET['pagetitle'] != "":
+        pass
 
-    context = {
-                'interface': interface_messages(request, langcode),
-                'language': langcode,
-                'content': content
-              }
+    else:
+        content = {
+                      'headline': _('add_start_headline'),
+                      'inputlabel': _('add_start_input_label'),
+                      'explanation': _('add_start_explanation'),
+                      'button': _('add_start_button_label')
+                  }
 
-    return render(request, 'requestoid/add_start.html', context = context)
+        context = {
+                    'interface': interface_messages(request, langcode),
+                    'language': langcode,
+                    'content': content
+                  }
+
+        return render(request, 'requestoid/add_start.html', context = context)
