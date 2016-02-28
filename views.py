@@ -1,5 +1,6 @@
 import configparser
 import os
+from . import wiki
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from mwoauth import ConsumerToken, Handshaker, tokens
@@ -10,6 +11,7 @@ from worldly import Worldly
 ROOTDIR = '/var/www/django-src/requestoid/requestoid'
 LOCALEDIR = ROOTDIR + '/locale'
 translation = Worldly(ROOTDIR + "/i18n.yaml")
+_ = translation.render
 
 
 def requests_handshaker():
@@ -38,7 +40,6 @@ def interface_messages(request, langcode):
     '''
 
     translation.use_language = langcode
-    _ = translation.render
 
     output = {
                 'brand': _('Wikipedia Requests'),
@@ -74,7 +75,6 @@ def select_language(request):  # /requests
 
 def homepage(request, langcode):  # /requests/en
     translation.use_language = langcode
-    _ = translation.render
 
     content = {
                   'headline': _('Help fill in the gaps on Wikipedia'),
@@ -112,13 +112,53 @@ def callback(request):  # /requests/callback
     return HttpResponseRedirect(request.session['return_to'])
 
 def add(request, langcode):  # /requests/en/add
-
     translation.use_language = langcode
-    _ = translation.render
 
     if 'pagetitle' in request.GET:
         if request.GET['pagetitle'] != "":
-            return HttpResponse("Not ready yet!")
+            if request.GET['language'] == "":
+                request_language = langcode
+            else:
+                request_language = request.GET['language']
+
+            pagetitle = request.GET['pagetitle']
+            pageid = wiki.GetPageId(request_language, pagetitle)
+            content = {}
+            content['category_label'] = _('Categories')
+            content['wikiprojects_label'] = _('WikiProjects')
+            content['summary_label'] = _('Summary')
+            content['summary_explanation'] = _('Please provide a brief summary of your request.')
+
+            # Does the article exist? Two different workflows if so.
+            if pageid = None:  # new article workflow
+                pageid = 0
+                content['summary_inputbox'] = _('Create new article')
+                content['category_explanation'] = _('Enter one category per line. Case sensitive. Do not include "Category:".')
+                content['category_textarea'] = ''
+                content['wikiprojects_explanation'] = _('Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.')
+                content['wikiprojects_textarea'] = ''
+
+            else:  # existing article workflow
+                content['summary_inputbox'] = ''
+                content['category_explanation'] = _('Categories are retrieved automatically from Wikipedia.')
+                content['category_textarea'] = wiki.GetCategories(request_language, pageid)
+                content['wikiprojects_explanation'] = _('WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish.')
+                content['wikiprojects_textarea'] = wiki.GetWikiProjects(request_language, pagetitle)
+
+            content['note_label'] = _('Add a note')
+            content['note_explanation'] = _('Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.')
+            content['submit_button'] = _('add_submit_button')
+
+            context = {
+                        'interface': interface_messages(request, langcode),
+                        'language': langcode,
+                        'content': content,
+                        'request_language': request_language,
+                        'pagetitle': pagetitle,
+                        'pageid': pageid
+                      }
+
+            return render(request, 'requestoid/add_details.html', context = context)
 
     # Default behavior for no pagetitle specified
     content = {

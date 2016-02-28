@@ -39,3 +39,41 @@
 
 "add_start_button_label":
   en: "Go"
+
+# "Add" second step
+
+"Categories":
+  en: "Categories"
+
+"WikiProjects":
+  en: "WikiProjects"
+
+"Summary":
+  en: "Summary"
+
+"Please provide a brief summary of your request.":
+  en: "Please provide a brief summary of your request."
+
+'Create new article':
+  en: "Create new article"
+
+'Enter one category per line. Case sensitive. Do not include "Category:".':
+  en: 'Enter one category per line. Case sensitive. Do not include "Category:".'
+
+'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.':
+  en: 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.'
+
+'Categories are retrieved automatically from Wikipedia.':
+  en: 'Categories are retrieved automatically from Wikipedia.'
+
+'WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish.':
+  en: 'WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish.'
+
+'Add a note':
+  en: 'Add a note'
+
+'Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.':
+  en: 'Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.'
+
+'add_submit_button':
+  en: 'Create'
