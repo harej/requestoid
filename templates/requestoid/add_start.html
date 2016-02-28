@@ -2,7 +2,7 @@
 {% block content %}
 <h1>{{ content.headline }}</h1>
 <p>{{ content.explanation }}</p>
-<form action="/requests/add" method="get">
+<form action="/requests/{{ language }}/add" method="get">
 <div class="ui action big fluid input">
   <input type="text" name="pagetitle" placeholder="{{ content.inputlabel}}">
   <button class="ui blue button">{{ content.button }}</button>
