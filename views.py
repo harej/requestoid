@@ -130,7 +130,7 @@ def add(request, langcode):  # /requests/en/add
             content['summary_explanation'] = _('Please provide a brief summary of your request.')
 
             # Does the article exist? Two different workflows if so.
-            if pageid = None:  # new article workflow
+            if pageid == None:  # new article workflow
                 pageid = 0
                 content['summary_inputbox'] = _('Create new article')
                 content['category_explanation'] = _('Enter one category per line. Case sensitive. Do not include "Category:".')
