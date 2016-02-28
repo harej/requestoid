@@ -1,6 +1,6 @@
 from . import tool_labs_utils
 
-sql = tool_labs_utils()
+sql = tool_labs_utils
 
 def CanonicalPageTitle(raw_input):
 	output = raw_input.replace(' ', '_')
