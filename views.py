@@ -118,7 +118,7 @@ def add(request, langcode):  # /requests/en/add
 
     if 'pagetitle' in request.GET:
         if request.GET['pagetitle'] != "":
-            return HttpResponseObject("Not ready yet!")
+            return HttpResponse("Not ready yet!")
 
     # Default behavior for no pagetitle specified
     content = {
