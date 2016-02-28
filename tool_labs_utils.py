@@ -12,7 +12,7 @@ class ToolLabs:
     def mysql(self, host, db, sqlquery, values):
         """Generic wrapper for carrying out MySQL queries"""
 
-        conn = pymysql.connect(host=host, port=3306, db=db, read_default_file='.sql.ini', charset='utf8')
+        conn = pymysql.connect(host=host, port=3306, db=db, read_default_file='/var/www/django-src/requestoid/requestoid/.sql.ini', charset='utf8')
         cur = conn.cursor()
         cur.execute(sqlquery, values)
         data = []
