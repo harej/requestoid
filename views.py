@@ -114,6 +114,10 @@ def callback(request):  # /requests/callback
     return HttpResponseRedirect(request.session['return_to'])
 
 def add_start(request, langcode):  # /requests/en/add
+    translation = Worldly(ROOTDIR + "/i18n.yaml")
+    translation.use_language = langcode
+    _ = translation.render
+    
     content = {
                   'headline': _('add_start_headline'),
                   'inputlabel': _('add_start_input_label'),
