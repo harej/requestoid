@@ -1,18 +1,18 @@
 {% extends 'requestoid/base.html' %}
 {% block content %}
 <h1>{{ content.headline }}</h1>
+<p>{{ content.explanation }}</p>
 <form>
 <div class="ui right labeled input">
-  <input type="text" placeholder="{{ language }}">
+  <input type="text" style="width:10px;" placeholder="{{ language }}">
   <div class="ui basic label">
     .wikipedia.org
   </div>
 </div>
+<div style="clear:both;"></div>
 <div class="ui action input">
   <input type="text" placeholder="{{ content.inputlabel}}">
   <button class="ui button">{{ content.button }}</button>
 </div>
 </form>
-
-<p>{{ content.explanation }}</p>
 {% endblock %}
