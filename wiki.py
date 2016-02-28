@@ -8,7 +8,7 @@ def CanonicalPageTitle(raw_input):
 	return output
 
 def WikipediaQuery(language, sqlquery):
-	return sql.WMFReplica.query(language + 'wiki', sqlquery, None)
+	return sql.WMFReplica().query(language + 'wiki', sqlquery, None)
 
 def GetPageId(language, pagetitle):
 	pagetitle = CanonicalPageTitle(pagetitle)
