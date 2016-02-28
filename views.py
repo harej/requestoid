@@ -118,22 +118,20 @@ def add(request, langcode):  # /requests/en/add
 
     if 'pagetitle' in request.GET:
         if request.GET['pagetitle'] != "":
-            pass  # we have a page title! let's get this party started
-        else:
-            pass  # specify a page title, dufus
+            return HttpResponseObject("Not ready yet!")
 
-    else:
-        content = {
-                      'headline': _('add_start_headline'),
-                      'inputlabel': _('add_start_input_label'),
-                      'explanation': _('add_start_explanation'),
-                      'button': _('add_start_button_label')
-                  }
+    # Default behavior for no pagetitle specified
+    content = {
+                'headline': _('add_start_headline'),
+                'inputlabel': _('add_start_input_label'),
+                'explanation': _('add_start_explanation'),
+                'button': _('add_start_button_label')
+              }
 
-        context = {
-                    'interface': interface_messages(request, langcode),
-                    'language': langcode,
-                    'content': content
-                  }
+    context = {
+                'interface': interface_messages(request, langcode),
+                'language': langcode,
+                'content': content
+              }
 
-        return render(request, 'requestoid/add_start.html', context = context)
+    return render(request, 'requestoid/add_start.html', context = context)
