@@ -92,7 +92,7 @@ def homepage(request, langcode):  # /requests/en
     return render(request, 'requestoid/homepage.html', context = context)
 
 
-def auth(request):  # /requests/en/auth
+def auth(request):  # /requests/auth
     handshaker = requests_handshaker()
     redirect, request_token = handshaker.initiate()
     request.session['request_token_key'] = request_token.key.decode('utf-8')
@@ -112,3 +112,19 @@ def callback(request):  # /requests/callback
     request.session['access_token_key'] = access_token.key.decode('utf-8')
     request.session['access_token_secret'] = access_token.secret.decode('utf-8')
     return HttpResponseRedirect(request.session['return_to'])
+
+def add_start(request, langcode):  # /requests/en/add
+    content = {
+                  'headline': _('add_start_headline'),
+                  'inputlabel': _('add_start_input_label'),
+                  'explanation': _('add_start_explanation'),
+                  'button': _('add_start_button_label')
+              }
+
+    context = {
+                'interface': interface_messages(request, langcode),
+                'language': langcode,
+                'content': content
+              }
+
+    return render(request, 'requestoid/add_start.html', context = context)

@@ -25,3 +25,17 @@
 
 "homepage_intro":
   en: "The Wikipedia Requests system is a new tool to centralize the various lists of requests around Wikipedia, including lists of missing articles and requests to improve existing articles. Requests are tagged by category and WikiProject, making it easier to find requests based on what your interests are. We just started work on this, so check back later!"
+
+# "Add" start page
+
+"add_start_headline":
+  en: "Enter article title"
+
+"add_start_input_label":
+  en: "Title"
+
+"add_start_explanation":
+  en: "This can be the title of an article that is missing or one that already exists but needs improvement."
+
+"add_start_button_label":
+  en: "Go"
