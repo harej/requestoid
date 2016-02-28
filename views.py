@@ -116,8 +116,11 @@ def add(request, langcode):  # /requests/en/add
     translation.use_language = langcode
     _ = translation.render
 
-    if request.GET['pagetitle'] != "":
-        pass
+    if 'pagetitle' in request.GET:
+        if request.GET['pagetitle'] != "":
+            pass  # we have a page title! let's get this party started
+        else:
+            pass  # specify a page title, dufus
 
     else:
         content = {
