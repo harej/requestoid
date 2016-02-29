@@ -39,5 +39,5 @@ def GetWikiProjects(language, pagetitle):
 	else:
 		output = ''
 		for entry in result:
-			output += entry[0].replace('_', ' ').replace('Wikipedia:', '')
+			output += entry[0].replace('_', ' ').replace('Wikipedia:', '') + '\n'
 		return output
