@@ -8,38 +8,29 @@
 <div class="ui form">
   <div class="ui field">
     <label>{{ content.summary_label }}</label>
-    <input type="text" name="summary">
-    {{ content.summary_inputbox }}
-    </textarea>
+    <input type="text" name="summary">{{ content.summary_inputbox }}</input>
     <p>{{ content.summary_explanation }}</p>
   </div>
   <div style="clear: both;"></div>
   <div class="ui {% if pageid > 0 %}disabled {% endif %}field">
     <label>{{ content.category_label }}</label>
-    <textarea name="categories">
-    {{ content.category_textarea }}
-    </textarea>
+    <textarea name="categories">{{ content.category_textarea }}</textarea>
     <p>{{ content.category_explanation }}</p>
   </div>
   <div style="clear: both;"></div>
   <div class="ui field">
     <label>{{ content.wikiprojects_label }}</label>
-    <textarea name="wikiprojects">
-    {{ content.wikiprojects_textarea }}
-    </textarea>
+    <textarea name="wikiprojects">{{ content.wikiprojects_textarea }}</textarea>
     <p>{{ content.wikiprojects_explanation }}</p>
   </div>
   <div style="clear: both;"></div>
   <div class="ui field">
     <label>{{ content.note_label }}</label>
-    <textarea name="note">
-    </textarea>
+    <textarea name="note"></textarea>
     <p>{{ content.note_explanation }}</p>
   </div>
   <div style="clear: both;"></div>
-  <button class="ui green button">
-  {{ content.submit_button }}
-  </button>
+  <button class="ui green button">{{ content.submit_button }}</button>
 </div>
 </form>
 {% endblock %}
