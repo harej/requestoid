@@ -1,6 +1,5 @@
 {% extends 'requestoid/base.html' %}
 {% block content %}
-<h1>{{ content.requestdata.page_title }}</h1>
-<h2>{{ content.requestdata.summary }}</h2>
+<h1>{{ content.requestdata.page_title|wikipedia_link:{{ langcode }} }}: {{ content.requestdata.summary }}</h1>
 <h2>{{ content.notes_label }}</h2>
 {% endblock %}
