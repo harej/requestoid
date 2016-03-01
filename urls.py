@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^callback$', views.callback),  # /requests/callback
     url(r'^(?P<langcode>([^\/])*)$', views.homepage),  # /requests/en
     url(r'^(?P<langcode>([^\/])*)\/add$', views.add),  # /requests/en/add
-    url(r'^(?P<langcode>([^\/])*)\/request\/\d+$', views.request),  # /requests/en/request/12345
+    url(r'^(?P<langcode>([^\/])*)\/request\/(?P<reqid>(\d)+)$', views.request),  # /requests/en/request/12345
 ]
