@@ -1,4 +1,4 @@
-from . import tool_labs_utils
+import tool_labs_utils
 
 sql = tool_labs_utils
 
