@@ -185,8 +185,8 @@ def add(request, langcode):  # /requests/en/add
                                       reference = N.id)
                     log.save()
 
-                    categories = p['categories'].split('\n')
-                    wikiprojects = p['wikiprojects'].split('\n')
+                    categories = p['categories'].split('\r\n')
+                    wikiprojects = p['wikiprojects'].split('\r\n')
 
                     for category in categories:
                         if category[:9] == 'Category:':
