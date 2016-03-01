@@ -85,3 +85,8 @@
 
 "login_required_message":
   en: "You are required to log in with your Wikipedia account to use this feature. Click 'Login via Wikipedia' on the top right side of this page."
+
+# Request view
+
+"Notes":
+  en: "Notes"
