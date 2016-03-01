@@ -38,4 +38,5 @@ class Logs(models.Model):
     user_name = models.CharField(max_length=255)
     user_id = models.IntegerField()
     timestamp = models.CharField(max_length=14)
-    action = models.CharField(max_length=255)
+    action = models.CharField(max_length=20)  # create, addcategory, delcategory, addwikiproject, delwikiproject, addnote, flagcomplete, flagdecline, flagopen
+    reference = models.IntegerField()  # Should refer to the ID number of an entry in one of the tables; which one depends on the value of `action`
