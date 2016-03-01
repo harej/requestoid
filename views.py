@@ -149,7 +149,7 @@ def add(request, langcode):  # /requests/en/add
                                         status = 0)
                     R.save()
 
-                    N = models.Notes(request = R.id,
+                    N = models.Notes(request = R,
                                      user_name = username,
                                      user_id = userid,
                                      timestamp = now,
@@ -162,7 +162,7 @@ def add(request, langcode):  # /requests/en/add
                     for category in categories:
                         if category[:9] == 'Category:':
                             category = category[9:]  # truncate "Category:"
-                        C = models.Categories(request = R.id,
+                        C = models.Categories(request = R,
                                               cat_id = wiki.GetCategoryId(g['request_language'], category),
                                               cat_title = category,
                                               wiki = p['request_language'] + 'wiki')
@@ -171,7 +171,7 @@ def add(request, langcode):  # /requests/en/add
                     for wikiproject in wikiprojects:
                         if wikiproject[:10] == 'Wikipedia:':
                             wikiproject = wikiproject[10:]  # truncate "Wikipedia:"
-                        W = models.WikiProjects(request = R.id,
+                        W = models.WikiProjects(request = R,
                                                 project_id = wiki.GetWikiProjectId(g['request_language'], wikiproject),
                                                 project_title = wikiproject,
                                                 wiki = p['request_language'] + 'wiki')
