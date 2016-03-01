@@ -29,6 +29,7 @@ class Notes(models.Model):
     request = models.ForeignKey("Requests", on_delete=models.CASCADE)
     user_name = models.CharField(max_length=255)
     user_id = models.IntegerField()
+    timestamp = models.CharField(max_length=14)
     comment = models.TextField()
 
 
