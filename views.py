@@ -189,6 +189,8 @@ def add(request, langcode):  # /requests/en/add
                     wikiprojects = p['wikiprojects'].split('\r\n')
 
                     for category in categories:
+                        if category == '' or category == ' ':
+                            continue
                         if category[:9] == 'Category:':
                             category = category[9:]  # truncate "Category:"
                         C = models.Categories(request = R,
@@ -206,6 +208,8 @@ def add(request, langcode):  # /requests/en/add
                         log.save()
 
                     for wikiproject in wikiprojects:
+                        if wikiproject == '' or wikiproject == ' ':
+                            continue
                         if wikiproject[:10] == 'Wikipedia:':
                             wikiproject = wikiproject[10:]  # truncate "Wikipedia:"
                         W = models.WikiProjects(request = R,
