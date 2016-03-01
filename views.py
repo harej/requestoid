@@ -129,22 +129,23 @@ def add(request, langcode):  # /requests/en/add
     translation.use_language = langcode
     username = get_username(request)
     g = request.GET  # `g` is short for `get`
+    p = request.POST  # `p` is short for `post`
     if username == None:
         return you_need_to_login(request, langcode)
     else:
         if 'pagetitle' in g:
             if g['pagetitle'] != "":
-                if 'pageid' in g:  # Ready to save to database; pageid is only passed as a parameter if workflow below has been completed
+                if 'pageid' in p:  # Ready to save to database; pageid is only passed as a parameter if workflow below has been completed
                     now = arrow.utcnow().format('YYYYMMDDHHmmss')
                     userid = wiki.GetUserId(username)
 
-                    R = models.Requests(page_id = g['pageid'],
-                                        page_title = g['pagetitle'],
+                    R = models.Requests(page_id = p['pageid'],
+                                        page_title = p['pagetitle'],
                                         user_id = userid,
                                         user_name = username,
-                                        wiki = g['request_language'] + 'wiki',
+                                        wiki = p['request_language'] + 'wiki',
                                         timestamp = now,
-                                        summary = g['summary'],
+                                        summary = p['summary'],
                                         status = 0)
                     R.save()
 
@@ -152,7 +153,7 @@ def add(request, langcode):  # /requests/en/add
                                      user_name = username,
                                      user_id = userid,
                                      timestamp = now,
-                                     comment = g['note'])
+                                     comment = p['note'])
                     N.save()
 
                     categories = g['categories'].split('\n')
@@ -164,7 +165,7 @@ def add(request, langcode):  # /requests/en/add
                         C = models.Categories(request = R.id,
                                               cat_id = wiki.GetCategoryId(g['request_language'], category),
                                               cat_title = category,
-                                              wiki = g['request_language'] + 'wiki')
+                                              wiki = p['request_language'] + 'wiki')
                         C.save()
 
                     for wikiproject in wikiprojects:
@@ -173,7 +174,7 @@ def add(request, langcode):  # /requests/en/add
                         W = models.WikiProjects(request = R.id,
                                                 project_id = wiki.GetWikiProjectId(g['request_language'], wikiproject),
                                                 project_title = wikiproject,
-                                                wiki = g['request_language'] + 'wiki')
+                                                wiki = p['request_language'] + 'wiki')
                         W.save()
 
                     return HttpResponseRedirect("/requests/" + langcode + "/request/" + str(R.id))
