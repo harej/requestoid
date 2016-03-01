@@ -155,7 +155,7 @@ def add(request, langcode):  # /requests/en/add
                                       user_name = username,
                                       user_id = userid,
                                       timestamp = now,
-                                      action = 'create'
+                                      action = 'create',
                                       reference = R.id)
                     log.save()
 
@@ -164,7 +164,7 @@ def add(request, langcode):  # /requests/en/add
                                       user_name = username,
                                       user_id = userid,
                                       timestamp = now,
-                                      action = 'flagopen'
+                                      action = 'flagopen',
                                       reference = R.id)
                     log.save()
 
@@ -181,7 +181,7 @@ def add(request, langcode):  # /requests/en/add
                                       user_name = username,
                                       user_id = userid,
                                       timestamp = now,
-                                      action = 'addnote'
+                                      action = 'addnote',
                                       reference = N.id)
                     log.save()
 
@@ -201,7 +201,7 @@ def add(request, langcode):  # /requests/en/add
                                           user_name = username,
                                           user_id = userid,
                                           timestamp = now,
-                                          action = 'addcategory'
+                                          action = 'addcategory',
                                           reference = C.id)
                         log.save()
 
@@ -217,7 +217,7 @@ def add(request, langcode):  # /requests/en/add
                                           user_name = username,
                                           user_id = userid,
                                           timestamp = now,
-                                          action = 'addwikiproject'
+                                          action = 'addwikiproject',
                                           reference = W.id)
                         log.save()
 
