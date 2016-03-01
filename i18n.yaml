@@ -84,4 +84,4 @@
   en: "Login required"
 
 "login_required_message":
-  en: "You are required to <a href='/auth'>log in with your Wikipedia account</a> to use this feature."
+  en: "You are required to log in with your Wikipedia account to use this feature. Click 'Login via Wikipedia' on the top right side of this page."
