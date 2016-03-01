@@ -185,14 +185,14 @@ def add(request, langcode):  # /requests/en/add
                                       reference = N.id)
                     log.save()
 
-                    categories = g['categories'].split('\n')
-                    wikiprojects = g['wikiprojects'].split('\n')
+                    categories = p['categories'].split('\n')
+                    wikiprojects = p['wikiprojects'].split('\n')
 
                     for category in categories:
                         if category[:9] == 'Category:':
                             category = category[9:]  # truncate "Category:"
                         C = models.Categories(request = R,
-                                              cat_id = wiki.GetCategoryId(g['request_language'], category),
+                                              cat_id = wiki.GetCategoryId(p['request_language'], category),
                                               cat_title = category,
                                               wiki = p['request_language'] + 'wiki')
                         C.save()
@@ -209,7 +209,7 @@ def add(request, langcode):  # /requests/en/add
                         if wikiproject[:10] == 'Wikipedia:':
                             wikiproject = wikiproject[10:]  # truncate "Wikipedia:"
                         W = models.WikiProjects(request = R,
-                                                project_id = wiki.GetWikiProjectId(g['request_language'], wikiproject),
+                                                project_id = wiki.GetWikiProjectId(p['request_language'], wikiproject),
                                                 project_title = wikiproject,
                                                 wiki = p['request_language'] + 'wiki')
                         W.save()
