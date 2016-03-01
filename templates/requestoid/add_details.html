@@ -1,7 +1,7 @@
 {% extends 'requestoid/base.html' %}
 {% block content %}
 <h1>{{ pagetitle }}</h1>
-<form action="/requests/{{ language }}/add" method="post">
+<form action="/requests/{{ language }}/add?pagetitle={{ pagetitle }}&language={{ request_language }}" method="post">
 {% csrf_token %}
 <input type="hidden" name="pagetitle" value="{{ pagetitle }}" />
 <input type="hidden" name="pageid" value="{{ pageid }}" />
