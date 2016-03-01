@@ -1,3 +1,4 @@
+{% load wikipedia_link %}
 {% extends 'requestoid/base.html' %}
 {% block content %}
 <h1>{{ content.requestdata.page_title|wikipedia_link:{{ langcode }} }}: {{ content.requestdata.summary }}</h1>
