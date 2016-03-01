@@ -139,6 +139,7 @@ def add(request, langcode):  # /requests/en/add
                     now = arrow.utcnow().format('YYYYMMDDHHmmss')
                     userid = wiki.GetUserId(username)
 
+                    # Creating request
                     R = models.Requests(page_id = p['pageid'],
                                         page_title = p['pagetitle'],
                                         user_id = userid,
@@ -149,12 +150,40 @@ def add(request, langcode):  # /requests/en/add
                                         status = 0)
                     R.save()
 
+                    # First log entry: saying the request is created
+                    log = models.Logs(request = R,
+                                      user_name = username,
+                                      user_id = userid,
+                                      timestamp = now,
+                                      action = 'create'
+                                      reference = R.id)
+                    log.save()
+
+                    # Next log entry: flagging it as open
+                    log = models.Logs(request = R,
+                                      user_name = username,
+                                      user_id = userid,
+                                      timestamp = now,
+                                      action = 'flagopen'
+                                      reference = R.id)
+                    log.save()
+
+                    # Recording note
                     N = models.Notes(request = R,
                                      user_name = username,
                                      user_id = userid,
                                      timestamp = now,
                                      comment = p['note'])
                     N.save()
+
+                    # And a log entry stating note was left
+                    log = models.Logs(request = R,
+                                      user_name = username,
+                                      user_id = userid,
+                                      timestamp = now,
+                                      action = 'addnote'
+                                      reference = N.id)
+                    log.save()
 
                     categories = g['categories'].split('\n')
                     wikiprojects = g['wikiprojects'].split('\n')
@@ -168,6 +197,14 @@ def add(request, langcode):  # /requests/en/add
                                               wiki = p['request_language'] + 'wiki')
                         C.save()
 
+                        log = models.Logs(request = R,
+                                          user_name = username,
+                                          user_id = userid,
+                                          timestamp = now,
+                                          action = 'addcategory'
+                                          reference = C.id)
+                        log.save()
+
                     for wikiproject in wikiprojects:
                         if wikiproject[:10] == 'Wikipedia:':
                             wikiproject = wikiproject[10:]  # truncate "Wikipedia:"
@@ -176,6 +213,13 @@ def add(request, langcode):  # /requests/en/add
                                                 project_title = wikiproject,
                                                 wiki = p['request_language'] + 'wiki')
                         W.save()
+                        log = models.Logs(request = R,
+                                          user_name = username,
+                                          user_id = userid,
+                                          timestamp = now,
+                                          action = 'addwikiproject'
+                                          reference = W.id)
+                        log.save()
 
                     return HttpResponseRedirect("/requests/" + langcode + "/request/" + str(R.id))
 
