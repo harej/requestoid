@@ -52,7 +52,7 @@
   en: "Summary"
 
 "Please provide a brief summary of your request.":
-  en: "Please provide a brief summary of your request."
+  en: "Please provide a brief summary of your request. 160 character limit."
 
 'Create new article':
   en: "Create new article"
@@ -61,13 +61,13 @@
   en: 'Enter one category per line. Case sensitive. Do not include "Category:".'
 
 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.':
-  en: 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.'
+  en: 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name. Any "Wikipedia:" namespace page is accepted.'
 
 'Categories are retrieved automatically from Wikipedia.':
   en: 'Categories are retrieved automatically from Wikipedia.'
 
 'WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish.':
-  en: 'WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish.'
+  en: 'WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish. Any "Wikipedia:" namespace page is accepted.'
 
 'Add a note':
   en: 'Add a note'
@@ -77,3 +77,11 @@
 
 'add_submit_button':
   en: 'Create'
+
+# Login required screen
+
+"Login required":
+  en: "Login required"
+
+"login_required_message":
+  en: "You are required to <a href='/auth'>log in with your Wikipedia account</a> to use this feature."

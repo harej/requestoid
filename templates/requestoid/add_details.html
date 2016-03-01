@@ -1,7 +1,7 @@
 {% extends 'requestoid/base.html' %}
 {% block content %}
 <h1>{{ pagetitle }}</h1>
-<form action="/requests/{{ language }}/process" method="post">
+<form action="/requests/{{ language }}/add" method="post">
 <input type="hidden" name="pagetitle" value="{{ pagetitle }}" />
 <input type="hidden" name="pageid" value="{{ pageid }}" />
 <input type="hidden" name="request_language" value="{{ request_language }}" />

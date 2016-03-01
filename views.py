@@ -1,8 +1,9 @@
+import arrow
 import configparser
 import os
-from . import wiki
-from django.shortcuts import render
+from . import models, wiki
 from django.http.response import HttpResponseRedirect
+from django.shortcuts import render
 from mwoauth import ConsumerToken, Handshaker, tokens
 from worldly import Worldly
 
@@ -33,6 +34,19 @@ def get_username(request):
     else:
         return None
 
+def you_need_to_login(request, langcode):
+    content = {
+                  'headline': _('Login required'),
+                  'explanation': _('login_required_message')
+              }
+
+    context = {
+                  'interface': interface_messages(request, langcode),
+                  'language': langcode,
+                  'content': content
+              }
+
+    return render(request, 'requestoid/error.html', context = context)
 
 def interface_messages(request, langcode):
     '''
@@ -113,65 +127,114 @@ def callback(request):  # /requests/callback
 
 def add(request, langcode):  # /requests/en/add
     translation.use_language = langcode
+    username = get_username(request)
+    g = request.GET  # `g` is short for `get`
+    if username == None:
+        return you_need_to_login(request, langcode)
+    else:
+        if 'pagetitle' in g:
+            if g['pagetitle'] != "":
+                if 'pageid' in g:  # Ready to save to database; pageid is only passed as a parameter if workflow below has been completed
+                    now = arrow.utcnow().format('YYYYMMDDHHmmss')
+                    userid = wiki.GetUserId(username)
 
-    if 'pagetitle' in request.GET:
-        if request.GET['pagetitle'] != "":
-            if request.GET['language'] == "":
-                request_language = langcode
-            else:
-                request_language = request.GET['language']
+                    R = models.Requests(page_id = g['pageid'],
+                                        page_title = g['pagetitle'],
+                                        user_id = userid,
+                                        user_name = username,
+                                        wiki = g['request_language'] + 'wiki',
+                                        timestamp = now,
+                                        summary = g['summary'],
+                                        status = 0)
+                    R.save()
 
-            pagetitle = request.GET['pagetitle']
-            pageid = wiki.GetPageId(request_language, pagetitle)
-            content = {}
-            content['category_label'] = _('Categories')
-            content['wikiprojects_label'] = _('WikiProjects')
-            content['summary_label'] = _('Summary')
-            content['summary_explanation'] = _('Please provide a brief summary of your request.')
+                    N = models.Notes(request = R.id,
+                                     user_name = username,
+                                     user_id = userid,
+                                     timestamp = now,
+                                     comment = g['note'])
+                    N.save()
 
-            # Does the article exist? Two different workflows if so.
-            if pageid == None:  # new article workflow
-                pageid = 0
-                content['summary_inputbox'] = _('Create new article')
-                content['category_explanation'] = _('Enter one category per line. Case sensitive. Do not include "Category:".')
-                content['category_textarea'] = ''
-                content['wikiprojects_explanation'] = _('Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.')
-                content['wikiprojects_textarea'] = ''
+                    categories = g['categories'].split('\n')
+                    wikiprojects = g['wikiprojects'].split('\n')
 
-            else:  # existing article workflow
-                content['summary_inputbox'] = ''
-                content['category_explanation'] = _('Categories are retrieved automatically from Wikipedia.')
-                content['category_textarea'] = wiki.GetCategories(request_language, pageid)
-                content['wikiprojects_explanation'] = _('WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish.')
-                content['wikiprojects_textarea'] = wiki.GetWikiProjects(request_language, pagetitle)
+                    for category in categories:
+                        if category[:9] == 'Category:':
+                            category = category[9:]  # truncate "Category:"
+                        C = models.Categories(request = R.id,
+                                              cat_id = wiki.GetCategoryId(g['request_language'], category),
+                                              cat_title = category,
+                                              wiki = g['request_language'] + 'wiki')
+                        C.save()
 
-            content['note_label'] = _('Add a note')
-            content['note_explanation'] = _('Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.')
-            content['submit_button'] = _('add_submit_button')
+                    for wikiproject in wikiprojects:
+                        if wikiproject[:10] == 'Wikipedia:':
+                            wikiproject = wikiproject[10:]  # truncate "Wikipedia:"
+                        W = models.WikiProjects(request = R.id,
+                                                project_id = wiki.GetWikiProjectId(g['request_language'], wikiproject),
+                                                project_title = wikiproject,
+                                                wiki = g['request_language'] + 'wiki')
+                        W.save()
 
-            context = {
-                        'interface': interface_messages(request, langcode),
-                        'language': langcode,
-                        'content': content,
-                        'request_language': request_language,
-                        'pagetitle': pagetitle,
-                        'pageid': pageid
-                      }
+                    return HttpResponseRedirect("/requests/" + langcode + "/request/" + str(R.id))
 
-            return render(request, 'requestoid/add_details.html', context = context)
+                else:  # Show form to collect more details
+                    if g['language'] == "":
+                        request_language = langcode
+                    else:
+                        request_language = g['language']
 
-    # Default behavior for no pagetitle specified
-    content = {
-                'headline': _('add_start_headline'),
-                'inputlabel': _('add_start_input_label'),
-                'explanation': _('add_start_explanation'),
-                'button': _('add_start_button_label')
-              }
+                    pagetitle = g['pagetitle']
+                    pageid = wiki.GetPageId(request_language, pagetitle)
+                    content = {}
+                    content['category_label'] = _('Categories')
+                    content['wikiprojects_label'] = _('WikiProjects')
+                    content['summary_label'] = _('Summary')
+                    content['summary_explanation'] = _('Please provide a brief summary of your request.')
 
-    context = {
-                'interface': interface_messages(request, langcode),
-                'language': langcode,
-                'content': content
-              }
+                    # Does the article exist? Two different workflows if so.
+                    if pageid == None:  # new article workflow
+                        pageid = 0
+                        content['summary_inputbox'] = _('Create new article')
+                        content['category_explanation'] = _('Enter one category per line. Case sensitive. Do not include "Category:".')
+                        content['category_textarea'] = ''
+                        content['wikiprojects_explanation'] = _('Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.')
+                        content['wikiprojects_textarea'] = ''
 
-    return render(request, 'requestoid/add_start.html', context = context)
+                    else:  # existing article workflow
+                        content['summary_inputbox'] = ''
+                        content['category_explanation'] = _('Categories are retrieved automatically from Wikipedia.')
+                        content['category_textarea'] = wiki.GetCategories(request_language, pageid)
+                        content['wikiprojects_explanation'] = _('WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish.')
+                        content['wikiprojects_textarea'] = wiki.GetWikiProjects(request_language, pagetitle)
+
+                    content['note_label'] = _('Add a note')
+                    content['note_explanation'] = _('Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.')
+                    content['submit_button'] = _('add_submit_button')
+
+                    context = {
+                                'interface': interface_messages(request, langcode),
+                                'language': langcode,
+                                'content': content,
+                                'request_language': request_language,
+                                'pagetitle': pagetitle,
+                                'pageid': pageid
+                              }
+
+                    return render(request, 'requestoid/add_details.html', context = context)
+
+        # Default behavior for no pagetitle specified
+        content = {
+                    'headline': _('add_start_headline'),
+                    'inputlabel': _('add_start_input_label'),
+                    'explanation': _('add_start_explanation'),
+                    'button': _('add_start_button_label')
+                  }
+
+        context = {
+                    'interface': interface_messages(request, langcode),
+                    'language': langcode,
+                    'content': content
+                  }
+
+        return render(request, 'requestoid/add_start.html', context = context)
