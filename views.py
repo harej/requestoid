@@ -34,6 +34,7 @@ def get_username(request):
     else:
         return None
 
+
 def you_need_to_login(request, langcode):
     content = {
                   'headline': _('Login required'),
@@ -47,6 +48,7 @@ def you_need_to_login(request, langcode):
               }
 
     return render(request, 'requestoid/error.html', context = context)
+
 
 def interface_messages(request, langcode):
     '''
@@ -72,6 +74,7 @@ def interface_messages(request, langcode):
 
 
 ###
+
 
 def select_language(request):  # /requests
     available = [
@@ -124,6 +127,7 @@ def callback(request):  # /requests/callback
     request.session['access_token_key'] = access_token.key.decode('utf-8')
     request.session['access_token_secret'] = access_token.secret.decode('utf-8')
     return HttpResponseRedirect(request.session['return_to'])
+
 
 def add(request, langcode):  # /requests/en/add
     translation.use_language = langcode
@@ -287,3 +291,26 @@ def add(request, langcode):  # /requests/en/add
                   }
 
         return render(request, 'requestoid/add_start.html', context = context)
+
+
+def request(request, langcode, reqid):  # /requests/en/request/12345
+    translation.use_language = langcode
+    R = get_object_or_404(models.Requests, id=reqid)
+
+    requestdata = {'page_title': R.page_title,
+                   'user_name': R.user_name,
+                   'wiki': R.wiki,
+                   'timestamp': R.timestamp,
+                   'summary': R.summary,
+                   'status': R.status}
+
+    content = {'notes_label': _('Notes'),
+               'categories_label': _('Categories'),
+               'wikiprojects_label': _('WikiProjects'),
+               'requestdata': requestdata}
+    context = {
+                'interface': interface_messages(request, langcode),
+                'language': langcode,
+                'content': content
+              }
+    return render(request, 'requestoid/request.html', context = context)
