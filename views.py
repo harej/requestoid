@@ -314,7 +314,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     for note in N:
         noteblock = {'username': note.user_name,
                      'timestamp': arrow.get(note.timestamp, 'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm:ss'),
-                     'comment': wiki.WikitextRender(R.wiki[:-4], note.comment}
+                     'comment': wiki.WikitextRender(R.wiki[:-4], note.comment)}
 
         requestdata['notes'].append(noteblock)
 
