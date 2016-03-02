@@ -1,3 +1,4 @@
+import requests
 from . import tool_labs_utils
 
 sql = tool_labs_utils
@@ -55,3 +56,13 @@ def GetWikiProjects(language, pagetitle):
             output += entry[0].replace('_', ' ').replace('Wikipedia:', '') + '\n'
         return output
 
+def WikitextRender(language, source):
+    # https://en.wikipedia.org/w/api.php?action=parse&format=json&text=%5B%5Blol%5D%5D&contentmodel=wikitext
+    url = 'https://{0}.wikipedia.org/w/api.php'.format(language)
+    params = {'action': 'parse',
+              'format': 'json',
+              'contentmodel': 'wikitext',
+              'text': source}
+    r = requests.get(url, params=params)
+    blob = r.json()
+    return blob['parse']['text']['*']
