@@ -11,7 +11,7 @@
 <span class="date">{{ note.timestamp }}</span>
 </div>
 <div class="text">
-{{ note.comment }}
+{{ note.comment|safe }}
 </div>
 {% endfor %}
 </div>
