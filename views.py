@@ -313,15 +313,15 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     W = models.WikiProjects.objects.filter(request_id=reqid).order_by('project_title')
 
     for note in N:
-        noteblock = {'username': N.user_name, 'timestamp': N.timestamp, 'comment': N.comment}
+        noteblock = {'username': note.user_name, 'timestamp': note.timestamp, 'comment': note.comment}
         requestdata['notes'].append(noteblock)
 
     for category in C:
-        requestdata['categories'].append(C.cat_title)
+        requestdata['categories'].append(category.cat_title)
 
     for wikiproject in W:
-        requestdata['wikiprojects'].append(W.project_title)
-        
+        requestdata['wikiprojects'].append(wikiproject.project_title)
+
     content = {'notes_label': _('Notes'),
                'categories_label': _('Categories'),
                'wikiprojects_label': _('WikiProjects'),
