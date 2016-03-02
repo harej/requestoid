@@ -300,7 +300,6 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     requestdata = {'page_title': R.page_title,
                    'user_name': R.user_name,
                    'wiki': R.wiki,
-                   'timestamp': R.timestamp,
                    'summary': R.summary,
                    'status': R.status,
                    'notes': [],
@@ -313,7 +312,10 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     W = models.WikiProjects.objects.filter(request_id=reqid).order_by('project_title')
 
     for note in N:
-        noteblock = {'username': note.user_name, 'timestamp': note.timestamp, 'comment': note.comment}
+        noteblock = {'username': note.user_name,
+                     'timestamp': arrow.get(note.timestamp, 'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm:ss'),
+                     'comment': note.comment}
+                     
         requestdata['notes'].append(noteblock)
 
     for category in C:

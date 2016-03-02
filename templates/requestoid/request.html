@@ -2,7 +2,19 @@
 {% load wikipedia_link %}
 {% block content %}
 <h1>{{ content.requestdata.page_title|wikipedia_link:language }}: {{ content.requestdata.summary }}</h1>
-<h2>{{ content.notes_label }}</h2>
+<div class="ui comments">
+{% for note in notes %}
+<div class="comment">
+<div class="content">
+<a class="author">{{ note.username }}</a>
+<div class="metadata">
+<span class="date">{{ note.timestamp }}</span>
+</div>
+<div class="text">
+{{ note.comment }}
+</div>
+{% endfor %}
+</div>
 <div class="ui styled accordion">
   <div class="active title">
     <i class="dropdown icon"></i>
