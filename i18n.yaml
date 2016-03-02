@@ -88,5 +88,18 @@
 
 # Request view
 
-"Notes":
-  en: "Notes"
+"Categories and WikiProjects":
+  en: "Categories and WikiProjects"
+
+ "Status":
+   en: "Status"
+
+ "Open":
+   en: "Open"
+
+ "Declined":
+   en: "Declined"
+
+ "Complete":
+   en: "Complete"
+

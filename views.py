@@ -302,12 +302,32 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                    'wiki': R.wiki,
                    'timestamp': R.timestamp,
                    'summary': R.summary,
-                   'status': R.status}
+                   'status': R.status,
+                   'notes': [],
+                   'categories': [],
+                   'wikiprojects': []}
 
+
+    N = models.Notes.objects.filter(request_id=reqid).order_by('timestamp')
+    C = models.Categories.objects.filter(request_id=reqid).order_by('cat_title')
+    W = models.WikiProjects.objects.filter(request_id=reqid).order_by('project_title')
+
+    for note in N:
+        noteblock = {'username': N.user_name, 'timestamp': N.timestamp, 'comment': N.comment}
+        requestdata['notes'].append(noteblock)
+
+    for category in C:
+        requestdata['categories'].append(C.cat_title)
+
+    for wikiproject in W:
+        requestdata['wikiprojects'].append(W.project_title)
+        
     content = {'notes_label': _('Notes'),
                'categories_label': _('Categories'),
                'wikiprojects_label': _('WikiProjects'),
+               'categories_and_wikiprojects_label': _('Categories and WikiProjects'),
                'requestdata': requestdata}
+               # I'm at the Category! I'm at the WikiProject! I'm at the combination Category and WikiProject!
     context = {
                 'interface': interface_messages(request, langcode),
                 'language': langcode,

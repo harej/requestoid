@@ -3,4 +3,24 @@
 {% block content %}
 <h1>{{ content.requestdata.page_title|wikipedia_link:language }}: {{ content.requestdata.summary }}</h1>
 <h2>{{ content.notes_label }}</h2>
+<div class="ui styled accordion">
+  <div class="active title">
+    <i class="dropdown icon"></i>
+  {{ content.categories_and_wikiprojects_label }}
+  </div>
+  <div class="active content">
+  <label>{{ content.categories_label }}</label>
+  <ul>
+  {% for category in content.requestdata.categories %}
+  <li>{{ category }}</li>
+  {% endfor %}
+  </ul>
+  <label>{{ content.wikiprojects_label }}</label>
+  <ul>
+  {% for wikiproject in content.requestdata.wikiprojects %}
+  <li>{{ wikiproject }}</li>
+  {% endfor %}
+  </ul>
+  </div>
+</div>
 {% endblock %}
