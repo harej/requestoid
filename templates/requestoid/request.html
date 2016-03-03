@@ -41,7 +41,7 @@ Status
 {{ content.categories_label }}
 </div>
 <div class="content">
-<button type="submit" class="ui right floated blue button">{{ content.save_label }}</button>
+{% if interface.username != None %}<button type="submit" class="ui right floated blue button">{{ content.save_label }}</button>{% endif %}
 <p>{{ content.list_edit_explanation }}</p>
 <textarea name="categories" style="border: 0; margin: 0; width: 100%; height:400px; resize:vertical; margin-top:0.25em;" placeholder="{{ content.nothing_here_yet }}"{% if interface.username == None %} disabled=disabled{% endif %}>{% for category in content.requestdata.categories %}{{ category }}
 {% endfor %}</textarea>
