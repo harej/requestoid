@@ -501,7 +501,7 @@ def log(request):  # /requests/en/log
     context = {
                 'interface': interface_messages(request, langcode),
                 'language': langcode,
-                'headline': _('Log')
+                'headline': _('Log'),
                 'content': L
               }
     return render(request, 'requestoid/log.html', context = context)
