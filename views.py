@@ -373,7 +373,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             new_wikiprojects = [x for x in p['wikiprojects'].split("\r\n") if x != '' and x != ' ']
             normalized_new_wikiprojects = []
             for wikiproject in new_wikiprojects:
-                if category[:10] == "Wikipedia:":
+                if wikiproject[:10] == "Wikipedia:":
                     normalized_new_wikiprojects.append(wikiproject[10:])
                 else:
                     normalized_new_wikiprojects.append(wikiproject)
