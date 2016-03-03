@@ -37,7 +37,7 @@ Status
 {% if interface.username != None %}
 <form action="/requests/{{ language }}/request/{{ content.requestdata.id }}" method="post">
 {% csrf_token %}
-<div class="ui form">
+<div class="ui form" style="padding-top:2em;">
 <div class="field">
 <label>{{ content.add_a_note_label }}</label>
 <textarea name="newnote" placeholder="{{ content.add_a_note_explanation }}"></textarea>
