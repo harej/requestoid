@@ -2,7 +2,15 @@
 {% load wikipedia_link %}
 {% block content %}
 <h1>{{ content.requestdata.page_title|wikipedia_link:language }}: {{ content.requestdata.summary }}</h1>
-<p><b>Status:</b> {{ content.requestdata.status_verbose }}</p>
+<div>
+<b>Status:</b> {{ content.requestdata.status_verbose }}
+{% if status == 0 %}
+<button type="submit" name="changestatus" value="complete" formaction="/requests/{{ langcode }}/request/{{ content.requestdata.id }}" formmethod="post" class="mini positive ui button">{{ content.mark_as_complete_label }}</button>
+<button type="submit" name="changestatus" value="declined" formaction="/requests/{{ langcode }}/request/{{ content.requestdata.id }}" formmethod="post" class="mini negative ui button">{{ content.mark_as_declined_label }}</button>
+{% else %}
+<button type="submit" name="changestatus" value="open" formaction="/requests/{{ langcode }}/request/{{ content.requestdata.id }}" formmethod="post" class="mini ui button">{{ content.mark_as_open_label }}</button>
+{% endif %}
+</div>
 <div class="ui comments">
 {% for note in content.requestdata.notes %}
 <div class="comment">

@@ -299,7 +299,8 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
     status = ['Open', 'Complete', 'Declined']  # 0 = open; 1 = complete; 2 = declined
 
-    requestdata = {'page_title': R.page_title,
+    requestdata = {'id': reqid,
+                   'page_title': R.page_title,
                    'user_name': R.user_name,
                    'wiki': R.wiki,
                    'summary': R.summary,
@@ -331,6 +332,9 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                'categories_label': _('Categories'),
                'wikiprojects_label': _('WikiProjects'),
                'categories_and_wikiprojects_label': _('Categories and WikiProjects'),
+               'mark_as_complete_label': _('Mark as Complete'),
+               'mark_as_declined_label': _('Mark as Declined'),
+               'mark_as_open_label': _('Mark as Open'),
                'requestdata': requestdata}
                # I'm at the Category! I'm at the WikiProject! I'm at the combination Category and WikiProject!
     context = {
