@@ -3,9 +3,9 @@
 {% block content %}
 <h1>{{ content.requestdata.page_title|wikipedia_link:language }}: {{ content.requestdata.summary }}</h1>
 <div class="ui left labeled button">
-<a class="ui basic label">
-<b>Status:</b> {{ content.requestdata.status_verbose }}
-</a>
+<span class="ui basic label">
+<b>Status:</b>&nbsp;{{ content.requestdata.status_verbose }}
+</span>
 {% if content.requestdata.status == 0 %}
 <button type="submit" name="changestatus" value="complete" formaction="/requests/{{ langcode }}/request/{{ content.requestdata.id }}" formmethod="post" class="small positive ui button">{{ content.mark_as_complete_label }}</button>
 <button type="submit" name="changestatus" value="declined" formaction="/requests/{{ langcode }}/request/{{ content.requestdata.id }}" formmethod="post" class="small negative ui button">{{ content.mark_as_declined_label }}</button>
