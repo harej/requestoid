@@ -339,7 +339,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
     for note in N:
         noteblock = {'username': note.user_name,
-                     'timestamp': arrow.get(note.timestamp, 'YYYYMMDDHHmmss').format('YYYY-MM-DD HH:mm:ss'),
+                     'timestamp': arrow.get(note.timestamp, 'YYYYMMDDHHmmss').format('YYYY-MM-DD | HH:mm:ss'),
                      'comment': wiki.WikitextRender(R.wiki[:-4], note.comment)}
 
         requestdata['notes'].append(noteblock)
@@ -354,6 +354,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                'wikiprojects_label': _('WikiProjects'),
                'nothing_here_yet': _('Nothing here yet...'),
                'save_label': _('Save'),
+               'edit_categories_on_wikipedia_label': _('Categories must be changed directly on Wikipedia')
                'requestdata': requestdata}
 
     if username == None:
