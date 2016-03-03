@@ -41,10 +41,8 @@ Status
 </div>
 <div class="content">
   <p>{{ content.list_edit_explanation }}</p>
-  <textarea style="border: 0; margin: 0; width: 100%; resize:vertical; margin-top:0.25em;" placeholder="{{ content.nothing_here_yet }}">
-  {% for category in content.requestdata.categories %}{{ category }}
-  {% endfor %}
-  </textarea>
+<textarea style="border: 0; margin: 0; width: 100%; height:400px; resize:vertical; margin-top:0.25em;" placeholder="{{ content.nothing_here_yet }}">{% for category in content.requestdata.categories %}{{ category }}
+{% endfor %}</textarea>
 </div>
   <div class="title">
     <i class="dropdown icon"></i>
@@ -52,10 +50,8 @@ Status
   </div>
   <div class="content">
   <p>{{ content.list_edit_explanation }}</p>
-  <textarea style="border: 0; margin: 0; width: 100%; resize:vertical; margin-top:0.25em;" placeholder="{{ content.nothing_here_yet }}">
-  {% for wikiproject in content.requestdata.wikiprojects %}{{ wikiproject }}
-  {% endfor %}
-  </textarea>
+<textarea style="border: 0; margin: 0; width: 100%; height:400px; resize:vertical; margin-top:0.25em;" placeholder="{{ content.nothing_here_yet }}">{% for wikiproject in content.requestdata.wikiprojects %}{{ wikiproject }}
+{% endfor %}</textarea>
 </div>
 </div>
 <script language='javascript'>
