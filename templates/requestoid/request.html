@@ -50,7 +50,7 @@ Status
 <form action="/requests/{{ language }}/request/{{ content.requestdata.id }}" method="post">
 {% csrf_token %}
 {% endif %}
-<div class="ui styled accordion" style="margin-top:2em;">
+<div class="ui styled fluid accordion" style="margin-top:2em;">
 <div class="title">
 <i class="dropdown icon"></i>
 {{ content.categories_label }}
