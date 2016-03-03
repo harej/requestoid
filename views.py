@@ -296,6 +296,9 @@ def add(request, langcode):  # /requests/en/add
 def request(request, langcode, reqid):  # /requests/en/request/12345
     p = request.POST
     username = get_username(request)
+
+    # First, we determine if there are any POST requests to change the content.
+
     if 'changestatus' in p:
         if username != None:
             new_status = p['changestatus']
@@ -314,6 +317,103 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                               reference = R.id)
             log.save()
 
+    if 'categories' in p:
+        R = models.Requests.objects.get(id=reqid)
+        if username != None and R.page_id == 0:
+            C = models.Categories.objects.filter(request_id=reqid)
+            old_categories = [x.cat_title for x in C]
+            new_categories = [x for x in p['categories'].split("\r\n") if x != '' and x != ' ']
+            normalized_new_categories = []
+            for category in new_categories:
+                if category[:9] = "Category:":
+                    normalized_new_categories.append(wiki.CanonicalTitle(category[9:]))
+                else:
+                    normalized_new_categories.append(wiki.CanonicalTitle(category))
+            new_categories = normalized_new_categories
+
+            taken_out = list(set(old_categories) - set(new_categories))
+            added_in = list(set(new_categories) - set(old_categories))
+
+            for category in taken_out:
+                query = models.Categories.objects.filter(cat_title=category, request_id=reqid)
+                for C in query:  # The above returns a QuerySet; doing it this way in case there's >1 result
+
+                    log = models.Logs(request = R,
+                                      user_name = username,
+                                      user_id = wiki.GetUserId(username),
+                                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
+                                      action = 'delcategory',
+                                      reference = C.id
+                                      reference_text = category)
+                    log.save()
+
+                    C.delete()
+
+            for category in added_in:
+                    C = models.Categories(request = R
+                                          cat_title = category,
+                                          cat_id = wiki.GetCategoryId(category),
+                                          wiki = R.wiki)
+
+                    C.save()
+
+                    log = models.Logs(request = R,
+                                      user_name = username,
+                                      user_id = wiki.GetUserId(username),
+                                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
+                                      action = 'addcategory',
+                                      reference = C.id)
+                    log.save()
+
+    if 'wikiprojects' in p:
+        R = models.Requests.objects.get(id=reqid)
+        if username != None:
+            W = models.WikiProjects.objects.filter(request_id=reqid)
+            old_wikiprojects = [x.project_title for x in W]
+            new_wikiprojects = [x for x in p['wikiprojects'].split("\r\n") if x != '' and x != ' ']
+            normalized_new_wikiprojects = []
+            for wikiproject in new_wikiprojects:
+                if category[:10] = "Wikipedia:":
+                    normalized_new_wikiprojects.append(wiki.CanonicalTitle(wikiproject[10:]))
+                else:
+                    normalized_new_wikiprojects.append(wiki.CanonicalTitle(wikiproject))
+            new_categories = normalized_new_categories
+
+            taken_out = list(set(old_wikiprojects) - set(new_wikiprojects))
+            added_in = list(set(new_wikiprojects) - set(old_wikiprojects))
+
+            for wikiproject in taken_out:
+                query = models.WikiProjects.objects.filter(project_title=wikiproject, request_id=reqid)
+                for W in query:  # The above returns a QuerySet; doing it this way in case there's >1 result
+
+                    log = models.Logs(request = R,
+                                      user_name = username,
+                                      user_id = wiki.GetUserId(username),
+                                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
+                                      action = 'delwikiproject',
+                                      reference = W.id
+                                      reference_text = wikiproject)
+                    log.save()
+
+                    W.delete()
+
+            for wikiproject in added_in:
+                    W = models.WikiProjects(request = R
+                                          project_title = wikiproject,
+                                          project_id = wiki.GetWikiProjectId(wikiproject),
+                                          wiki = R.wiki)
+
+                    W.save()
+
+                    log = models.Logs(request = R,
+                                      user_name = username,
+                                      user_id = wiki.GetUserId(username),
+                                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
+                                      action = 'addwikiproject',
+                                      reference = W.id)
+                    log.save()
+
+    # With any changes now processed, we can load the page.
 
     translation.use_language = langcode
     R = get_object_or_404(models.Requests, id=reqid)
