@@ -296,7 +296,7 @@ def add(request, langcode):  # /requests/en/add
 def request(request, langcode, reqid):  # /requests/en/request/12345
     p = request.POST
     username = get_username(request)
-
+    userid = wiki.GetUserId(username)
     # First, we determine if there are any POST requests to change the content.
 
     if 'changestatus' in p:
@@ -311,7 +311,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
             log = models.Logs(request = R,
                               user_name = username,
-                              user_id = wiki.GetUserId(username),
+                              user_id = userid,
                               timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                               action = status_log_index[new_status],
                               reference = R.id)
@@ -340,7 +340,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
                     log = models.Logs(request = R,
                                       user_name = username,
-                                      user_id = wiki.GetUserId(username),
+                                      user_id = userid,
                                       timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                                       action = 'delcategory',
                                       reference = C.id,
@@ -359,7 +359,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
                     log = models.Logs(request = R,
                                       user_name = username,
-                                      user_id = wiki.GetUserId(username),
+                                      user_id = userid,
                                       timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                                       action = 'addcategory',
                                       reference = C.id)
@@ -388,7 +388,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
                     log = models.Logs(request = R,
                                       user_name = username,
-                                      user_id = wiki.GetUserId(username),
+                                      user_id = userid,
                                       timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                                       action = 'delwikiproject',
                                       reference = W.id,
@@ -399,19 +399,37 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
             for wikiproject in added_in:
                     W = models.WikiProjects(request = R,
-                                          project_title = wikiproject,
-                                          project_id = wiki.GetWikiProjectId(R.wiki[:-4], wikiproject),
-                                          wiki = R.wiki)
+                                            project_title = wikiproject,
+                                            project_id = wiki.GetWikiProjectId(R.wiki[:-4], wikiproject),
+                                            wiki = R.wiki)
 
                     W.save()
 
                     log = models.Logs(request = R,
                                       user_name = username,
-                                      user_id = wiki.GetUserId(username),
+                                      user_id = userid,
                                       timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                                       action = 'addwikiproject',
                                       reference = W.id)
                     log.save()
+
+    if 'newnote' in p:
+        if username != None:
+            R = models.Requests.objects.get(id=reqid)
+            N = models.Notes(request = R,
+                             user_name = username,
+                             user_id = userid,
+                             timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
+                             comment = p['newnote'])
+            N.save()
+    
+            log = models.Logs(request = R,
+                              user_name = username,
+                              user_id = userid,
+                              timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
+                              action = 'addnote',
+                              reference = N.id)
+            log.save()
 
     # With any changes now processed, we can load the page.
 
