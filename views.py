@@ -377,7 +377,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                     normalized_new_wikiprojects.append(wikiproject[10:])
                 else:
                     normalized_new_wikiprojects.append(wikiproject)
-            new_categories = normalized_new_categories
+            new_wikiprojects = normalized_new_wikiprojects
 
             taken_out = list(set(old_wikiprojects) - set(new_wikiprojects))
             added_in = list(set(new_wikiprojects) - set(old_wikiprojects))
