@@ -1,0 +1,23 @@
+{% extends 'requestoid/base.html' %}
+{% block content %}
+<h1>{{ content.headline }}</h1>
+<form action="/requests/{{ language }}/list" method="get">
+{% csrf_token %}
+<div class="ui form">
+<div class="ui right labeled input">
+  <div class="ui label">{{ content.language_label }}</div>
+  <input type="text" name="language" value="{{ language }}" />
+  <div class="ui basic label">.wikipedia.org</div>
+</div>
+<div class="ui action input">
+  <input name="searchterm" type="text" placeholder="Search..." />
+  <select name="searchtype" class="ui compact selection dropdown">
+    <option selected="" value="article">{{ content.article_label }}</option>
+    <option value="category">{{ content.category_label }}</option>
+    <option value="wikiproject">{{ content.wikiproject_label }}</option>
+  </select>
+</div>
+<button class="ui blue button">{{ content.search_label }}</button>
+</div>
+</form>
+{% endblock %}

@@ -505,3 +505,21 @@ def log(request, langcode):  # /requests/en/log
                 'content': L
               }
     return render(request, 'requestoid/log.html', context = context)
+
+def list(request, langcode):  # /requests/en/list
+    g = request.GET
+
+    # get parameters: language, searchterm, searchtype
+
+    content = {'headline': _('Search'),
+               'language_label': _('Language'),
+               'article_label': _('Article'),
+               'category_label': _('Category'),
+               'wikiproject_label': _('WikiProject'),
+               'search_label': _('Search')
+    context = {
+                'interface': interface_messages(request, langcode),
+                'language': langcode,
+                'content': content
+              }
+    return render(request, 'requestoid/list_start.html', context = context)
