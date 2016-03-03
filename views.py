@@ -354,8 +354,9 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                'wikiprojects_label': _('WikiProjects'),
                'nothing_here_yet': _('Nothing here yet...'),
                'save_label': _('Save'),
-               'edit_categories_on_wikipedia_label': _('Categories must be changed directly on Wikipedia')
-               'requestdata': requestdata}
+               'edit_categories_on_wikipedia_label': _('Categories must be changed directly on Wikipedia'),
+               'requestdata': requestdata
+              }
 
     if username == None:
         content['list_edit_explanation'] = _('You need to be logged in to edit this list')
