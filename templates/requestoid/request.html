@@ -44,7 +44,7 @@ Status
 {{ content.categories_label }}
 </div>
 <div class="content">
-{% if interface.username != None or content.requestdata.page_id != 0 %}<button type="submit" class="ui right floated blue button">{{ content.save_label }}</button>{% endif %}
+{% if interface.username != None and content.requestdata.page_id != 0 %}<button type="submit" class="ui right floated blue button">{{ content.save_label }}</button>{% endif %}
 <p>{% if content.requestdata.page_id != 0 %}{{ content.edit_categories_on_wikipedia_label }}{% else %}{{ content.list_edit_explanation }}{% endif %}</p>
 <textarea name="categories" style="border: 0; margin: 0; width: 100%; height:400px; resize:vertical; margin-top:0.25em;" placeholder="{{ content.nothing_here_yet }}"{% if interface.username == None or content.requestdata.page_id != 0 %} disabled=disabled{% endif %}>{% for category in content.requestdata.categories %}{{ category }}
 {% endfor %}</textarea>
