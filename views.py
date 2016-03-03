@@ -352,7 +352,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             for category in added_in:
                     C = models.Categories(request = R,
                                           cat_title = category,
-                                          cat_id = wiki.GetCategoryId(category),
+                                          cat_id = wiki.GetCategoryId(R.wiki, category),
                                           wiki = R.wiki)
 
                     C.save()
@@ -400,7 +400,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             for wikiproject in added_in:
                     W = models.WikiProjects(request = R,
                                           project_title = wikiproject,
-                                          project_id = wiki.GetWikiProjectId(wikiproject),
+                                          project_id = wiki.GetWikiProjectId(R.wiki, wikiproject),
                                           wiki = R.wiki)
 
                     W.save()
