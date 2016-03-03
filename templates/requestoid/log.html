@@ -2,7 +2,7 @@
 {% block content %}
 <h1>{{ headline }}</h1>
 <ul>
-{% for entry in L %}
+{% for entry in content %}
 <li>{{ entry.user_name }}: {{ entry.action }} <a href="/requests/{{ language }}/request/{{ entry.request.id }}">{{ entry.request.id }}</a></li>
 {% endfor %}
 </ul>
