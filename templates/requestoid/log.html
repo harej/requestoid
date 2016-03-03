@@ -3,7 +3,7 @@
 <h1>{{ headline }}</h1>
 <ul>
 {% for entry in content %}
-<li>{{ entry.user_name }}: {{ entry.action }} <a href="/requests/{{ language }}/request/{{ entry.request.id }}">{{ entry.request.id }}</a></li>
+<li>{{ entry.timestamp }} – {{ entry.user_name }}: {{ entry.action }} <a href="/requests/{{ language }}/request/{{ entry.request.id }}">{{ entry.request.id }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
