@@ -294,6 +294,27 @@ def add(request, langcode):  # /requests/en/add
 
 
 def request(request, langcode, reqid):  # /requests/en/request/12345
+    p = request.POST
+    if 'changestatus' in p:
+        username = get_username(request)
+        if username != None:
+            new_status = p['changestatus']
+            status_index = {'open': 0, 'complete': 1, 'declined': 2}
+            status_log_index = {'open': 'flagopen', 'complete': 'flagcomplete', 'declined': 'flagdecline'}
+
+            R = models.Requests.objects.get(id=reqid)
+            R.status = status_index[new_status]
+            R.save()
+
+            log = models.Logs(request = R,
+                              user_name = username,
+                              user_id = wiki.GetUserId(username),
+                              timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
+                              action = status_log_index[new_status],
+                              reference = R.id)
+            log.save()
+
+
     translation.use_language = langcode
     R = get_object_or_404(models.Requests, id=reqid)
 

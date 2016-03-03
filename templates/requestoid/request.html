@@ -5,7 +5,7 @@
 <form action="/requests/{{ language }}/request/{{ content.requestdata.id }}" method="post">
 {% csrf_token %}
 <div class="ui small left labeled buttons">
-<div class="ui large right pointing label">
+<div class="ui large {% if interface.username != None %}right pointing {% endif %}label">
 Status
 <div class="detail">{{ content.requestdata.status_verbose }}</div>
 </div>
@@ -30,7 +30,7 @@ Status
 </div>
 {% endfor %}
 </div>
-<div class="ui styled accordion">
+<div class="ui styled accordion" style="padding-top:2em;">
   <div class="title">
     <i class="dropdown icon"></i>
   {{ content.categories_and_wikiprojects_label }}
