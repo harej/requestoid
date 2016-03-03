@@ -34,7 +34,10 @@ Status
 </div>
 </div>
 </div>
-{% if interface.username != None %}<form action="/requests/{{ language }}/request/{{ content.requestdata.id }}" method="post">{% endif %}
+{% if interface.username != None %}
+<form action="/requests/{{ language }}/request/{{ content.requestdata.id }}" method="post">
+{% csrf_token %}
+{% endif %}
 <div class="ui styled accordion" style="margin-top:2em;">
 <div class="title">
 <i class="dropdown icon"></i>
