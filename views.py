@@ -516,7 +516,7 @@ def list(request, langcode):  # /requests/en/list
                'article_label': _('Article'),
                'category_label': _('Category'),
                'wikiproject_label': _('WikiProject'),
-               'search_label': _('Search')
+               'search_label': _('Search')}
     context = {
                 'interface': interface_messages(request, langcode),
                 'language': langcode,
