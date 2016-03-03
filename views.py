@@ -493,3 +493,15 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                 'content': content
               }
     return render(request, 'requestoid/request.html', context = context)
+
+
+def log(request):  # /requests/en/log
+    L = models.Logs.objects.all().order_by('timestamp')
+
+    context = {
+                'interface': interface_messages(request, langcode),
+                'language': langcode,
+                'headline': _('Log')
+                'content': L
+              }
+    return render(request, 'requestoid/log.html', context = context)

@@ -1,0 +1,9 @@
+{% extends 'requestoid/base.html' %}
+{% block content %}
+<h1>{{ headline }}</h1>
+<ul>
+{% for entry in L %}
+<li>{{ entry.user_name }}: {{ entry.action }} <a href="/requests/{{ language }}/request/{{ entry.request.id }}">{{ entry.request.id }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
