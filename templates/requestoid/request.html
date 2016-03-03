@@ -2,16 +2,16 @@
 {% load wikipedia_link %}
 {% block content %}
 <h1>{{ content.requestdata.page_title|wikipedia_link:language }}: {{ content.requestdata.summary }}</h1>
-<div class="ui basic label">
+<div class="ui small left labeled buttons">
+<div class="ui large right pointing label">
 Status
 <div class="detail">{{ content.requestdata.status_verbose }}</div>
 </div>
-<div class="ui buttons">
 {% if content.requestdata.status == 0 %}
-<button type="submit" name="changestatus" value="complete" formaction="/requests/{{ language }}/request/{{ content.requestdata.id }}" formmethod="post" class="small positive ui button">{{ content.mark_as_complete_label }}</button>
-<button type="submit" name="changestatus" value="declined" formaction="/requests/{{ language }}/request/{{ content.requestdata.id }}" formmethod="post" class="small negative ui button">{{ content.mark_as_declined_label }}</button>
+<button type="submit" name="changestatus" value="complete" formaction="/requests/{{ language }}/request/{{ content.requestdata.id }}" formmethod="post" class="positive ui button">{{ content.mark_as_complete_label }}</button>
+<button type="submit" name="changestatus" value="declined" formaction="/requests/{{ language }}/request/{{ content.requestdata.id }}" formmethod="post" class="negative ui button">{{ content.mark_as_declined_label }}</button>
 {% else %}
-<button type="submit" name="changestatus" value="open" formaction="/requests/{{ language }}/request/{{ content.requestdata.id }}" formmethod="post" class="small ui button">{{ content.mark_as_open_label }}</button>
+<button type="submit" name="changestatus" value="open" formaction="/requests/{{ language }}/request/{{ content.requestdata.id }}" formmethod="post" class="ui button">{{ content.mark_as_open_label }}</button>
 {% endif %}
 </div>
 <div class="ui comments">
