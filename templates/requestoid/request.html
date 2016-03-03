@@ -40,12 +40,8 @@ Status
   <div class="content">
   <p>{{ content.list_edit_explanation }}</p>
   <textarea style="border: 0; margin: 0; width: 100%; resize:vertical; margin-top:0.25em;" placeholder="{{ content.nothing_here_yet }}">
-  {% for category in content.requestdata.categories %}
-  {{ category }}
-  {% endfor %}
+  {% for category in content.requestdata.categories %}{{ category }}{% endfor %}
   </textarea>
-</div>
-<div class="ui styled accordion">
   <div class="title">
     <i class="dropdown icon"></i>
   {{ content.wikiprojects_label }}
@@ -53,9 +49,7 @@ Status
   <div class="content">
   <p>{{ content.list_edit_explanation }}</p>
   <textarea style="border: 0; margin: 0; width: 100%; resize:vertical; margin-top:0.25em;" placeholder="{{ content.nothing_here_yet }}">
-  {% for wikiproject in content.requestdata.wikiprojects %}
-  {{ wikiproject }}
-  {% endfor %}
+  {% for wikiproject in content.requestdata.wikiprojects %}{{ wikiproject }}{% endfor %}
   </textarea>
 </div>
 </div>
