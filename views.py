@@ -325,7 +325,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             new_categories = [x for x in p['categories'].split("\r\n") if x != '' and x != ' ']
             normalized_new_categories = []
             for category in new_categories:
-                if category[:9] = "Category:":
+                if category[:9] == "Category:":
                     normalized_new_categories.append(wiki.CanonicalTitle(category[9:]))
                 else:
                     normalized_new_categories.append(wiki.CanonicalTitle(category))
@@ -373,7 +373,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             new_wikiprojects = [x for x in p['wikiprojects'].split("\r\n") if x != '' and x != ' ']
             normalized_new_wikiprojects = []
             for wikiproject in new_wikiprojects:
-                if category[:10] = "Wikipedia:":
+                if category[:10] == "Wikipedia:":
                     normalized_new_wikiprojects.append(wiki.CanonicalTitle(wikiproject[10:]))
                 else:
                     normalized_new_wikiprojects.append(wiki.CanonicalTitle(wikiproject))
