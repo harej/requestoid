@@ -322,6 +322,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
     requestdata = {'id': reqid,
                    'page_title': R.page_title,
+                   'page_id': R.page_id,
                    'user_name': R.user_name,
                    'wiki': R.wiki,
                    'summary': R.summary,
@@ -349,19 +350,19 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     for wikiproject in W:
         requestdata['wikiprojects'].append(wikiproject.project_title)
 
-    content = {'notes_label': _('Notes'),
-               'categories_label': _('Categories'),
+    content = {'categories_label': _('Categories'),
                'wikiprojects_label': _('WikiProjects'),
-               'mark_as_complete_label': _('Mark as Complete'),
-               'mark_as_declined_label': _('Mark as Declined'),
-               'mark_as_open_label': _('Mark as Open'),
                'nothing_here_yet': _('Nothing here yet...'),
+               'save_label': _('Save'),
                'requestdata': requestdata}
-               
+
     if username == None:
         content['list_edit_explanation'] = _('You need to be logged in to edit this list')
     else:
         content['list_edit_explanation'] = _('Click this list to edit it')
+        content['mark_as_complete_label'] = _('Mark as Complete')
+        content['mark_as_declined_label'] = _('Mark as Declined')
+        content['mark_as_open_label'] = _('Mark as Open')
 
     context = {
                 'interface': interface_messages(request, langcode),
