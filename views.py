@@ -414,7 +414,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                     log.save()
 
     if 'newnote' in p:
-        if username != None:
+        if username != None and p['newnote'] != '' and p['newnote'] != ' ' and p['newnote'] != '\r\n':
             R = models.Requests.objects.get(id=reqid)
             N = models.Notes(request = R,
                              user_name = username,
