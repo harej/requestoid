@@ -35,22 +35,29 @@ Status
 <div class="ui styled accordion" style="margin-top:2em;">
   <div class="title">
     <i class="dropdown icon"></i>
-  {{ content.categories_and_wikiprojects_label }}
+  {{ content.categories_label }}
   </div>
   <div class="content">
-  <label>{{ content.categories_label }}</label>
-  <ul>
+  <p>{{ content.list_edit_explanation }}</p>
+  <textarea style="border: 0; margin: 0; width: 100%; resize:vertical; margin-top:0.5em;" placeholder="{{ content.nothing_here_yet }}">
   {% for category in content.requestdata.categories %}
-  <li>{{ category }}</li>
+  {{ category }}
   {% endfor %}
-  </ul>
-  <label>{{ content.wikiprojects_label }}</label>
-  <ul>
-  {% for wikiproject in content.requestdata.wikiprojects %}
-  <li>{{ wikiproject }}</li>
-  {% endfor %}
-  </ul>
+  </textarea>
+</div>
+<div class="ui styled accordion" style="margin-top:1em;">
+  <div class="title">
+    <i class="dropdown icon"></i>
+  {{ content.wikiprojects_label }}
   </div>
+  <div class="content">
+  <p>{{ content.list_edit_explanation }}</p>
+  <textarea style="border: 0; margin: 0; width: 100%; resize:vertical; margin-top:0.5em;" placeholder="{{ content.nothing_here_yet }}">
+  {% for wikiproject in content.requestdata.wikiprojects %}
+  {{ wikiproject }}
+  {% endfor %}
+  </textarea>
+</div>
 </div>
 <script language='javascript'>
              $(document).ready(function(){
