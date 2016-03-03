@@ -295,8 +295,8 @@ def add(request, langcode):  # /requests/en/add
 
 def request(request, langcode, reqid):  # /requests/en/request/12345
     p = request.POST
+    username = get_username(request)
     if 'changestatus' in p:
-        username = get_username(request)
         if username != None:
             new_status = p['changestatus']
             status_index = {'open': 0, 'complete': 1, 'declined': 2}
@@ -352,12 +352,17 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     content = {'notes_label': _('Notes'),
                'categories_label': _('Categories'),
                'wikiprojects_label': _('WikiProjects'),
-               'categories_and_wikiprojects_label': _('Categories and WikiProjects'),
                'mark_as_complete_label': _('Mark as Complete'),
                'mark_as_declined_label': _('Mark as Declined'),
                'mark_as_open_label': _('Mark as Open'),
+               'nothing_here_yet': _('Nothing here yet...'),
                'requestdata': requestdata}
-               # I'm at the Category! I'm at the WikiProject! I'm at the combination Category and WikiProject!
+               
+    if username == None:
+        content['list_edit_explanation'] = _('You need to be logged in to edit this list')
+    else:
+        content['list_edit_explanation'] = _('Click this list to edit it')
+
     context = {
                 'interface': interface_messages(request, langcode),
                 'language': langcode,
