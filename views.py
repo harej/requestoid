@@ -343,14 +343,14 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                                       user_id = wiki.GetUserId(username),
                                       timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                                       action = 'delcategory',
-                                      reference = C.id
+                                      reference = C.id,
                                       reference_text = category)
                     log.save()
 
                     C.delete()
 
             for category in added_in:
-                    C = models.Categories(request = R
+                    C = models.Categories(request = R,
                                           cat_title = category,
                                           cat_id = wiki.GetCategoryId(category),
                                           wiki = R.wiki)
@@ -391,14 +391,14 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
                                       user_id = wiki.GetUserId(username),
                                       timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                                       action = 'delwikiproject',
-                                      reference = W.id
+                                      reference = W.id,
                                       reference_text = wikiproject)
                     log.save()
 
                     W.delete()
 
             for wikiproject in added_in:
-                    W = models.WikiProjects(request = R
+                    W = models.WikiProjects(request = R,
                                           project_title = wikiproject,
                                           project_id = wiki.GetWikiProjectId(wikiproject),
                                           wiki = R.wiki)
