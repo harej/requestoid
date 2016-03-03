@@ -326,9 +326,9 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             normalized_new_categories = []
             for category in new_categories:
                 if category[:9] == "Category:":
-                    normalized_new_categories.append(wiki.CanonicalTitle(category[9:]))
+                    normalized_new_categories.append(wiki.CanonicalPageTitle(category[9:]))
                 else:
-                    normalized_new_categories.append(wiki.CanonicalTitle(category))
+                    normalized_new_categories.append(wiki.CanonicalPageTitle(category))
             new_categories = normalized_new_categories
 
             taken_out = list(set(old_categories) - set(new_categories))
@@ -374,9 +374,9 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             normalized_new_wikiprojects = []
             for wikiproject in new_wikiprojects:
                 if category[:10] == "Wikipedia:":
-                    normalized_new_wikiprojects.append(wiki.CanonicalTitle(wikiproject[10:]))
+                    normalized_new_wikiprojects.append(wiki.CanonicalPageTitle(wikiproject[10:]))
                 else:
-                    normalized_new_wikiprojects.append(wiki.CanonicalTitle(wikiproject))
+                    normalized_new_wikiprojects.append(wiki.CanonicalPageTitle(wikiproject))
             new_categories = normalized_new_categories
 
             taken_out = list(set(old_wikiprojects) - set(new_wikiprojects))
