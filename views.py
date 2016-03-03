@@ -496,7 +496,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
 
 def log(request, langcode):  # /requests/en/log
-    L = models.Logs.objects.all().order_by('timestamp')
+    L = models.Logs.objects.all().order_by('-timestamp')
 
     context = {
                 'interface': interface_messages(request, langcode),
