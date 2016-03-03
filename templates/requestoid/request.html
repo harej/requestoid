@@ -9,11 +9,13 @@
 Status
 <div class="detail">{{ content.requestdata.status_verbose }}</div>
 </div>
+{% if interface.username != None %}
 {% if content.requestdata.status == 0 %}
 <button type="submit" name="changestatus" value="complete" class="positive ui button">{{ content.mark_as_complete_label }}</button>
 <button type="submit" name="changestatus" value="declined" class="negative ui button">{{ content.mark_as_declined_label }}</button>
 {% else %}
 <button type="submit" name="changestatus" value="open" class="ui button">{{ content.mark_as_open_label }}</button>
+{% endif %}
 {% endif %}
 </div>
 </form>
@@ -30,7 +32,7 @@ Status
 </div>
 {% endfor %}
 </div>
-<div class="ui styled accordion" style="padding-top:2em;">
+<div class="ui styled accordion" style="margin-top:2em;">
   <div class="title">
     <i class="dropdown icon"></i>
   {{ content.categories_and_wikiprojects_label }}
