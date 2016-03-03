@@ -297,11 +297,14 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     translation.use_language = langcode
     R = get_object_or_404(models.Requests, id=reqid)
 
+    status = ['Open', 'Complete', 'Declined']  # 0 = open; 1 = complete; 2 = declined
+
     requestdata = {'page_title': R.page_title,
                    'user_name': R.user_name,
                    'wiki': R.wiki,
                    'summary': R.summary,
                    'status': R.status,
+                   'status_verbose': _(status[R.status]),
                    'notes': [],
                    'categories': [],
                    'wikiprojects': []}
