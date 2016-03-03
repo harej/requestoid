@@ -465,6 +465,8 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
         content['mark_as_complete_label'] = _('Mark as Complete')
         content['mark_as_declined_label'] = _('Mark as Declined')
         content['mark_as_open_label'] = _('Mark as Open')
+        content['add_a_note_label'] = _('Add a note')
+        content['add_a_note_explanation'] = _('Add a note explanation')
 
     context = {
                 'interface': interface_messages(request, langcode),
