@@ -495,7 +495,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     return render(request, 'requestoid/request.html', context = context)
 
 
-def log(request):  # /requests/en/log
+def log(request, langcode):  # /requests/en/log
     L = models.Logs.objects.all().order_by('timestamp')
 
     context = {
