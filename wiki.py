@@ -66,3 +66,12 @@ def WikitextRender(language, source):
     r = requests.get(url, params=params)
     blob = r.json()
     return blob['parse']['text']['*']
+
+def RedirectResolver(language, pagetitle, namespace):
+    normalized_pagetitle = CanonicalPageTitle(pagetitle)
+    q = 'select rd_title from redirect left join page on page_id = rd_from where page_title = "{0}" and page_namespace={1};'.format(normalized_pagetitle, namespace)
+    result = WikipediaQuery(language, q)
+    if result == []:
+        return pagetitle
+    else:
+        return result[0][0].replace('_', ' ')

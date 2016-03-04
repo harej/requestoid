@@ -517,6 +517,7 @@ def search(request, langcode):  # /requests/en/search
             searchtype = g['searchtype']
 
             if searchtype == 'article':
+                searchterm = wiki.RedirectResolver(g['language'], searchterm, 0)
                 R = models.Requests.objects.filter(page_title=searchterm, wiki=database, status=0)
             elif searchtype == 'category':
                 if searchterm[:9] == 'Category:':
@@ -526,6 +527,9 @@ def search(request, langcode):  # /requests/en/search
             elif searchtype == 'wikiproject':
                 if searchterm[:10] == 'Wikipedia:':
                     searchterm = searchterm[10:]
+                elif searchterm[:3] == "WP:":
+                    searchterm = searchterm[3:]
+                searchterm = wiki.RedirectResolver(g['language'], searchterm, 4)
                 W = models.WikiProjects.objects.filter(project_title=searchterm, wiki=database, request__status=0)
                 R = [entry.request for entry in W]
 
