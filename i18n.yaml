@@ -154,3 +154,7 @@
 
 "Go":
   en: "Go"
+
+# Help view
+"help_body":
+  en: "If you need assistance, contact James Hare at jamesmhare@gmail.com or at his <a href='https://en.wikipedia.org/wiki/User_talk:Harej'>talk page</a>."

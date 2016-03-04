@@ -553,3 +553,13 @@ def list(request, langcode):  # /requests/en/list
                 'content': content
               }
     return render(request, 'requestoid/list_start.html', context = context)
+
+def help(request, langcode):  # /requests/en/help
+    content = {'headline': _('Help'),
+               'intro': _('help_body')}
+    context = {
+                'interface': interface_messages(request, langcode),
+                'language': langcode,
+                'content': content
+              }
+    return render(request, 'requestoid/homepage.html', context = context)

@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^(?P<langcode>([^\/])*)\/log$', views.log),  # /requests/en/log
     url(r'^(?P<langcode>([^\/])*)\/list$', views.list),  # /requests/en/list
     url(r'^(?P<langcode>([^\/])*)\/request$', views.list),  # alias for above
+    url(r'^(?P<langcode>([^\/])*)\/list$', views.help),  # /requests/en/help
 ]
