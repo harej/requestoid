@@ -521,7 +521,7 @@ def list(request, langcode):  # /requests/en/list
                 C = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=0)
                 R = [entry.request for entry in C]
             elif searchtype == 'wikiproject':
-                W = models.Categories.objects.filter(project_title=searchterm, wiki=database, request__status=0)
+                W = models.WikiProjects.objects.filter(project_title=searchterm, wiki=database, request__status=0)
                 R = [entry.request for entry in W]
 
             content = {'search_term': searchterm,
