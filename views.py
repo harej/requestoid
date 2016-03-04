@@ -508,6 +508,32 @@ def log(request, langcode):  # /requests/en/log
 
 def list(request, langcode):  # /requests/en/list
     g = request.GET
+    if 'searchterm' in g:
+        if g['searchterm'] != '' and g['searchterm'] != ' ':
+            searchterm = g['searchterm']
+            database = g['language'] + 'wiki'
+            searchterm = searchterm.replace('_', ' ')
+
+            if g['searchtype'] == 'article':
+                R = models.Requests.objects.filter(page_title=searchterm, wiki=database, status=0)
+            elif g['searchtype'] == 'category':
+                C = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=0)
+                R = [entry.request for entry in C]
+            elif g['searchtype'] == 'wikiproject':
+                W = models.Categories.objects.filter(project_title=searchterm, wiki=database, request__status=0)
+                R = [entry.request for entry in W]
+
+            content = {'search_term': searchterm,
+                       'search_type': _(searchtype[0].upper() + searchtype[1:]),
+                       'search_data': R}
+
+            context = {
+                       'interface': interface_messages(request, langcode),
+                       'language': langcode,
+                       'content': content
+                      }
+
+            return render(request, 'requestoid/list_results.html', context = context)
 
     # get parameters: language, searchterm, searchtype
 

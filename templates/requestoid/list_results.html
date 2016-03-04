@@ -1,0 +1,16 @@
+{% extends 'requestoid/base.html' %}
+{% block content %}
+<h1>{{ content.search_type }}: {{ content.search_term }}</h1>
+<div class="ui items">
+{% for entry in content.search_data %}
+<div class="item">
+<div class="content">
+<a class="header" href="/requests/{{ language }}/request/{{ entry.id }}">{{ entry.page_title }}</a>
+<div class="description">
+{{ entry.summary }}
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

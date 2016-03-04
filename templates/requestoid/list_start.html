@@ -2,7 +2,6 @@
 {% block content %}
 <h1>{{ content.headline }}</h1>
 <form action="/requests/{{ language }}/list" method="get">
-{% csrf_token %}
 <div class="ui form">
 <div class="field">
 <div class="ui action fluid input">
