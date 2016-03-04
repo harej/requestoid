@@ -506,7 +506,8 @@ def log(request, langcode):  # /requests/en/log
               }
     return render(request, 'requestoid/log.html', context = context)
 
-def list(request, langcode):  # /requests/en/list
+
+def search(request, langcode):  # /requests/en/search
     g = request.GET
     if 'searchterm' in g:
         if g['searchterm'] != '' and g['searchterm'] != ' ':
@@ -554,9 +555,20 @@ def list(request, langcode):  # /requests/en/list
               }
     return render(request, 'requestoid/list_start.html', context = context)
 
+
 def help(request, langcode):  # /requests/en/help
     content = {'headline': _('Help'),
                'intro': _('help_body')}
+    context = {
+                'interface': interface_messages(request, langcode),
+                'language': langcode,
+                'content': content
+              }
+    return render(request, 'requestoid/help.html', context = context)
+
+def about(request, langcode):  # /requests/en/about
+    content = {'headline': _('About Wikipedia Requests'),
+               'intro': _('about_body')}
     context = {
                 'interface': interface_messages(request, langcode),
                 'language': langcode,

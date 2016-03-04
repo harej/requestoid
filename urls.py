@@ -26,7 +26,8 @@ urlpatterns = [
     url(r'^(?P<langcode>([^\/])*)\/add$', views.add),  # /requests/en/add
     url(r'^(?P<langcode>([^\/])*)\/request\/(?P<reqid>(\d)+)$', views.request),  # /requests/en/request/12345
     url(r'^(?P<langcode>([^\/])*)\/log$', views.log),  # /requests/en/log
-    url(r'^(?P<langcode>([^\/])*)\/list$', views.list),  # /requests/en/list
+    url(r'^(?P<langcode>([^\/])*)\/search$', views.search),  # /requests/en/search
     url(r'^(?P<langcode>([^\/])*)\/request$', views.list),  # alias for above
     url(r'^(?P<langcode>([^\/])*)\/help$', views.help),  # /requests/en/help
+    url(r'^(?P<langcode>([^\/])*)\/about$', views.about),  # /requests/en/about
 ]
