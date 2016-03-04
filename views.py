@@ -513,13 +513,14 @@ def list(request, langcode):  # /requests/en/list
             searchterm = g['searchterm']
             database = g['language'] + 'wiki'
             searchterm = searchterm.replace('_', ' ')
+            searchtype = g['searchtype']
 
-            if g['searchtype'] == 'article':
+            if searchtype == 'article':
                 R = models.Requests.objects.filter(page_title=searchterm, wiki=database, status=0)
-            elif g['searchtype'] == 'category':
+            elif searchtype == 'category':
                 C = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=0)
                 R = [entry.request for entry in C]
-            elif g['searchtype'] == 'wikiproject':
+            elif searchtype == 'wikiproject':
                 W = models.Categories.objects.filter(project_title=searchterm, wiki=database, request__status=0)
                 R = [entry.request for entry in W]
 
