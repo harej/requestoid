@@ -74,4 +74,4 @@ def RedirectResolver(language, pagetitle, namespace):
     if result == []:
         return pagetitle
     else:
-        return result[0][0].replace('_', ' ')
+        return result[0][0].decode('utf-8').replace('_', ' ')
