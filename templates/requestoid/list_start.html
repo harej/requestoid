@@ -4,13 +4,13 @@
 <form action="/requests/{{ language }}/list" method="get">
 {% csrf_token %}
 <div class="ui form">
-<div class="field">
+
 <div class="ui right labeled input">
   <div class="ui label">{{ content.language_label }}</div>
-  <input type="text" name="language" value="{{ language }}" style="width:100px;" />
-  <div class="ui basic label">.wikipedia.org</div>
+  
+
 </div>
-</div>
+
 <div class="field">
 <div class="ui action fluid input">
   <input name="searchterm" type="text" placeholder="Search..." style="width:75%;"/>
@@ -21,7 +21,12 @@
   </select>
 </div>
 </div>
-<button class="ui blue button">{{ content.search_label }}</button>
+
+<div class="ui left action right labeled input">
+<button class="ui blue button">{{ content.go_label }}</button>
+<input type="text" name="language" value="{{ language }}" style="width:80px;" />
+<div class="ui basic label">.wikipedia.org</div>
+</div>
 </div>
 </form>
 {% endblock %}
