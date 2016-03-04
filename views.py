@@ -562,4 +562,4 @@ def help(request, langcode):  # /requests/en/help
                 'language': langcode,
                 'content': content
               }
-    return render(request, 'requestoid/homepage.html', context = context)
+    return render(request, 'requestoid/help.html', context = context)
