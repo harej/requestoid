@@ -512,7 +512,6 @@ def list(request, langcode):  # /requests/en/list
     # get parameters: language, searchterm, searchtype
 
     content = {'headline': _('Search'),
-               'language_label': _('Language'),
                'article_label': _('Article'),
                'category_label': _('Category'),
                'wikiproject_label': _('WikiProject'),

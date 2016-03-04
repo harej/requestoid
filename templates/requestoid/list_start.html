@@ -4,13 +4,6 @@
 <form action="/requests/{{ language }}/list" method="get">
 {% csrf_token %}
 <div class="ui form">
-
-<div class="ui right labeled input">
-  <div class="ui label">{{ content.language_label }}</div>
-  
-
-</div>
-
 <div class="field">
 <div class="ui action fluid input">
   <input name="searchterm" type="text" placeholder="Search..." style="width:75%;"/>
