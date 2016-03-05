@@ -701,7 +701,7 @@ def bulk(request, langcode):  # /requests/en/import
                 log.save()
 
 
-                if pageid = 0:
+                if pageid == 0:
                     for category in default_categories:
                         C = models.Categories(request = R,
                                               cat_id = wiki.GetCategoryId(p['request_language'], category),
@@ -733,7 +733,7 @@ def bulk(request, langcode):  # /requests/en/import
                         log.save()
 
 
-                if pageid = 0:
+                if pageid == 0:
                     wikiprojects = default_wikiprojects
                 else:
                     wikiprojects = list(set(default_wikiprojects + wiki.GetWikiProjects(p['request_language'], pagetitle)))
