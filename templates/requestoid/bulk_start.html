@@ -5,14 +5,14 @@
 {% csrf_token %}
 <div class="ui form">
 <div id="titlesandnotes" class="titlesandnotes">
-<div id="titleandnote1" class="titleandnote field">
+<div id="titleandnote0" class="titleandnote field">
     <div class="field">
         <label for="pagetitle" class="">{{ content.page_title_label }}</label>
-        <input type="text" class="" name="pagetitle1" id="pagetitle1"></input>
+        <input type="text" name="pagetitle0" id="pagetitle0"></input>
     </div>
     <div class="field">
         <label for="note" class="">{{ content.add_a_note }}</label>
-        <textarea class="" name="note1" id="note1"></textarea>
+        <textarea name="note0" id="note0"></textarea>
     </div>
     <div class="field ui mini basic blue buttons">
         <button type="button" class="add ui button">{{ content.add_button }}</button> 
