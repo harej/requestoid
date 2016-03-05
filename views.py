@@ -739,12 +739,12 @@ def bulk(request, langcode):  # /requests/en/import
                 if pageid == 0:
                     wikiprojects = default_wikiprojects
                 else:
-                    wikiprojects = list(set(default_wikiprojects + wiki.GetWikiProjects(p['request_language'], pagetitle).split('\n')))
+                    wikiprojects = list(set(default_wikiprojects + wiki.GetWikiProjects(p['request_language'], entry['pagetitle']).split('\n')))
 
                 for wikiproject in wikiprojects:
                     if wikiproject == ' ' or wikiproject == '':
                         continue
-                        
+
                     W = models.WikiProjects(request = R,
                                             project_id = wiki.GetWikiProjectId(p['request_language'], wikiproject),
                                             project_title = wikiproject,
