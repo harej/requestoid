@@ -1,0 +1,51 @@
+{% extends 'requestoid/base.html' %}
+{% block content %}
+<h1>{{ content.headline }}</h1>
+<form action="/requests/{{ language }}/bulk" method="post">
+{% csrf_token %}
+<div class="ui form">
+<div id="titleandnote1" class="titleandnote">
+    <div>
+        <label for="pagetitle" class="">{{ content.page_title_label }}</label>
+        <input type="text" class="" name="pagetitle[]" id="pagetitle1"></input>
+    </div>
+    <div>
+        <label for="note" class="">{{ content.add_a_note }}</label>
+        <textarea class="" name="note[]" id="note1"></textarea>
+    </div>
+    <div class="actions">
+        <button class="add ui blue button">{{ content.add_button }}</button> 
+        <button class="remove ui negative button">{{ content.remove_button }}</button>
+    </div>
+</div>
+<button class="ui green button">{{ content.submit_button }}</button>
+</div>
+</form>
+<script language='javascript'>
+var regex = /^(.+?)(\d+)$/i;
+var cloneIndex = $(".titleandnote").length;
+
+function clone(){
+    $(this).parents(".titleandnote").clone()
+        .appendTo("div.form")
+        .attr("id", "titleandnote" +  cloneIndex)
+        .find("*")
+        .each(function() {
+            var id = this.id || "";
+            var match = id.match(regex) || [];
+            if (match.length == 3) {
+                this.id = match[1] + (cloneIndex);
+            }
+        })
+        .on('click', 'button.add', clone)
+        .on('click', 'button.remove', remove);
+    cloneIndex++;
+}
+function remove(){
+    $(this).parents(".titleandnote").remove();
+}
+$("button.add").on("click", clone);
+
+$("button.remove").on("click", remove);
+</script>
+{% endblock %}

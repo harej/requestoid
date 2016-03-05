@@ -570,6 +570,7 @@ def help(request, langcode):  # /requests/en/help
               }
     return render(request, 'requestoid/help.html', context = context)
 
+
 def about(request, langcode):  # /requests/en/about
     content = {'headline': _('About Wikipedia Requests'),
                'intro': _('about_body')}
@@ -579,3 +580,18 @@ def about(request, langcode):  # /requests/en/about
                 'content': content
               }
     return render(request, 'requestoid/help.html', context = context)
+
+
+def bulk(request, langcode):  # /requests/en/import
+    content = {'headline': _('Bulk Import'),
+               'submit_button': _('Save'),
+               'page_title_label': _('add_start_input_label'),
+               'add_a_note': _('Add a note'),
+               'add_button': _('Add'),
+               'remove_button': _('Remove')}
+    context = {
+                'interface': interface_messages(request, langcode),
+                'language': langcode,
+                'content': content
+              }
+    return render(request, 'requestoid/bulk_start.html', context = context)

@@ -166,3 +166,8 @@
 
 "about_body":
   en: "<p>Wikipedia Requests is a centralized database of requests to create and improve Wikipedia content. It supports all language editions of Wikipedia, but the interface has not been translated into all languages! See <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>i18n.yaml on GitHub</a> to contribute a translation.</p><p>Wikipedia Requests is made possible by <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> with support of the <a href='https://wikimediafoundation.org'>Wikimedia Foundation</a>."
+
+# Bulk import view
+
+"Remove":
+  en: "Remove"
