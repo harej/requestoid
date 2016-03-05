@@ -27,7 +27,7 @@ var cloneIndex = $(".titleandnote").length;
 
 function clone(){
     $(this).parents(".titleandnote").clone()
-        .appendTo("div.form")
+        .appendTo("body")
         .attr("id", "titleandnote" +  cloneIndex)
         .find("*")
         .each(function() {
