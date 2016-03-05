@@ -586,6 +586,7 @@ def bulk(request, langcode):  # /requests/en/import
     content = {'headline': _('Bulk Import'),
                'submit_button': _('Save'),
                'page_title_label': _('add_start_input_label'),
+               'sumary_label': _('Summary'),
                'add_a_note': _('Add a note'),
                'add_button': _('Add'),
                'remove_button': _('Remove')}
