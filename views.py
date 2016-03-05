@@ -646,7 +646,7 @@ def bulk(request, langcode):  # /requests/en/import
 
             new_requests = []
 
-            for entry in entries:
+            for entry in entries.values():
 
                 pageid = wiki.GetPageId(p['request_language'], entry['pagetitle'])
                 if pageid == None:
