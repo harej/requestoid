@@ -4,6 +4,7 @@
 <form action="/requests/{{ language }}/bulk" method="post">
 {% csrf_token %}
 <div class="ui form">
+<div class="ui horizontal divider">{{ content.divider1 }}</div>
 <div class="field">
 <label>{{ content.categories_label }}</label>
 <textarea name="categories" placeholder="{{ content.categories_placeholder }}"></textarea>
@@ -12,7 +13,7 @@
 <label>{{ content.wikiprojects_label }}</label>
 <textarea name="categories"></textarea>
 </div>
-<div class="ui horizontal divider">{{ content.divider }}</div>
+<div class="ui horizontal divider">{{ content.divider2 }}</div>
 <div id="titlesandnotes" class="titlesandnotes">
 <div id="titleandnote0" class="titleandnote field">
     <div class="field">
