@@ -4,6 +4,7 @@
 <form action="/requests/{{ language }}/bulk" method="post">
 {% csrf_token %}
 <div class="ui form">
+<div id="titlesandnotes" class="titlesandnotes">
 <div id="titleandnote1" class="titleandnote">
     <div>
         <label for="pagetitle" class="">{{ content.page_title_label }}</label>
@@ -18,6 +19,7 @@
         <button class="remove ui negative button">{{ content.remove_button }}</button>
     </div>
 </div>
+</div>
 <button class="ui green button">{{ content.submit_button }}</button>
 </div>
 </form>
@@ -27,7 +29,7 @@ var cloneIndex = $(".titleandnote").length;
 
 function clone(){
     $(this).parents(".titleandnote").clone()
-        .appendTo("body")
+        .appendTo("div.titlesandnotes")
         .attr("id", "titleandnote" +  cloneIndex)
         .find("*")
         .each(function() {
