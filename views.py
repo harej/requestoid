@@ -717,7 +717,7 @@ def bulk(request, langcode):  # /requests/en/import
                         log.save()
 
                 else:
-                    categories = wiki.GetCategories(p['request_language'], pageid)
+                    categories = wiki.GetCategories(p['request_language'], pageid).split('\n')
                     for category in categories:
                         C = models.Categories(request = R,
                                               cat_id = wiki.GetCategoryId(p['request_language'], category),
