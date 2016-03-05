@@ -294,6 +294,7 @@ def add(request, langcode):  # /requests/en/add
 
 
 def request(request, langcode, reqid):  # /requests/en/request/12345
+    translation.use_language = langcode
     p = request.POST
     username = get_username(request)
     userid = wiki.GetUserId(username)
@@ -496,6 +497,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
 
 def log(request, langcode):  # /requests/en/log
+    translation.use_language = langcode
     L = models.Logs.objects.all().order_by('-timestamp')
 
     context = {
@@ -508,6 +510,7 @@ def log(request, langcode):  # /requests/en/log
 
 
 def search(request, langcode):  # /requests/en/search
+    translation.use_language = langcode
     g = request.GET
     if 'searchterm' in g:
         if g['searchterm'] != '' and g['searchterm'] != ' ':
@@ -561,6 +564,7 @@ def search(request, langcode):  # /requests/en/search
 
 
 def help(request, langcode):  # /requests/en/help
+    translation.use_language = langcode
     content = {'headline': _('Help'),
                'intro': _('help_body')}
     context = {
@@ -572,6 +576,7 @@ def help(request, langcode):  # /requests/en/help
 
 
 def about(request, langcode):  # /requests/en/about
+    translation.use_language = langcode
     content = {'headline': _('About Wikipedia Requests'),
                'intro': _('about_body')}
     context = {
@@ -583,21 +588,197 @@ def about(request, langcode):  # /requests/en/about
 
 
 def bulk(request, langcode):  # /requests/en/import
-    content = {'headline': _('Bulk Import'),
-               'submit_button': _('Save'),
-               'page_title_label': _('add_start_input_label'),
-               'summary_label': _('Summary'),
-               'add_a_note': _('Add a note'),
-               'add_button': _('Add'),
-               'categories_label': _('Categories'),
-               'categories_placeholder': _('Bulk categories placeholder'),
-               'wikiprojects_label': _('WikiProjects'),
-               'divider1': _('All Requests'),
-               'divider2': _('Per Request'),
-               'remove_button': _('Remove')}
-    context = {
-                'interface': interface_messages(request, langcode),
-                'language': langcode,
-                'content': content
-              }
-    return render(request, 'requestoid/bulk_start.html', context = context)
+    translation.use_language = langcode
+    username = get_username(request)
+    userid = GetUserId(username)
+    p = request.POST  # `p` is short for `post`
+
+    if username == None:
+        return you_need_to_login(request, langcode)
+    else:
+        if 'submit' in p:  # request creation can take place
+            # Defining default categories and WikiProjects and sanitizing them
+
+            default_categories = []
+
+            for category in p['categories'].split('\r\n'):
+                if category == '' or category == ' ':
+                    continue
+                if category[:9] == 'Category:':
+                    category = category[9:]  # truncate "Category:"
+                default_categories.append(category)
+
+            default_wikiprojects = []
+
+            for wikiproject in p['wikiprojects'].split('\r\n'):
+                if wikiproject == '' or wikiproject == ' ':
+                    continue
+                if wikiproject[:10] == 'Wikipedia:':
+                    wikiproject = wikiproject[9:]  # truncate "Wikipedia:"
+                default_wikiprojects.append(wikiproject)
+
+
+            # Preparing dictionary of individual entries
+
+            entries = {}
+
+            for key in p.keys():
+                if key.startswith('pagetitle'):
+                    if key[9:] in entries:
+                        entries[key[9:]]['pagetitle'] = p[key]
+                    else:
+                        entries[key[9:]] = {'pagetitle': p[key]}
+                elif key.startswith('summary'):
+                    if key[7:] in entries:
+                        entries[key[7:]]['summary'] = p[key]
+                    else:
+                        entries[key[7:]] = {'summary': p[key]}
+                elif key.startswith('note'):
+                    if key[4:] in entries:
+                        entries[key[4:]]['note'] = p[key]
+                    else:
+                        entries[key[4:]] = {'note': p[key]}
+
+            # Creating entries
+
+            now = arrow.utcnow().format('YYYYMMDDHHmmss')
+            userid = wiki.GetUserId(username)
+
+            new_requests = []
+
+            for entry in entries:
+
+                pageid = wiki.GetPageId(p['request_language'], entry['pagetitle'])
+                if pageid == None:
+                    pageid = 0
+
+                # Creating request
+                R = models.Requests(page_id = pageid,
+                                    page_title = entry['pagetitle'],
+                                    user_id = userid,
+                                    user_name = username,
+                                    wiki = p['request_language'] + wiki,
+                                    timestamp = now,
+                                    summary = entry['summary'],
+                                    status = 0)
+                R.save()
+
+                new_requests.append(R.id)
+
+                # First log entry: saying the request is created
+                log = models.Logs(request = R,
+                                  user_name = username,
+                                  user_id = userid,
+                                  timestamp = now,
+                                  action = 'create',
+                                  reference = R.id)
+                log.save()
+
+                # Next log entry: flagging it as open
+                log = models.Logs(request = R,
+                                  user_name = username,
+                                  user_id = userid,
+                                  timestamp = now,
+                                  action = 'flagopen',
+                                  reference = R.id)
+                log.save()
+
+                # Recording note
+                N = models.Notes(request = R,
+                                 user_name = username,
+                                 user_id = userid,
+                                 timestamp = now,
+                                 comment = entry['note'])
+                N.save()
+
+                # And a log entry stating note was left
+                log = models.Logs(request = R,
+                                  user_name = username,
+                                  user_id = userid,
+                                  timestamp = now,
+                                  action = 'addnote',
+                                  reference = N.id)
+                log.save()
+
+
+                if pageid = 0:
+                    for category in default_categories:
+                        C = models.Categories(request = R,
+                                              cat_id = wiki.GetCategoryId(p['request_language'], category),
+                                              cat_title = category,
+                                              wiki = p['request_language'] + 'wiki')
+                        C.save()
+                        log = models.Logs(request = R,
+                                          user_name = username,
+                                          user_id = userid,
+                                          timestamp = now,
+                                          action = 'addcategory',
+                                          reference = C.id)
+                        log.save()
+
+                else:
+                    categories = wiki.GetCategories(p['request_language'], pageid)
+                    for category in categories:
+                        C = models.Categories(request = R,
+                                              cat_id = wiki.GetCategoryId(p['request_language'], category),
+                                              cat_title = category,
+                                              wiki = p['request_language'] + 'wiki')
+                        C.save()
+                        log = models.Logs(request = R,
+                                          user_name = username,
+                                          user_id = userid,
+                                          timestamp = now,
+                                          action = 'addcategory',
+                                          reference = C.id)
+                        log.save()
+
+
+                if pageid = 0:
+                    wikiprojects = default_wikiprojects
+                else:
+                    wikiprojects = list(set(default_wikiprojects + wiki.GetWikiProjects(p['request_language'], pagetitle)))
+
+                for wikiproject in wikiprojects:
+                    W = models.WikiProjects(request = R,
+                                            project_id = wiki.GetWikiProjectId(p['request_language'], wikiproject),
+                                            project_title = wikiproject,
+                                            wiki = p['request_language'] + 'wiki')
+                    W.save()
+
+                    log = models.Logs(request = R,
+                                      user_name = username,
+                                      user_id = userid,
+                                      timestamp = now,
+                                      action = 'addwikiproject',
+                                      reference = W.id)
+                    log.save()
+
+            content = {'new_requests': new_requests}
+            context = {
+                        'interface': interface_messages(request, langcode),
+                        'language': langcode,
+                        'content': content
+                      }
+
+            return render(request, 'requestoid/bulk_result.html', context = context)
+
+        else:  # render form
+            content = {'headline': _('Bulk Import'),
+                       'submit_button': _('Save'),
+                       'page_title_label': _('add_start_input_label'),
+                       'summary_label': _('Summary'),
+                       'add_a_note': _('Add a note'),
+                       'add_button': _('Add'),
+                       'categories_label': _('Categories'),
+                       'categories_placeholder': _('Bulk categories placeholder'),
+                       'wikiprojects_label': _('WikiProjects'),
+                       'divider1': _('All Requests'),
+                       'divider2': _('Per Request'),
+                       'remove_button': _('Remove'),
+                       'language_label': _('Language')}
+            context = {
+                        'interface': interface_messages(request, langcode),
+                        'language': langcode,
+                        'content': content
+                      }
+            return render(request, 'requestoid/bulk_start.html', context = context)

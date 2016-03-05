@@ -6,6 +6,13 @@
 <div class="ui form">
 <div class="ui horizontal divider">{{ content.divider1 }}</div>
 <div class="field">
+<div class="ui right action right labeled input">
+<label>{{ content.language_label }}</label>
+<input type="text" name="request_language" value="{{ language }}" style="width:80px;" />
+<div class="ui basic label">.wikipedia.org</div>
+</div>
+</div>
+<div class="field">
 <label>{{ content.categories_label }}</label>
 <textarea name="categories" placeholder="{{ content.categories_placeholder }}"></textarea>
 </div>
