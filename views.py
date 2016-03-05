@@ -719,6 +719,9 @@ def bulk(request, langcode):  # /requests/en/import
                 else:
                     categories = wiki.GetCategories(p['request_language'], pageid).split('\n')
                     for category in categories:
+                        if category == ' ' or category == '':
+                            continue
+
                         C = models.Categories(request = R,
                                               cat_id = wiki.GetCategoryId(p['request_language'], category),
                                               cat_title = category,
@@ -736,9 +739,12 @@ def bulk(request, langcode):  # /requests/en/import
                 if pageid == 0:
                     wikiprojects = default_wikiprojects
                 else:
-                    wikiprojects = list(set(default_wikiprojects + wiki.GetWikiProjects(p['request_language'], pagetitle)))
+                    wikiprojects = list(set(default_wikiprojects + wiki.GetWikiProjects(p['request_language'], pagetitle).split('\n')))
 
                 for wikiproject in wikiprojects:
+                    if wikiproject == ' ' or wikiproject == '':
+                        continue
+                        
                     W = models.WikiProjects(request = R,
                                             project_id = wiki.GetWikiProjectId(p['request_language'], wikiproject),
                                             project_title = wikiproject,
