@@ -590,7 +590,7 @@ def about(request, langcode):  # /requests/en/about
 def bulk(request, langcode):  # /requests/en/import
     translation.use_language = langcode
     username = get_username(request)
-    userid = GetUserId(username)
+    userid = wiki.GetUserId(username)
     p = request.POST  # `p` is short for `post`
 
     if username == None:
