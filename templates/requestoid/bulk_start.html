@@ -8,11 +8,11 @@
 <div id="titleandnote1" class="titleandnote field">
     <div class="field">
         <label for="pagetitle" class="">{{ content.page_title_label }}</label>
-        <input type="text" class="" name="pagetitle[]" id="pagetitle1"></input>
+        <input type="text" class="" name="pagetitle1" id="pagetitle1"></input>
     </div>
     <div class="field">
         <label for="note" class="">{{ content.add_a_note }}</label>
-        <textarea class="" name="note[]" id="note1"></textarea>
+        <textarea class="" name="note1" id="note1"></textarea>
     </div>
     <div class="field ui mini basic blue buttons">
         <button type="button" class="add ui button">{{ content.add_button }}</button> 
@@ -37,6 +37,7 @@ function clone(){
             var match = id.match(regex) || [];
             if (match.length == 3) {
                 this.id = match[1] + (cloneIndex);
+                this.name = match[1] + (cloneIndex);
             }
         })
         .on('click', 'button.add', clone)
