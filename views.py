@@ -703,8 +703,12 @@ def bulk(request, langcode):  # /requests/en/import
 
                 if pageid == 0:
                     for category in default_categories:
+                        catid = wiki.GetCategoryId(p['request_language'], category)
+                        if catid == None:
+                            continue
+
                         C = models.Categories(request = R,
-                                              cat_id = wiki.GetCategoryId(p['request_language'], category),
+                                              cat_id = catid,
                                               cat_title = category,
                                               wiki = p['request_language'] + 'wiki')
                         C.save()
@@ -722,8 +726,12 @@ def bulk(request, langcode):  # /requests/en/import
                         if category == ' ' or category == '':
                             continue
 
+                        catid = wiki.GetCategoryId(p['request_language'], category)
+                        if catid == None:
+                            continue
+
                         C = models.Categories(request = R,
-                                              cat_id = wiki.GetCategoryId(p['request_language'], category),
+                                              cat_id = catid,
                                               cat_title = category,
                                               wiki = p['request_language'] + 'wiki')
                         C.save()
@@ -745,8 +753,12 @@ def bulk(request, langcode):  # /requests/en/import
                     if wikiproject == ' ' or wikiproject == '':
                         continue
 
+                    projectid = wiki.GetWikiProjectId(p['request_language'], wikiproject)
+                    if projectid == None:
+                        continue
+                        
                     W = models.WikiProjects(request = R,
-                                            project_id = wiki.GetWikiProjectId(p['request_language'], wikiproject),
+                                            project_id = projectid,
                                             project_title = wikiproject,
                                             wiki = p['request_language'] + 'wiki')
                     W.save()
