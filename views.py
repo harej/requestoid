@@ -589,6 +589,9 @@ def bulk(request, langcode):  # /requests/en/import
                'summary_label': _('Summary'),
                'add_a_note': _('Add a note'),
                'add_button': _('Add'),
+               'categories_label': _('Categories'),
+               'categories_placeholder': _('Bulk categories placeholder'),
+               'wikiprojects_label': _('WikiProjects'),
                'remove_button': _('Remove')}
     context = {
                 'interface': interface_messages(request, langcode),

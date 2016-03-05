@@ -172,5 +172,8 @@
 "Bulk Import":
   en: "Bulk Import"
 
+"Bulk categories placeholder":
+  en: "This field only applies for requests for new articles. For existing articles, the categories will be retrieved directly from Wikipedia."
+
 "Remove":
   en: "Remove"
