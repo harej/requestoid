@@ -13,7 +13,7 @@ def WikipediaQuery(language, sqlquery):
 
 def GetId(language, pagetitle, namespace):
     pagetitle = CanonicalPageTitle(pagetitle)
-    q = 'select page_id from page where page_namespace = {0} and page_title = "{1}";'.format(namespace, pagetitle.replace('"', '\"'))
+    q = 'select page_id from page where page_namespace = {0} and page_title = "{1}";'.format(namespace, pagetitle.replace('"','\\"'))
     result = WikipediaQuery(language, q)
     if result == []:
         return None
