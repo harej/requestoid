@@ -657,7 +657,7 @@ def bulk(request, langcode):  # /requests/en/import
                                     page_title = entry['pagetitle'],
                                     user_id = userid,
                                     user_name = username,
-                                    wiki = p['request_language'] + wiki,
+                                    wiki = p['request_language'] + 'wiki',
                                     timestamp = now,
                                     summary = entry['summary'],
                                     status = 0)
