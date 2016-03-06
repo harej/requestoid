@@ -498,7 +498,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
 
 def log(request, langcode):  # /requests/en/log
     translation.use_language = langcode
-    L = models.Logs.objects.all().order_by('-timestamp')
+    L = models.Logs.objects.all().order_by('-timestamp')[:500]
 
     context = {
                 'interface': interface_messages(request, langcode),
@@ -756,7 +756,7 @@ def bulk(request, langcode):  # /requests/en/import
                     projectid = wiki.GetWikiProjectId(p['request_language'], wikiproject)
                     if projectid == None:
                         continue
-                        
+
                     W = models.WikiProjects(request = R,
                                             project_id = projectid,
                                             project_title = wikiproject,
