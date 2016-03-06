@@ -243,7 +243,7 @@ def add(request, langcode):  # /requests/en/add
                     content['category_label'] = _('Categories')
                     content['wikiprojects_label'] = _('WikiProjects')
                     content['summary_label'] = _('Summary')
-                    content['summary_explanation'] = _('Please provide a brief summary of your request.')
+                    content['summary_explanation'] = _('What is the goal? For example: create article, expand article, add sources...')
 
                     # Does the article exist? Two different workflows if so.
                     if pageid == None:  # new article workflow

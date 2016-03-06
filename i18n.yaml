@@ -51,8 +51,8 @@
 "Summary":
   en: "Summary"
 
-"Please provide a brief summary of your request.":
-  en: "Please provide a brief summary of your request. 160 character limit."
+"What is the goal? For example: create article, expand article, add sources...":
+  en: "What is the goal? For example: create article, expand article, add sources..."
 
 'Create new article':
   en: "Create new article"
