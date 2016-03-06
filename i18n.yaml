@@ -110,7 +110,7 @@
 
 "login_required_message":
   en: "You are required to log in with your Wikipedia account to use this feature. Click 'Login via Wikipedia' on the top right side of this page."
-  sv: "Du måste logga in med ditt Wikipediakonto för att använda den här funktionen. Klicka på 'Logga in via Wikipedia" högst upp till höger på den här sidan."
+  sv: "Du måste logga in med ditt Wikipediakonto för att använda den här funktionen. Klicka på 'Logga in via Wikipedia' högst upp till höger på den här sidan."
 
 # Request view
 
