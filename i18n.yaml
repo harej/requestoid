@@ -2,187 +2,243 @@
 
 "Wikipedia Requests":
   en: Wikipedia Requests
+  sv: Wikipediabegäran
 
 "Login via Wikipedia":
   en: Login via Wikipedia
+  sv: Logga in via Wikipedia
 
 "Search":
   en: Search
+  sv: Sök
 
 "Add":
   en: Add
+  sv: Lägg till
 
 "Help":
   en: Help
+  sv: Hjälp
 
 "About":
   en: About
+  sv: Om
 
 # Home page
 
 "Help fill in the gaps on Wikipedia":
   en: Help fill in the gaps on Wikipedia
+  sv: Hjälp till att fylla i luckorna på Wikipedia
 
 "homepage_intro":
   en: "The Wikipedia Requests system is a new tool to centralize the various lists of requests around Wikipedia, including lists of missing articles and requests to improve existing articles. Requests are tagged by category and WikiProject, making it easier to find requests based on what your interests are. We just started work on this, so check back later!"
+  sv: "Wikipediabegäranssystemet är ett nytt verktyg för att centralisera de  olika listorna av begäran kring Wikipedia, inklusive listor med saknade artiklar och begäran att förbättra befintliga artiklar. Begäran är uppmärkta med kategori och wikiprojekt vilket gör det lättare att hitta begäran baserat på ditt intresse. Vi har precis börjat arbeta på detta så titta tillbaks senare!"
 
 # "Add" start page
 
 "add_start_headline":
   en: "Enter article title"
+  sv: "Ange artikelnamn"
 
 "add_start_input_label":
   en: "Title"
+  sv: "Titel"
 
 "add_start_explanation":
   en: "This can be the title of an article that is missing or one that already exists but needs improvement."
+  sv: "Detta kan vara namnet på en artikel som saknas eller en som redan finns men som behöver förbättras."
 
 "add_start_button_label":
   en: "Go"
+  sv: "Starta"
 
 # "Add" second step
 
 "Categories":
   en: "Categories"
+  sv: "Kategorier"
 
 "WikiProjects":
   en: "WikiProjects"
+  sv: "Wikiprojekt"
 
 "Summary":
   en: "Summary"
+  sv: "Sammanfattning"
 
 "What is the goal? For example: create article, expand article, add sources...":
   en: "What is the goal? For example: create article, expand article, add sources..."
+  sv: "Vad är målet? Till exempel: skapa artikel, utöka artikel, lägg till källor..."
 
 'Create new article':
   en: "Create new article"
+  sv: "Skapa ny artikel"
 
 'Enter one category per line. Case sensitive. Do not include "Category:".':
   en: 'Enter one category per line. Case sensitive. Do not include "Category:".'
+  sv: 'Ange en kategori per rad. Känslig för skiftläge. Inkludera inte "Kategori:".'
 
 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.':
   en: 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name. Any "Wikipedia:" namespace page is accepted.'
+  sv: 'Ange ett Wikiprojekt per rad. Känslig för skiftläge. Inkludera "WikiProjekt" om det är en del av namnet. Alla sidor i namnrymden "Wikipedia:" godtas.'
 
 'Categories are retrieved automatically from Wikipedia.':
   en: 'Categories are retrieved automatically from Wikipedia.'
+  sv: 'Kategorier hämtas automatiskt från Wikipedia.'
 
 'WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish.':
   en: 'WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish. Any "Wikipedia:" namespace page is accepted.'
+  sv: 'Wikiprojekt hämtas automatiskt från Wikipedia. Du kan lägga till fler projekt om du vill. Alla sidor i namnrymden "Wikipedia:" godtas.'
 
 'Add a note':
   en: 'Add a note'
+  sv: 'Lägg till en anteckning'
 
 'Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.':
   en: 'Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.'
+  sv: 'Skriv gärna mer om din begäran. Det är rekommenderat att ange mer om kontexten och källor om du känner till några. Du kan använda wikitext för formatering.'
 
 'add_submit_button':
   en: 'Create'
+  sv: 'Skapa'
 
 # Login required screen
 
 "Login required":
   en: "Login required"
+  sv: "Inloggning krävs"
 
 "login_required_message":
   en: "You are required to log in with your Wikipedia account to use this feature. Click 'Login via Wikipedia' on the top right side of this page."
+  sv: "Du måste logga in med ditt Wikipediakonto för att använda den här funktionen. Klicka på 'Logga in via Wikipedia" högst upp till höger på den här sidan."
 
 # Request view
 
 "Notes":
   en: "Notes"
+  sv: "Anteckningar"
 
 "Status":
   en: "Status"
+  sv: "Status"
 
 "Open":
   en: "Open"
+  sv: "Öppna"
 
 "Declined":
   en: "Declined"
+  sv: "Avslagna"
 
 "Complete":
   en: "Complete"
+  sv: "Klara"
 
 "Mark as Open":
   en: "Mark as Open"
+  sv: "Markera som Öppen"
 
 "Mark as Complete":
   en: "Mark as Complete"
+  sv: "Markera som Klar"
 
 "Mark as Declined":
   en: "Mark as Declined"
+  sv: "Markera som avslagen"
 
 "Nothing here yet...":
   en: "Nothing here yet..."
+  sv: "Inget här än..."
 
 "You need to be logged in to edit this list":
   en: "You need to be logged in to edit this list"
+  sv: "Du måste vara inloggad för att redigera denna lista"
 
 "Click this list to edit it":
   en: "Click this list to edit it"
+  sv: "Klicka på listan för att redigera den"
 
 "Categories must be changed directly on Wikipedia":
   en: "Categories must be changed directly on Wikipedia"
+  sv: "Kategorier måste ändras direkt på Wikipedia"
 
 "Save":
   en: "Save"
+  sv: "Spara"
 
 "Add a note":
   en: "Add a note"
+  sv: "Lägg till en anteckning"
 
 "Add a note explanation":
   en: "Help Wikipedians fulfill this request. Do you have any sources or notes that may be helpful?"
+  sv: "Hjälp Wikipedianer att uppfylla denna begäran. Har du några källor eller anteckningar som kan var till hjälp?"
 
 # Log view
 
 "Log":
   en: "Log"
+  sv: "Logg"
 
 # List start view
 
 "Article":
   en: "Article"
+  sv: "Artikel"
 
 "Category":
   en: "Category"
+  sv: "Kategori"
 
 "WikiProject":
   en: "WikiProject"
+  sv: "Wikiprojekt"
 
 "Wikiproject":
   en: "WikiProject"
+  sv: "Wikiprojekt"
 
 "Go":
   en: "Go"
+  sv: "Starta"
 
 # Help view
 "help_body":
   en: "If you need assistance, contact James Hare at jamesmhare@gmail.com or at his <a href='https://en.wikipedia.org/wiki/User_talk:Harej'>talk page</a>."
+  sv: "Om du behöver hjälp, kontakta James Hare på jamesmhare@gmail.com eller på hans <a href='https://en.wikipedia.org/wiki/User_talk:Harej'>diskussionssida</a>."
 
 # About view
 
 "About Wikipedia Requests":
   en: "About Wikipedia Requests"
+  sv: "Om Wikipediabegäran"
 
 "about_body":
   en: "<p>Wikipedia Requests is a centralized database of requests to create and improve Wikipedia content. It supports all language editions of Wikipedia, but the interface has not been translated into all languages! See <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>i18n.yaml on GitHub</a> to contribute a translation.</p><p>Wikipedia Requests is made possible by <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> with support of the <a href='https://wikimediafoundation.org'>Wikimedia Foundation</a>."
+  sv: "<p>Wikipediabegäran är en centraliserad databas för begöran om skapandeoch förböttringar av innehållet på Wikipedia. Det stöder alla Wikipedias språkversioner, men gränssnittet har inte översatts till alla språk! Se <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>i18n.yaml på GitHub</a> för att bidra med översättning.</p><p>Wikipediabegäran görs möjligt genom <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> med stöd av <a href='https://wikimediafoundation.org'>Wikimedia Foundation</a>."
 
 # Bulk import view
 
 "Bulk Import":
   en: "Bulk Import"
+  sv: "Bulkimport"
 
 "Bulk categories placeholder":
   en: "This field only applies for requests for new articles. For existing articles, the categories will be retrieved directly from Wikipedia."
+  sv: "Detta fält gäller enbart för begäran av nya artiklar. För befintliga artiklar kommer kategorierna att hömtas direkt från Wikipedia."
 
 "Remove":
   en: "Remove"
+  sv: "Ta bort"
 
 "All Requests":
   en: "All Requests"
+  sv: "Alla begäran"
 
 "Per Request":
   en: "Per Request"
+  sv: "Per begäran"
 
 "Language":
   en: "Language"
+  sv: "Språk"
