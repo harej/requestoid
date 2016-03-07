@@ -99,7 +99,7 @@
 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.':
   en: 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name. Any "Wikipedia:" namespace page is accepted.'
   sv: 'Ange ett Wikiprojekt per rad. Känslig för skiftläge. Inkludera "WikiProjekt" om det är en del av namnet. Alla sidor i namnrymden "Wikipedia:" godtas.'
-  zh-hant: '請於每行輸入一個專題，並注意大小寫。若專題正式名稱為"○○專題"，請包含最後"專題"二字。任何位於Wikipedia名字空間中的頁面都可以作為輸入內容。"
+  zh-hant: '請於每行輸入一個專題，並注意大小寫。若專題正式名稱為"○○專題"，請包含最後"專題"二字。任何位於Wikipedia名字空間中的頁面都可以作為輸入內容。'
 
 'Categories are retrieved automatically from Wikipedia.':
   en: 'Categories are retrieved automatically from Wikipedia.'
@@ -136,7 +136,7 @@
 "login_required_message":
   en: "You are required to log in with your Wikipedia account to use this feature. Click 'Login via Wikipedia' on the top right side of this page."
   sv: "Du måste logga in med ditt Wikipediakonto för att använda den här funktionen. Klicka på 'Logga in via Wikipedia' högst upp till höger på den här sidan."
-  zh-hant: "您必須以您的維基百科帳號登入方能使用這個功能。請點選頁面右上方"使用維基百科登入"連結。"
+  zh-hant: "您必須以您的維基百科帳號登入方能使用這個功能。請點選頁面右上方'使用維基百科登入'連結。"
 
 # Request view
 
@@ -265,7 +265,7 @@
 "about_body":
   en: "<p>Wikipedia Requests is a centralized database of requests to create and improve Wikipedia content. It supports all language editions of Wikipedia, but the interface has not been translated into all languages! See <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>i18n.yaml on GitHub</a> to contribute a translation.</p><p>Wikipedia Requests is made possible by <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> with support of the <a href='https://wikimediafoundation.org'>Wikimedia Foundation</a>."
   sv: "<p>Wikipediabegäran är en centraliserad databas för begöran om skapandeoch förböttringar av innehållet på Wikipedia. Det stöder alla Wikipedias språkversioner, men gränssnittet har inte översatts till alla språk! Se <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>i18n.yaml på GitHub</a> för att bidra med översättning.</p><p>Wikipediabegäran görs möjligt genom <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> med stöd av <a href='https://wikimediafoundation.org'>Wikimedia Foundation</a>."
-  zh-hant: "<p>維基百科請求是一個整合各種建立和改進維基百科內容請求的資料庫。本工具支援所有語言版本的維基百科，但仍需您協助將介面翻譯成您的語言！請參閱 <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>GitHub 上的 i18n.yaml</a> 以貢獻翻譯。維基百科請求是由 <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> 發起的計畫，並由<a href='https://wikimediafoundation.org'>維基媒體基金會</a>贊助。"
+  zh-hant: "<p>維基百科請求是一個整合各種建立和改進維基百科內容請求的資料庫。本工具支援所有語言版本的維基百科，但仍需您協助將介面翻譯成您的語言！請參閱 <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>GitHub 上的 i18n.yaml</a> 以貢獻翻譯。</p><p>維基百科請求是由 <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> 發起的計畫，並由<a href='https://wikimediafoundation.org'>維基媒體基金會</a>贊助。"
 
 # Bulk import view
 
