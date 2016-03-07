@@ -78,8 +78,4 @@ def RedirectResolver(language, pagetitle, namespace):
 
 
 def GetEquivalentWiki(langcode):
-    mapping = {'zh-hant': 'zh'}
-    if langcode in mapping:
-        return mapping[langcode]
-    else:
-        return langcode
+    return {'zh-hant': 'zh'}.get(langcode, langcode)
