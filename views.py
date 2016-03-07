@@ -557,7 +557,8 @@ def search(request, langcode):  # /requests/en/search
                'article_label': _('Article'),
                'category_label': _('Category'),
                'wikiproject_label': _('WikiProject'),
-               'go_label': _('Go')}
+               'go_label': _('Go'),
+               'wiki_language': wiki.GetEquivalentWiki(langcode)}
     context = {
                 'interface': interface_messages(request, langcode),
                 'language': langcode,
