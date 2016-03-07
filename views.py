@@ -282,7 +282,8 @@ def add(request, langcode):  # /requests/en/add
                     'headline': _('add_start_headline'),
                     'inputlabel': _('add_start_input_label'),
                     'explanation': _('add_start_explanation'),
-                    'button': _('add_start_button_label')
+                    'button': _('add_start_button_label'),
+                    'wiki_language': wiki.GetEquivalentWiki(langcode)
                   }
 
         context = {
@@ -539,6 +540,7 @@ def search(request, langcode):  # /requests/en/search
 
             content = {'search_term': searchterm,
                        'search_type': _(searchtype[0].upper() + searchtype[1:]),
+                       'wiki_language': wiki.GetEquivalentWiki(langcode),
                        'search_data': R}
 
             context = {
@@ -794,7 +796,8 @@ def bulk(request, langcode):  # /requests/en/import
                        'divider1': _('All Requests'),
                        'divider2': _('Per Request'),
                        'remove_button': _('Remove'),
-                       'language_label': _('Language')}
+                       'language_label': _('Language'),
+                       'wiki_language': wiki.GetEquivalentWiki(langcode)}
             context = {
                         'interface': interface_messages(request, langcode),
                         'language': langcode,
