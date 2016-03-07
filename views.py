@@ -79,7 +79,8 @@ def interface_messages(request, langcode):
 def select_language(request):  # /requests
     available = [
                     {'code': 'en', 'label': 'English'},
-                    {'code': 'sv', 'label': 'Svenska'}
+                    {'code': 'sv', 'label': 'Svenska'},
+                    {'code': 'zh-hant', 'label': '繁體中文'}
                 ]
 
     context = {
