@@ -72,12 +72,8 @@ def interface_messages(request, langcode):
 
     return output
 
-def retrieve_requests(g):
-    searchterm = g['searchterm']
+def retrieve_requests(searchterm, searchtype):
     database = g['language'] + 'wiki'
-    searchterm = searchterm.replace('_', ' ')
-    searchtype = g['searchtype']
-
     if searchtype == 'article':
         searchterm = wiki.RedirectResolver(g['language'], searchterm, 0)
         R = models.Requests.objects.filter(page_title=searchterm, wiki=database, status=0)
@@ -540,10 +536,10 @@ def search(request, langcode):  # /requests/en/search
     translation.use_language = langcode
     g = request.GET
     if 'searchterm' in g:
-        searchterm = g['searchterm']
+        searchterm = g['searchterm'].replace('_', ' ')
         searchtype = g['searchtype']
         if searchterm != '' and searchterm != ' ':
-            R = retrieve_requests(g)
+            R = retrieve_requests(searchterm, searchtype)
 
             content = {'search_term': searchterm,
                        'search_type': _(searchtype[0].upper() + searchtype[1:]),
