@@ -540,7 +540,8 @@ def search(request, langcode):  # /requests/en/search
     translation.use_language = langcode
     g = request.GET
     if 'searchterm' in g:
-        if g['searchterm'] != '' and g['searchterm'] != ' ':
+        searchterm = g['searchterm']
+        if searchterm != '' and searchterm != ' ':
             R = retrieve_requests(g)
 
             content = {'search_term': searchterm,
