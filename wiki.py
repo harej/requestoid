@@ -47,7 +47,7 @@ def GetCategories(language, pageid):
 def GetWikiProjects(language, pagetitle):
     pagetitle = CanonicalPageTitle(pagetitle)
     q = 'select pi_project from projectindex where pi_page = "{0}";'.format('Talk:' + pagetitle)
-    result = sql.ToolsDB().query('s52475__wpx', q, None)
+    result = sql.ToolsDB().query('s52475__wpx_p', q, None)
     if result == []:
         return ''
     else:
