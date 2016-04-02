@@ -541,7 +541,7 @@ def search(request, langcode):  # /requests/en/search
     g = request.GET
     if 'searchterm' in g:
         if g['searchterm'] != '' and g['searchterm'] != ' ':
-          R = retrieve_requests(g)
+            R = retrieve_requests(g)
 
             content = {'search_term': searchterm,
                        'search_type': _(searchtype[0].upper() + searchtype[1:]),
