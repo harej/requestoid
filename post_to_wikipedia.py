@@ -22,7 +22,7 @@ def page_constructor(bot, language, fieldtype, fieldvalue):
             report_page_title += fieldvalue[9:]
         else:
             report_page_title += fieldvalue
-    elif fieldtype == 'WikiProject':
+    elif fieldtype == 'wikiproject':
         if fieldvalue[:10] == 'Wikipedia:':
             report_page_title += fieldvalue[10:]
         else:
