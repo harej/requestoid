@@ -14,10 +14,7 @@ already_done = []
 def page_constructor(bot, language, fieldtype, fieldvalue):
     # Construct template page titles (e.g. Template:Wikipedia Requests/Article/Barack Obama)
 
-    if fieldtype == 'wikiproject':
-        fieldtype = 'WikiProject'  # camelcase
-
-    report_page_title = 'Template:Wikipedia_Requests/' + fieldtype[0].upper() + fieldtype[1:] + '/'
+    report_page_title = 'Template:Wikipedia_Requests/' + fieldtype[0].upper() + fieldtype[1:].replace('ikiproject', 'ikiProject') + '/'
     if fieldtype == 'article':
         report_page_title += fieldvalue
     elif fieldtype == 'category':
