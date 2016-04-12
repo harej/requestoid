@@ -76,13 +76,13 @@ def main(language):
         for template in wikitext.filter_templates():
             if template.name.matches('Wikipedia Requests'):
                 if template.has('article'):
-                    page_constructor(bot, language, 'article', template.get('article'))
+                    page_constructor(bot, language, 'article', str(template.get('article').value))
 
                 elif template.has('category'):
-                    page_constructor(bot, language, 'category', template.get('category'))
+                    page_constructor(bot, language, 'category', str(template.get('category').value))
 
                 elif template.has('wikiproject'):
-                    page_constructor(bot, language, 'wikiproject', template.get('wikiproject'))
+                    page_constructor(bot, language, 'wikiproject', str(template.get('wikiproject').value))
 
 
 if __name__ == "__main__":
