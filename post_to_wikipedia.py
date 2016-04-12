@@ -7,7 +7,7 @@ django.setup()
 
 import pywikibot
 import mwparserfromhell
-import views, wiki
+from . import views, wiki
 
 already_done = []
 
