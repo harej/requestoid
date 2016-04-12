@@ -1,6 +1,6 @@
 import pywikibot
 import mwparserfromhell
-from .. import views, wiki
+import views, wiki
 
 def page_constructor(bot, language, fieldtype, fieldvalue):
     # Construct template page titles (e.g. Template:Wikipedia Requests/Article/Barack Obama)
