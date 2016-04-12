@@ -1,7 +1,7 @@
 import arrow
 import configparser
 import os
-import models, wiki
+from . import models, wiki
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from mwoauth import ConsumerToken, Handshaker, tokens
