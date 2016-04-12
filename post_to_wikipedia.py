@@ -1,8 +1,8 @@
 import os
 import sys
 import django
-sys.path.append("/var/www/django-src/requestoid/requestoid")
-os.environ["DJANGO_SETTINGS_MODULE"] = "<project>.settings"
+sys.path.append("/var/www/django-src/requestoid")
+os.environ["DJANGO_SETTINGS_MODULE"] = "requestoid.settings"
 django.setup()
 
 import pywikibot
