@@ -34,7 +34,7 @@ def page_constructor(bot, language, fieldtype, fieldvalue):
 
         # Construct the page (or say, No requests)
         report_page_contents = ''
-        format_string = '* [[{0}]]: {1} ([https://wpx.wmflabs.org/requests/{2}/request/{3} view details])\n'
+        format_string = '* [[{0}]]: {1} ([https://wpx.wmflabs.org/requests/{2}/request/{3} view request details])\n'
         counter = 0
         for req in R:
             if counter == 10:  # no more than 10 in a posting
