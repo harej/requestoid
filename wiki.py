@@ -1,5 +1,6 @@
 import requests
 from . import tool_labs_utils
+from bs4 import BeautifulSoup
 
 sql = tool_labs_utils
 
@@ -65,7 +66,18 @@ def WikitextRender(language, source):
               'text': source}
     r = requests.get(url, params=params)
     blob = r.json()
-    return blob['parse']['text']['*']
+    html = blob['parse']['text']['*']
+
+    # Now, we need to take "internal" links and make them actually point to Wikipedia
+
+    soup = BeautifulSoup(html, 'html.parser')
+    for a in soup.findAll('a'):
+        if a['href'][:6] == '/wiki/':
+            a['href'] = a['href'].replace('/wiki/', 'https://{0}.wikipedia.org/wiki/'.format(language))
+        elif a['href'][:3] == '/w/':
+            a['href'] = a['href'].replace('/w/', 'https://{0}.wikipedia.org/w/'.format(language))
+
+    return str(soup)
 
 def RedirectResolver(language, pagetitle, namespace):
     normalized_pagetitle = CanonicalPageTitle(pagetitle)
