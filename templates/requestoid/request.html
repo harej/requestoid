@@ -1,7 +1,7 @@
 {% extends 'requestoid/base.html' %}
 {% load wikipedia_link %}
 {% block content %}
-<h1 class="{% if content.requestdata.page_id = 0 %}new{% endif %}">{{ content.requestdata.page_title|wikipedia_link:language }}: {{ content.requestdata.summary }}</h1>
+<h1>{{ content.requestdata.page_title|wikipedia_link:language }}: {{ content.requestdata.summary }}</h1>
 <form action="/requests/{{ language }}/request/{{ content.requestdata.id }}" method="post">
 {% csrf_token %}
 <div class="ui small left labeled buttons">
