@@ -2,31 +2,37 @@
 
 "Wikipedia Requests":
   en: Wikipedia Requests
+  fi: Wikipedian pyynnöt
   sv: Wikipediabegäran
   zh-hant: 維基百科請求
 
 "Login via Wikipedia":
   en: Login via Wikipedia
+  fi: Kirjaudu sisään Wikipedian kautta
   sv: Logga in via Wikipedia
   zh-hant: 使用維基百科登入
 
 "Search":
   en: Search
+  fi: Hae
   sv: Sök
   zh-hant: 搜尋
 
 "Add":
   en: Add
+  fi: Lisää
   sv: Lägg till
   zh-hant: 新增
 
 "Help":
   en: Help
+  fi: Ohje
   sv: Hjälp
   zh-hant: 說明
 
 "About":
   en: About
+  fi: Tietoja
   sv: Om
   zh-hant: 關於
 
@@ -34,11 +40,13 @@
 
 "Help fill in the gaps on Wikipedia":
   en: Help fill in the gaps on Wikipedia
+  fi: Auta täyttämään Wikipedian aukot
   sv: Hjälp till att fylla i luckorna på Wikipedia
   zh-hant: 協助彌補維基百科遺漏的內容
 
 "homepage_intro":
   en: "The Wikipedia Requests system is a new tool to centralize the various lists of requests around Wikipedia, including lists of missing articles and requests to improve existing articles. Requests are tagged by category and WikiProject, making it easier to find requests based on what your interests are. We just started work on this, so check back later!"
+  fi: "Wikipedian pyynnöt on uusi työkalu, joka keskittää Wikipedian useat pyyntöluettelot, mukaan lukien luettelot puuttuvista artikkeleista sekä pyynnöt olemassa olevien artikkelien parantamiseksi. Pyynnöt merkitään luokan ja Wikiprojektin mukaan, joka helpottaa kiinnostuksen kohteitasi vastaavien pyyntöjen löytämistä. Olemme juuri aloittaneet tämän työstämisen, joten palaa takaisin myöhemmin tarkistamaan tilanne!"
   sv: "Wikipediabegäranssystemet är ett nytt verktyg för att centralisera de  olika listorna av begäran kring Wikipedia, inklusive listor med saknade artiklar och begäran att förbättra befintliga artiklar. Begäran är uppmärkta med kategori och wikiprojekt vilket gör det lättare att hitta begäran baserat på ditt intresse. Vi har precis börjat arbeta på detta så titta tillbaks senare!"
   zh-hant: "維基百科請求系統整合維基百科中各種請求列表，例如條目請求、編修請求等。各個請求皆以條目分類以及相關專題標示，讓您可以方便的找到符合您興趣的請求。我們才剛起步，請在日後持續關注！"
 
@@ -46,21 +54,25 @@
 
 "add_start_headline":
   en: "Enter article title"
+  fi: "Anna artikkelin otsikko"
   sv: "Ange artikelnamn"
   zh-hant: "輸入條目標題"
 
 "add_start_input_label":
   en: "Title"
+  fi: "Otsikko"
   sv: "Titel"
   zh-hant: "標題"
 
 "add_start_explanation":
   en: "This can be the title of an article that is missing or one that already exists but needs improvement."
+  fi: "Tämä voi sellaisen artikkelin otsikko, joka on jo olemassa mutta joka kaipaa parannusta, tai puuttuvan artikkelin otsikko."
   sv: "Detta kan vara namnet på en artikel som saknas eller en som redan finns men som behöver förbättras."
   zh-hant: "這可以是一個尚未建立條目的標題，或者是現存但需要改進條目的標題。"
 
 "add_start_button_label":
   en: "Go"
+  fi: "Aloita"
   sv: "Starta"
   zh-hant: "送出"
 
@@ -68,61 +80,73 @@
 
 "Categories":
   en: "Categories"
+  fi: "Luokat"
   sv: "Kategorier"
   zh-hant: "分類"
 
 "WikiProjects":
   en: "WikiProjects"
+  fi: "Wikiprojektit"
   sv: "Wikiprojekt"
   zh-hant: "專題"
 
 "Summary":
   en: "Summary"
+  fi: "Yhteenveto"
   sv: "Sammanfattning"
   zh-hant: "摘要"
 
 "What is the goal? For example: create article, expand article, add sources...":
   en: "What is the goal? For example: create article, expand article, add sources..."
+  fi: "Mikä on tavoite? Esimerkiksi: luoda artikkeli, laajentaa artikkelia, lisätä lähteitä..."
   sv: "Vad är målet? Till exempel: skapa artikel, utöka artikel, lägg till källor..."
   zh-hant: "您的目的是什麼? 例如：建立條目、擴充條目、增加來源..."
 
 'Create new article':
   en: "Create new article"
+  fi: "Luo uusi artikkeli"
   sv: "Skapa ny artikel"
   zh-hant: "建立條目"
 
 'Enter one category per line. Case sensitive. Do not include "Category:".':
   en: 'Enter one category per line. Case sensitive. Do not include "Category:".'
+  fi: 'Anna yksi luokka riviä kohden. Kirjainkoko on merkityksellinen. Älä sisällytä "Luokka:"-etuliitettä.'
   sv: 'Ange en kategori per rad. Känslig för skiftläge. Inkludera inte "Kategori:".'
   zh-hant: '請於每行輸入一個分類，並注意大小寫，且不要加上"分類:"。'
 
 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name.':
   en: 'Enter one WikiProject per line. Case sensitive. Include "WikiProject" if it is in the name. Any "Wikipedia:" namespace page is accepted.'
+  fi: 'Anna yksi Wikiprojekti riviä kohden. Kirjainkoko on merkityksellinen. Sisällytä "Wikiprojekti" jos se on osa nimeä. Mikä tahansa "Wikipedia:"-nimiavaruudessa oleva sivu kelpaa.'
   sv: 'Ange ett Wikiprojekt per rad. Känslig för skiftläge. Inkludera "WikiProjekt" om det är en del av namnet. Alla sidor i namnrymden "Wikipedia:" godtas.'
   zh-hant: '請於每行輸入一個專題，並注意大小寫。若專題正式名稱為"○○專題"，請包含最後"專題"二字。任何位於Wikipedia名字空間中的頁面都可以作為輸入內容。'
 
 'Categories are retrieved automatically from Wikipedia.':
   en: 'Categories are retrieved automatically from Wikipedia.'
+  fi: 'Luokat haetaan automaattisesti Wikipediasta.'
   sv: 'Kategorier hämtas automatiskt från Wikipedia.'
   zh-hant: '分類將由維基百科自動取得。'
 
 'WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish.':
   en: 'WikiProjects are retrieved automatically from Wikipedia. You may add additional projects if you wish. Any "Wikipedia:" namespace page is accepted.'
+  fi: 'Wikiprojektit haetaan automaattisesti Wikipediasta. Voit lisätä muita projekteja halutessasi. Mikä tahansa "Wikipedia:"-nimiavaruudessa oleva sivu kelpaa.'
   sv: 'Wikiprojekt hämtas automatiskt från Wikipedia. Du kan lägga till fler projekt om du vill. Alla sidor i namnrymden "Wikipedia:" godtas.'
   zh-hant: '專題將由維基百科自動取得。您可以手動加入額外的專題。任何位於Wikipedia名字空間中的頁面都可以作為輸入內容。'
 
 'Add a note':
   en: 'Add a note'
+  fi: 'Lisää muistiinpano'
   sv: 'Lägg till en anteckning'
   zh-hant: '新增註記'
 
 'Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.':
   en: 'Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.'
+  fi: 'Kerro lisää pyynnöstäsi. On suositeltavaa, että lisäät mahdolliset muut lähteet ja asiayhteyttä selventävät tekijät, mikäli niitä on. Voit käyttää wikitekstiä.'
   sv: 'Skriv gärna mer om din begäran. Det är rekommenderat att ange mer om kontexten och källor om du känner till några. Du kan använda wikitext för formatering.'
   zh-hant: '請詳述您的請求。我們建議您在其中包含任何有助於編輯的背景及來源。您可以使用wiki標記語言。'
 
 'add_submit_button':
   en: 'Create'
+  fi: 'Luo'
   sv: 'Skapa'
   zh-hant: '建立'
 
@@ -130,11 +154,13 @@
 
 "Login required":
   en: "Login required"
+  fi: "Kirjautuminen vaaditaan"
   sv: "Inloggning krävs"
   zh-hant: "需要登入"
 
 "login_required_message":
   en: "You are required to log in with your Wikipedia account to use this feature. Click 'Login via Wikipedia' on the top right side of this page."
+  fi: "Sinun tulee kirjautua sisään Wikipedia-tunnuksellasi käyttääksesi tätä ominaisuutta. Napsauta 'Kirjaudu sisään Wikipedian kautta' -linkkiä tämän sivun oikeassa ylälaidassa."
   sv: "Du måste logga in med ditt Wikipediakonto för att använda den här funktionen. Klicka på 'Logga in via Wikipedia' högst upp till höger på den här sidan."
   zh-hant: "您必須以您的維基百科帳號登入方能使用這個功能。請點選頁面右上方'使用維基百科登入'連結。"
 
@@ -142,76 +168,91 @@
 
 "Notes":
   en: "Notes"
+  fi: "Muistiinpanot"
   sv: "Anteckningar"
   zh-hant: "註記"
 
 "Status":
   en: "Status"
+  fi: "Tila"
   sv: "Status"
   zh-hant: "狀態"
 
 "Open":
   en: "Open"
+  fi: "Avoin"
   sv: "Öppna"
   zh-hant: "尚未完成"
 
 "Declined":
   en: "Declined"
+  fi: "Kieltäydytty"
   sv: "Avslagna"
   zh-hant: "未通過"
 
 "Complete":
   en: "Complete"
+  fi: "Valmis"
   sv: "Klara"
   zh-hant: "已完成"
 
 "Mark as Open":
   en: "Mark as Open"
+  fi: "Merkitse avoimeksi"
   sv: "Markera som Öppen"
   zh-hant: "標示為尚未完成"
 
 "Mark as Complete":
   en: "Mark as Complete"
+  fi: "Merkitse valmiiksi"
   sv: "Markera som Klar"
   zh-hant: "標示為已完成"
 
 "Mark as Declined":
   en: "Mark as Declined"
+  fi: "Merkitse kieltäydytyksi"
   sv: "Markera som avslagen"
   zh-hant: "拒絕請求"
 
 "Nothing here yet...":
   en: "Nothing here yet..."
+  fi: "Täällä ei ole vielä mitään..."
   sv: "Inget här än..."
   zh-hant: "此處尚無內容..."
 
 "You need to be logged in to edit this list":
   en: "You need to be logged in to edit this list"
+  fi: "Sinun tulee olla kirjautunut sisään muokataksesi tätä luetteloa"
   sv: "Du måste vara inloggad för att redigera denna lista"
   zh-hant: "您必須先登入方能編輯這個列表"
 
 "Click this list to edit it":
   en: "Click this list to edit it"
+  fi: "Napsauta tätä luetteloa muokataksesi sitä"
   sv: "Klicka på listan för att redigera den"
   zh-hant: "點選這個列表以進行編輯"
 
 "Categories must be changed directly on Wikipedia":
   en: "Categories must be changed directly on Wikipedia"
+  fi: "Luokkia tulee muokata suoraan Wikipediassa"
   sv: "Kategorier måste ändras direkt på Wikipedia"
   zh-hant: "分類必須直接於維基百科中修改"
 
 "Save":
   en: "Save"
+  fi: "Tallenna"
   sv: "Spara"
   zh-hant: "儲存"
 
 "Add a note":
   en: "Add a note"
+  fi: "Lisää muistiinpano"
   sv: "Lägg till en anteckning"
   zh-hant: "新增註記"
 
 "Add a note explanation":
   en: "Help Wikipedians fulfill this request. Do you have any sources or notes that may be helpful?"
+  fi: "Auta Wikipedian käyttäjiä täyttämään tämä pyyntö. Onko sinulla lähteitä tai muistiinpanoja, jotka voisivat olla hyödyllisiä?"
   sv: "Hjälp Wikipedianer att uppfylla denna begäran. Har du några källor eller anteckningar som kan var till hjälp?"
   zh-hant: "協助維基百科編輯完成這個請求。您是否有任何有助於編輯的來源或資訊？"
 
@@ -219,6 +260,7 @@
 
 "Log":
   en: "Log"
+  fi: "Loki"
   sv: "Logg"
   zh-hant: "紀錄"
 
@@ -226,32 +268,38 @@
 
 "Article":
   en: "Article"
+  fi: "Artikkeli"
   sv: "Artikel"
   zh-hant: "條目"
 
 "Category":
   en: "Category"
+  fi: "Luokka"
   sv: "Kategori"
   zh-hant: "分類"
 
 "WikiProject":
   en: "WikiProject"
+  fi: "Wikiprojekti"
   sv: "Wikiprojekt"
   zh-hant: "專題"
 
 "Wikiproject":
   en: "WikiProject"
+  fi: "Wikiprojekti"
   sv: "Wikiprojekt"
   zh-hant: "專題"
 
 "Go":
   en: "Go"
+  fi: "Aloita"
   sv: "Starta"
   zh-hant: "送出"
 
 # Help view
 "help_body":
   en: "If you need assistance, contact James Hare at jamesmhare@gmail.com or at his <a href='https://en.wikipedia.org/wiki/User_talk:Harej'>talk page</a>."
+  fi: "Jos tarvitset apua, ota yhteyttä James Hareen osoitteeseen jamesmhare@gmail.com tai jätä viestiä hänen <a href='https://en.wikipedia.org/wiki/User_talk:Harej'>keskustelusivulleen</a>."
   sv: "Om du behöver hjälp, kontakta James Hare på jamesmhare@gmail.com eller på hans <a href='https://en.wikipedia.org/wiki/User_talk:Harej'>diskussionssida</a>."
   zh-hant: "若您需要協助，請以電子郵件 (jamesmhare@gmail.com) 或<a href='https://en.wikipedia.org/wiki/User_talk:Harej'>討論頁</a>與 James Hare 聯繫。"
 
@@ -259,11 +307,13 @@
 
 "About Wikipedia Requests":
   en: "About Wikipedia Requests"
+  fi: "Tietoja Wikipedian pyynnöistä"
   sv: "Om Wikipediabegäran"
   zh-hant: "關於維基百科請求"
 
 "about_body":
   en: "<p>Wikipedia Requests is a centralized database of requests to create and improve Wikipedia content. It supports all language editions of Wikipedia, but the interface has not been translated into all languages! See <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>i18n.yaml on GitHub</a> to contribute a translation.</p><p>Wikipedia Requests is made possible by <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> with support of the <a href='https://wikimediafoundation.org'>Wikimedia Foundation</a>."
+  fi: "<p>Wikipedian pyynnöt on keskitetty tietokanta pyynnöistä Wikipedian sisällön luomiseksi ja parantamiseksi. Se tukee Wikipedian kaikkia kieliversioita, mutta käyttöliittymää ei ole käännetty kaikille kielille! Katso <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>i18n.yaml GitHubissa</a> osallistuaksesi käännöstyöhön.</p><p>Wikipedian pyynnöt mahdollistaa <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> <a href='https://wikimediafoundation.org'>Wikimedia Foundationin</a> tuella."
   sv: "<p>Wikipediabegäran är en centraliserad databas för begöran om skapandeoch förböttringar av innehållet på Wikipedia. Det stöder alla Wikipedias språkversioner, men gränssnittet har inte översatts till alla språk! Se <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>i18n.yaml på GitHub</a> för att bidra med översättning.</p><p>Wikipediabegäran görs möjligt genom <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> med stöd av <a href='https://wikimediafoundation.org'>Wikimedia Foundation</a>."
   zh-hant: "<p>維基百科請求是一個整合各種建立和改進維基百科內容請求的資料庫。本工具支援所有語言版本的維基百科，但仍需您協助將介面翻譯成您的語言！請參閱 <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>GitHub 上的 i18n.yaml</a> 以貢獻翻譯。</p><p>維基百科請求是由 <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> 發起的計畫，並由<a href='https://wikimediafoundation.org'>維基媒體基金會</a>贊助。"
 
@@ -271,30 +321,36 @@
 
 "Bulk Import":
   en: "Bulk Import"
+  fi: "Joukkotuonti"
   sv: "Bulkimport"
   zh: "大量匯入"
 
 "Bulk categories placeholder":
   en: "This field only applies for requests for new articles. For existing articles, the categories will be retrieved directly from Wikipedia."
+  fi: "Tämä kenttä koskee vain uusia artikkelipyyntöjä. Olemassa olevien artikkelien luokat haetaan suoraan Wikipediasta."
   sv: "Detta fält gäller enbart för begäran av nya artiklar. För befintliga artiklar kommer kategorierna att hömtas direkt från Wikipedia."
   zh-hant: "本欄僅適用於新增條目的請求。對於已存在的條目，其分類將由維基百科自動取得。"
 
 "Remove":
   en: "Remove"
+  fi: "Poista"
   sv: "Ta bort"
   zh-hant: "移除"
 
 "All Requests":
   en: "All Requests"
+  fi: "Kaikki pyynnöt"
   sv: "Alla begäran"
   zh-hant: "針對所有請求"
 
 "Per Request":
   en: "Per Request"
+  fi: "Pyynnöstä"
   sv: "Per begäran"
   zh-hant: "針對個別請求"
 
 "Language":
   en: "Language"
+  fi: "Kieli"
   sv: "Språk"
   zh-hant: "語言"
