@@ -99,6 +99,7 @@ def retrieve_requests(searchterm, searchtype, language):
 def select_language(request):  # /requests
     available = [
                     {'code': 'en', 'label': 'English'},
+                    {'code': 'fi', 'label': 'suomi'},
                     {'code': 'sv', 'label': 'Svenska'},
                     {'code': 'zh-hant', 'label': '繁體中文'}
                 ]
