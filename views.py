@@ -63,7 +63,8 @@ def interface_messages(request, langcode):
                 'search': _('Search'),
                 'add': _('Add'),
                 'help': _('Help'),
-                'about': _('About')
+                'about': _('About'),
+                'footer': _('Footer')
              }
 
     username = get_username(request)
