@@ -86,9 +86,9 @@ def retrieve_requests(searchterm, searchtype, language):
         if searchterm[:9] == 'Category:':
             searchterm = searchterm[9:]
         C1 = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=0)
-        R1 = [entry.request for entry in C]
+        R1 = [entry.request for entry in C1]
         C2 = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=1)
-        R2 = [entry.request for entry in C]
+        R2 = [entry.request for entry in C2]
         R = {'open': R1, 'complete': R2}
     elif searchtype == 'wikiproject':
         if searchterm[:10] == 'Wikipedia:':
@@ -97,9 +97,9 @@ def retrieve_requests(searchterm, searchtype, language):
             searchterm = searchterm[3:]
         searchterm = wiki.RedirectResolver(language, searchterm, 4)
         W1 = models.WikiProjects.objects.filter(project_title=searchterm, wiki=database, request__status=0)
-        R1 = [entry.request for entry in W]
+        R1 = [entry.request for entry in W1]
         W2 = models.WikiProjects.objects.filter(project_title=searchterm, wiki=database, request__status=1)
-        R2 = [entry.request for entry in W]
+        R2 = [entry.request for entry in W2]
         R = {'open': R1, 'complete': R2}
 
     return R
