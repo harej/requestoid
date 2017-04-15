@@ -558,8 +558,8 @@ def search(request, langcode):  # /requests/en/search
                        'wiki_language': wiki.GetEquivalentWiki(langcode),
                        'search_count': len(R['open']),
                        'search_data': R['open'],
-                       'complete_requests_count': len(R['complete'])
-                       'complete_requests_label': _('complete_requests')
+                       'complete_requests_count': len(R['complete']),
+                       'complete_requests_label': _('complete_requests'),
                        'open_requests_label': _('open_requests')}
 
             context = {
