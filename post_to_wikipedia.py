@@ -36,7 +36,7 @@ def page_constructor(bot, language, fieldtype, fieldvalue):
         report_page_contents = "'''{0}''' total open requests • '''{1}''' total completed requests\n".format(len(R['open']), len(R['complete']))
         format_string = '* [[{0}]]: {1} ([https://wpx.wmflabs.org/requests/{2}/request/{3} view request details])\n'
         counter = 0
-        for req in R:
+        for req in R['open']:
             if counter == 10:  # no more than 10 in a posting
                 break
             report_page_contents += format_string.format(req.page_title, req.summary, language, req.id)
