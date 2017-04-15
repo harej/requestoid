@@ -1,6 +1,9 @@
 {% extends 'requestoid/base.html' %}
 {% block content %}
 <h1>{{ content.search_type }}: {{ content.search_term }}</h1>
+<p>
+<b>{{ content.search_count }}</b> {{ content.open_requests_label }}<br /><b>{{ content.complete_requests_count }}</b> {{ content.complete_requests_label }}
+</p>
 <ul>
 {% for entry in content.search_data %}
 <li><a class="header" href="/requests/{{ language }}/request/{{ entry.id }}">{{ entry.page_title }}: {{ entry.summary }}</a></li>

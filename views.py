@@ -7,7 +7,8 @@ from django.shortcuts import render, get_object_or_404
 from mwoauth import ConsumerToken, Handshaker, tokens
 from worldly import Worldly
 
-# Views! Views! Views, views, views, views, views views views views views views has a has a has a has a kind of mystery
+# Views! Views! Views, views, views, views, views views views views views views
+# has a has a has a has a kind of mystery
 
 ROOTDIR = '/var/www/django-src/requestoid/requestoid'
 LOCALEDIR = ROOTDIR + '/locale'
@@ -77,20 +78,29 @@ def retrieve_requests(searchterm, searchtype, language):
     database = language + 'wiki'
     if searchtype == 'article':
         searchterm = wiki.RedirectResolver(language, searchterm, 0)
-        R = models.Requests.objects.filter(page_title=searchterm, wiki=database, status=0)
+        R = {
+        'open': models.Requests.objects.filter(page_title=searchterm, wiki=database, status=0),
+        'complete': models.Requests.objects.filter(page_title=searchterm, wiki=database, status=1)
+        }
     elif searchtype == 'category':
         if searchterm[:9] == 'Category:':
             searchterm = searchterm[9:]
-        C = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=0)
-        R = [entry.request for entry in C]
+        C1 = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=0)
+        R1 = [entry.request for entry in C]
+        C2 = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=1)
+        R2 = [entry.request for entry in C]
+        R = {'open': R1, 'complete': R2}
     elif searchtype == 'wikiproject':
         if searchterm[:10] == 'Wikipedia:':
             searchterm = searchterm[10:]
         elif searchterm[:3] == "WP:":
             searchterm = searchterm[3:]
         searchterm = wiki.RedirectResolver(language, searchterm, 4)
-        W = models.WikiProjects.objects.filter(project_title=searchterm, wiki=database, request__status=0)
-        R = [entry.request for entry in W]
+        W1 = models.WikiProjects.objects.filter(project_title=searchterm, wiki=database, request__status=0)
+        R1 = [entry.request for entry in W]
+        W2 = models.WikiProjects.objects.filter(project_title=searchterm, wiki=database, request__status=1)
+        R2 = [entry.request for entry in W]
+        R = {'open': R1, 'complete': R2}
 
     return R
 
@@ -546,7 +556,11 @@ def search(request, langcode):  # /requests/en/search
             content = {'search_term': searchterm,
                        'search_type': _(searchtype[0].upper() + searchtype[1:]),
                        'wiki_language': wiki.GetEquivalentWiki(langcode),
-                       'search_data': R}
+                       'search_count': len(R['open']),
+                       'search_data': R['open'],
+                       'complete_requests_count': len(R['complete'])
+                       'complete_requests_label': _('complete_requests')
+                       'open_requests_label': _('open_requests')}
 
             context = {
                        'interface': interface_messages(request, langcode),

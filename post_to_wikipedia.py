@@ -33,7 +33,7 @@ def page_constructor(bot, language, fieldtype, fieldvalue):
         R = views.retrieve_requests(fieldvalue.replace('_', ' '), fieldtype, language)
 
         # Construct the page (or say, No requests)
-        report_page_contents = ''
+        report_page_contents = "'''{0}''' total open requests • '''{1}''' total completed requests\n".format(len(R['open'], len(R['complete'])))
         format_string = '* [[{0}]]: {1} ([https://wpx.wmflabs.org/requests/{2}/request/{3} view request details])\n'
         counter = 0
         for req in R:

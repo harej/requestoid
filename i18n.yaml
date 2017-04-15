@@ -357,3 +357,9 @@
   fi: "Kieli"
   sv: "Språk"
   zh-hant: "語言"
+
+"open_requests":
+  en: "open requests"
+
+"complete_requests":
+  en: "complete requests"
