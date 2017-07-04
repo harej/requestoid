@@ -320,44 +320,6 @@
   sv: "<p>Wikipediabegäran är en centraliserad databas för begöran om skapandeoch förböttringar av innehållet på Wikipedia. Det stöder alla Wikipedias språkversioner, men gränssnittet har inte översatts till alla språk! Se <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>i18n.yaml på GitHub</a> för att bidra med översättning.</p><p>Wikipediabegäran görs möjligt genom <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> med stöd av <a href='https://wikimediafoundation.org'>Wikimedia Foundation</a>."
   zh-hant: "<p>維基百科請求是一個整合各種建立和改進維基百科內容請求的資料庫。本工具支援所有語言版本的維基百科，但仍需您協助將介面翻譯成您的語言！請參閱 <a href='https://github.com/harej/requestoid/blob/master/i18n.yaml'>GitHub 上的 i18n.yaml</a> 以貢獻翻譯。</p><p>維基百科請求是由 <a href='https://en.wikipedia.org/wiki/Wikipedia:WikiProject_X'>WikiProject X</a> 發起的計畫，並由<a href='https://wikimediafoundation.org'>維基媒體基金會</a>贊助。"
 
-# Bulk import view
-
-"Bulk Import":
-  en: "Bulk Import"
-  fi: "Joukkotuonti"
-  sv: "Bulkimport"
-  zh: "大量匯入"
-
-"Bulk categories placeholder":
-  en: "This field only applies for requests for new articles. For existing articles, the categories will be retrieved directly from Wikipedia."
-  fi: "Tämä kenttä koskee vain uusia artikkelipyyntöjä. Olemassa olevien artikkelien luokat haetaan suoraan Wikipediasta."
-  sv: "Detta fält gäller enbart för begäran av nya artiklar. För befintliga artiklar kommer kategorierna att hömtas direkt från Wikipedia."
-  zh-hant: "本欄僅適用於新增條目的請求。對於已存在的條目，其分類將由維基百科自動取得。"
-
-"Remove":
-  en: "Remove"
-  fi: "Poista"
-  sv: "Ta bort"
-  zh-hant: "移除"
-
-"All Requests":
-  en: "All Requests"
-  fi: "Kaikki pyynnöt"
-  sv: "Alla begäran"
-  zh-hant: "針對所有請求"
-
-"Per Request":
-  en: "Per Request"
-  fi: "Pyynnöstä"
-  sv: "Per begäran"
-  zh-hant: "針對個別請求"
-
-"Language":
-  en: "Language"
-  fi: "Kieli"
-  sv: "Språk"
-  zh-hant: "語言"
-
 "open_requests":
   en: "open requests"
 

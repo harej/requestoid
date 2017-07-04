@@ -30,5 +30,4 @@ urlpatterns = [
     url(r'^(?P<langcode>([^\/])*)\/request$', views.search),  # alias for above
     url(r'^(?P<langcode>([^\/])*)\/help$', views.help),  # /requests/en/help
     url(r'^(?P<langcode>([^\/])*)\/about$', views.about),  # /requests/en/about
-    url(r'^(?P<langcode>([^\/])*)\/bulk$', views.bulk),  # /requests/en/bulk
 ]

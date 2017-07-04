@@ -1,57 +1,18 @@
 import arrow
-import configparser
-import os
-from . import models, wiki
+from . import authentication, models, transactions, wiki
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from mwoauth import ConsumerToken, Handshaker, tokens
+from mwoauth import tokens
 from worldly import Worldly
 
 # Views! Views! Views, views, views, views, views views views views views views
 # has a has a has a has a kind of mystery
 
 ROOTDIR = '/var/www/django-src/requestoid/requestoid'
-LOCALEDIR = ROOTDIR + '/locale'
 translation = Worldly(ROOTDIR + "/i18n.yaml")
 _ = translation.render
 
-
-def requests_handshaker():
-    keyfile = configparser.ConfigParser()
-    keyfile.read([os.path.expanduser(ROOTDIR + '/.oauth.ini')])
-    consumer_key = keyfile.get('oauth', 'consumer_key')
-    consumer_secret = keyfile.get('oauth', 'consumer_secret')
-    consumer_token = ConsumerToken(consumer_key, consumer_secret)
-    return Handshaker("https://meta.wikimedia.org/w/index.php", consumer_token)
-
-
-def get_username(request):
-    handshaker = requests_handshaker()
-    if 'access_token_key' in request.session:
-        access_key = request.session['access_token_key'].encode('utf-8')
-        access_secret = request.session['access_token_secret'].encode('utf-8')
-        access_token = tokens.AccessToken(key=access_key, secret=access_secret)
-        return handshaker.identify(access_token)['username']
-    else:
-        return None
-
-
-def you_need_to_login(request, langcode):
-    content = {
-                  'headline': _('Login required'),
-                  'explanation': _('login_required_message')
-              }
-
-    context = {
-                  'interface': interface_messages(request, langcode),
-                  'language': langcode,
-                  'content': content
-              }
-
-    return render(request, 'requestoid/error.html', context = context)
-
-
-def interface_messages(request, langcode):
+def _interface_messages(request, langcode):
     '''
     Provides a dictionary to feed into the context, with an ISO 639-1 or -2 language code as input.
     '''
@@ -68,44 +29,11 @@ def interface_messages(request, langcode):
                 'footer': _('Footer')
              }
 
-    username = get_username(request)
+    username = authentication.get_username(request, ROOTDIR)
     if username != None:
         output['username'] = username  # leave 'username' key unset if no session
 
     return output
-
-def retrieve_requests(searchterm, searchtype, language):
-    database = language + 'wiki'
-    if searchtype == 'article':
-        searchterm = wiki.RedirectResolver(language, searchterm, 0)
-        R = {
-        'open': models.Requests.objects.filter(page_title=searchterm, wiki=database, status=0),
-        'complete': models.Requests.objects.filter(page_title=searchterm, wiki=database, status=1)
-        }
-    elif searchtype == 'category':
-        if searchterm[:9] == 'Category:':
-            searchterm = searchterm[9:]
-        C1 = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=0)
-        R1 = [entry.request for entry in C1]
-        C2 = models.Categories.objects.filter(cat_title=searchterm, wiki=database, request__status=1)
-        R2 = [entry.request for entry in C2]
-        R = {'open': R1, 'complete': R2}
-    elif searchtype == 'wikiproject':
-        if searchterm[:10] == 'Wikipedia:':
-            searchterm = searchterm[10:]
-        elif searchterm[:3] == "WP:":
-            searchterm = searchterm[3:]
-        searchterm = wiki.RedirectResolver(language, searchterm, 4)
-        W1 = models.WikiProjects.objects.filter(project_title=searchterm, wiki=database, request__status=0)
-        R1 = [entry.request for entry in W1]
-        W2 = models.WikiProjects.objects.filter(project_title=searchterm, wiki=database, request__status=1)
-        R2 = [entry.request for entry in W2]
-        R = {'open': R1, 'complete': R2}
-
-    return R
-
-###
-
 
 def select_language(request):  # /requests
     available = [
@@ -116,7 +44,7 @@ def select_language(request):  # /requests
                 ]
 
     context = {
-                  'interface': interface_messages(request, 'en'),
+                  'interface': _interface_messages(request, 'en'),
                   'language': 'en',
                   'available': available
               }
@@ -133,7 +61,7 @@ def homepage(request, langcode):  # /requests/en
               }
 
     context = {
-                  'interface': interface_messages(request, langcode),
+                  'interface': _interface_messages(request, langcode),
                   'language': langcode,
                   'content': content
               }
@@ -142,7 +70,8 @@ def homepage(request, langcode):  # /requests/en
 
 
 def auth(request):  # /requests/auth
-    handshaker = requests_handshaker()
+    # This is the view called "auth," not a method that carries out authentication
+    handshaker = authentication.requests_handshaker(ROOTDIR)
     redirect, request_token = handshaker.initiate()
     request.session['request_token_key'] = request_token.key.decode('utf-8')
     request.session['request_token_secret'] = request_token.secret.decode('utf-8')
@@ -153,7 +82,7 @@ def auth(request):  # /requests/auth
 def callback(request):  # /requests/callback
     oauth_verifier = request.GET['oauth_verifier']
     oauth_token = request.GET['oauth_token']
-    handshaker = requests_handshaker()
+    handshaker = authentication.requests_handshaker(ROOTDIR)
     request_key = request.session['request_token_key'].encode('utf-8')
     request_secret = request.session['request_token_secret'].encode('utf-8')
     request_token = tokens.RequestToken(key=request_key, secret=request_secret)
@@ -165,7 +94,7 @@ def callback(request):  # /requests/callback
 
 def add(request, langcode):  # /requests/en/add
     translation.use_language = langcode
-    username = get_username(request)
+    username = authentication.get_username(request, ROOTDIR)
     g = request.GET  # `g` is short for `get`
     p = request.POST  # `p` is short for `post`
     if username == None:
@@ -174,94 +103,21 @@ def add(request, langcode):  # /requests/en/add
         if 'pagetitle' in g:
             if g['pagetitle'] != "":
                 if 'pageid' in p:  # Ready to save to database; pageid is only passed as a parameter if workflow below has been completed
-                    now = arrow.utcnow().format('YYYYMMDDHHmmss')
                     userid = wiki.GetUserId(username)
-
-                    # Creating request
-                    R = models.Requests(page_id = p['pageid'],
-                                        page_title = p['pagetitle'],
-                                        user_id = userid,
-                                        user_name = username,
-                                        wiki = p['request_language'] + 'wiki',
-                                        timestamp = now,
-                                        summary = p['summary'],
-                                        status = 0)
-                    R.save()
-
-                    # First log entry: saying the request is created
-                    log = models.Logs(request = R,
-                                      user_name = username,
-                                      user_id = userid,
-                                      timestamp = now,
-                                      action = 'create',
-                                      reference = R.id)
-                    log.save()
-
-                    # Next log entry: flagging it as open
-                    log = models.Logs(request = R,
-                                      user_name = username,
-                                      user_id = userid,
-                                      timestamp = now,
-                                      action = 'flagopen',
-                                      reference = R.id)
-                    log.save()
-
-                    # Recording note
-                    N = models.Notes(request = R,
-                                     user_name = username,
-                                     user_id = userid,
-                                     timestamp = now,
-                                     comment = p['note'])
-                    N.save()
-
-                    # And a log entry stating note was left
-                    log = models.Logs(request = R,
-                                      user_name = username,
-                                      user_id = userid,
-                                      timestamp = now,
-                                      action = 'addnote',
-                                      reference = N.id)
-                    log.save()
-
                     categories = p['categories'].split('\r\n')
                     wikiprojects = p['wikiprojects'].split('\r\n')
 
-                    for category in categories:
-                        if category == '' or category == ' ':
-                            continue
-                        if category[:9] == 'Category:':
-                            category = category[9:]  # truncate "Category:"
-                        C = models.Categories(request = R,
-                                              cat_id = wiki.GetCategoryId(p['request_language'], category),
-                                              cat_title = category,
-                                              wiki = p['request_language'] + 'wiki')
-                        C.save()
-
-                        log = models.Logs(request = R,
-                                          user_name = username,
-                                          user_id = userid,
-                                          timestamp = now,
-                                          action = 'addcategory',
-                                          reference = C.id)
-                        log.save()
-
-                    for wikiproject in wikiprojects:
-                        if wikiproject == '' or wikiproject == ' ':
-                            continue
-                        if wikiproject[:10] == 'Wikipedia:':
-                            wikiproject = wikiproject[10:]  # truncate "Wikipedia:"
-                        W = models.WikiProjects(request = R,
-                                                project_id = wiki.GetWikiProjectId(p['request_language'], wikiproject),
-                                                project_title = wikiproject,
-                                                wiki = p['request_language'] + 'wiki')
-                        W.save()
-                        log = models.Logs(request = R,
-                                          user_name = username,
-                                          user_id = userid,
-                                          timestamp = now,
-                                          action = 'addwikiproject',
-                                          reference = W.id)
-                        log.save()
+                    R = transactions.NewEntry(
+                        p['pageid'],
+                        p['pagetitle'],
+                        userid,
+                        username,
+                        p['request_language'] + 'wiki',
+                        p['summary'],
+                        p['note'],
+                        categories,
+                        wikiprojects,
+                        p['request_language'])
 
                     return HttpResponseRedirect("/requests/" + langcode + "/request/" + str(R.id))
 
@@ -300,7 +156,7 @@ def add(request, langcode):  # /requests/en/add
                     content['submit_button'] = _('add_submit_button')
 
                     context = {
-                                'interface': interface_messages(request, langcode),
+                                'interface': _interface_messages(request, langcode),
                                 'language': langcode,
                                 'content': content,
                                 'request_language': request_language,
@@ -320,18 +176,17 @@ def add(request, langcode):  # /requests/en/add
                   }
 
         context = {
-                    'interface': interface_messages(request, langcode),
+                    'interface': _interface_messages(request, langcode),
                     'language': langcode,
                     'content': content
                   }
 
         return render(request, 'requestoid/add_start.html', context = context)
 
-
 def request(request, langcode, reqid):  # /requests/en/request/12345
     translation.use_language = langcode
     p = request.POST
-    username = get_username(request)
+    username = authentication.get_username(request, ROOTDIR)
     userid = wiki.GetUserId(username)
     # First, we determine if there are any POST requests to change the content.
 
@@ -344,14 +199,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             R = models.Requests.objects.get(id=reqid)
             R.status = status_index[new_status]
             R.save()
-
-            log = models.Logs(request = R,
-                              user_name = username,
-                              user_id = userid,
-                              timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
-                              action = status_log_index[new_status],
-                              reference = R.id)
-            log.save()
+            transactions._post_log(R, status_log_index[new_status], R.id)
 
     if 'categories' in p:
         R = models.Requests.objects.get(id=reqid)
@@ -373,33 +221,11 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             for category in taken_out:
                 query = models.Categories.objects.filter(cat_title=category, request_id=reqid)
                 for C in query:  # The above returns a QuerySet; doing it this way in case there's >1 result
-
-                    log = models.Logs(request = R,
-                                      user_name = username,
-                                      user_id = userid,
-                                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
-                                      action = 'delcategory',
-                                      reference = C.id,
-                                      reference_text = category)
-                    log.save()
-
+                    transactions._post_log(R, 'delcategory', C.id, category)
                     C.delete()
 
             for category in added_in:
-                    C = models.Categories(request = R,
-                                          cat_title = category,
-                                          cat_id = wiki.GetCategoryId(R.wiki[:-4], category),
-                                          wiki = R.wiki)
-
-                    C.save()
-
-                    log = models.Logs(request = R,
-                                      user_name = username,
-                                      user_id = userid,
-                                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
-                                      action = 'addcategory',
-                                      reference = C.id)
-                    log.save()
+                    transactions.AddCategory(R, R.wiki[:-4], category)
 
     if 'wikiprojects' in p:
         R = models.Requests.objects.get(id=reqid)
@@ -421,51 +247,16 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             for wikiproject in taken_out:
                 query = models.WikiProjects.objects.filter(project_title=wikiproject, request_id=reqid)
                 for W in query:  # The above returns a QuerySet; doing it this way in case there's >1 result
-
-                    log = models.Logs(request = R,
-                                      user_name = username,
-                                      user_id = userid,
-                                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
-                                      action = 'delwikiproject',
-                                      reference = W.id,
-                                      reference_text = wikiproject)
-                    log.save()
-
+                    transactions._post_log(R, 'delwikiproject', W.id, wikiproject)
                     W.delete()
 
             for wikiproject in added_in:
-                    W = models.WikiProjects(request = R,
-                                            project_title = wikiproject,
-                                            project_id = wiki.GetWikiProjectId(R.wiki[:-4], wikiproject),
-                                            wiki = R.wiki)
-
-                    W.save()
-
-                    log = models.Logs(request = R,
-                                      user_name = username,
-                                      user_id = userid,
-                                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
-                                      action = 'addwikiproject',
-                                      reference = W.id)
-                    log.save()
+                    transactions.AddWikiProject(R, R.wiki[:-4], wikiproject)
 
     if 'newnote' in p:
         if username != None and p['newnote'] != '' and p['newnote'] != ' ' and p['newnote'] != '\r\n':
             R = models.Requests.objects.get(id=reqid)
-            N = models.Notes(request = R,
-                             user_name = username,
-                             user_id = userid,
-                             timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
-                             comment = p['newnote'])
-            N.save()
-    
-            log = models.Logs(request = R,
-                              user_name = username,
-                              user_id = userid,
-                              timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
-                              action = 'addnote',
-                              reference = N.id)
-            log.save()
+            transactions.AddNote(R, p['newnote'])
 
     # With any changes now processed, we can load the page.
 
@@ -524,7 +315,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
         content['add_a_note_explanation'] = _('Add a note explanation')
 
     context = {
-                'interface': interface_messages(request, langcode),
+                'interface': _interface_messages(request, langcode),
                 'language': langcode,
                 'content': content
               }
@@ -536,7 +327,7 @@ def log(request, langcode):  # /requests/en/log
     L = models.Logs.objects.all().order_by('-timestamp')[:500]
 
     context = {
-                'interface': interface_messages(request, langcode),
+                'interface': _interface_messages(request, langcode),
                 'language': langcode,
                 'headline': _('Log'),
                 'content': L
@@ -551,7 +342,7 @@ def search(request, langcode):  # /requests/en/search
         searchterm = g['searchterm'].replace('_', ' ')
         searchtype = g['searchtype']
         if searchterm != '' and searchterm != ' ':
-            R = retrieve_requests(searchterm, searchtype, g['language'])
+            R = transactions.retrieve_requests(searchterm, searchtype, g['language'])
 
             content = {'search_term': searchterm,
                        'search_type': _(searchtype[0].upper() + searchtype[1:]),
@@ -563,7 +354,7 @@ def search(request, langcode):  # /requests/en/search
                        'open_requests_label': _('open_requests')}
 
             context = {
-                       'interface': interface_messages(request, langcode),
+                       'interface': _interface_messages(request, langcode),
                        'language': langcode,
                        'content': content
                       }
@@ -579,7 +370,7 @@ def search(request, langcode):  # /requests/en/search
                'go_label': _('Go'),
                'wiki_language': wiki.GetEquivalentWiki(langcode)}
     context = {
-                'interface': interface_messages(request, langcode),
+                'interface': _interface_messages(request, langcode),
                 'language': langcode,
                 'content': content
               }
@@ -591,7 +382,7 @@ def help(request, langcode):  # /requests/en/help
     content = {'headline': _('Help'),
                'intro': _('help_body')}
     context = {
-                'interface': interface_messages(request, langcode),
+                'interface': _interface_messages(request, langcode),
                 'language': langcode,
                 'content': content
               }
@@ -603,224 +394,8 @@ def about(request, langcode):  # /requests/en/about
     content = {'headline': _('About Wikipedia Requests'),
                'intro': _('about_body')}
     context = {
-                'interface': interface_messages(request, langcode),
+                'interface': _interface_messages(request, langcode),
                 'language': langcode,
                 'content': content
               }
     return render(request, 'requestoid/help.html', context = context)
-
-
-def bulk(request, langcode):  # /requests/en/import
-    translation.use_language = langcode
-    username = get_username(request)
-    userid = wiki.GetUserId(username)
-    p = request.POST  # `p` is short for `post`
-
-    if username == None:
-        return you_need_to_login(request, langcode)
-    else:
-        if 'submit' in p:  # request creation can take place
-            # Defining default categories and WikiProjects and sanitizing them
-
-            default_categories = []
-
-            for category in p['categories'].split('\r\n'):
-                if category == '' or category == ' ':
-                    continue
-                if category[:9] == 'Category:':
-                    category = category[9:]  # truncate "Category:"
-                default_categories.append(category)
-
-            default_wikiprojects = []
-
-            for wikiproject in p['wikiprojects'].split('\r\n'):
-                if wikiproject == '' or wikiproject == ' ':
-                    continue
-                if wikiproject[:10] == 'Wikipedia:':
-                    wikiproject = wikiproject[9:]  # truncate "Wikipedia:"
-                default_wikiprojects.append(wikiproject)
-
-
-            # Preparing dictionary of individual entries
-
-            entries = {}
-
-            for key in p.keys():
-                if key.startswith('pagetitle'):
-                    if key[9:] in entries:
-                        entries[key[9:]]['pagetitle'] = p[key]
-                    else:
-                        entries[key[9:]] = {'pagetitle': p[key]}
-                elif key.startswith('summary'):
-                    if key[7:] in entries:
-                        entries[key[7:]]['summary'] = p[key]
-                    else:
-                        entries[key[7:]] = {'summary': p[key]}
-                elif key.startswith('note'):
-                    if key[4:] in entries:
-                        entries[key[4:]]['note'] = p[key]
-                    else:
-                        entries[key[4:]] = {'note': p[key]}
-
-            # Creating entries
-
-            now = arrow.utcnow().format('YYYYMMDDHHmmss')
-            userid = wiki.GetUserId(username)
-
-            new_requests = []
-
-            for entry in entries.values():
-
-                pageid = wiki.GetPageId(p['request_language'], entry['pagetitle'])
-                if pageid == None:
-                    pageid = 0
-
-                # Creating request
-                R = models.Requests(page_id = pageid,
-                                    page_title = entry['pagetitle'],
-                                    user_id = userid,
-                                    user_name = username,
-                                    wiki = p['request_language'] + 'wiki',
-                                    timestamp = now,
-                                    summary = entry['summary'],
-                                    status = 0)
-                R.save()
-
-                new_requests.append(R.id)
-
-                # First log entry: saying the request is created
-                log = models.Logs(request = R,
-                                  user_name = username,
-                                  user_id = userid,
-                                  timestamp = now,
-                                  action = 'create',
-                                  reference = R.id)
-                log.save()
-
-                # Next log entry: flagging it as open
-                log = models.Logs(request = R,
-                                  user_name = username,
-                                  user_id = userid,
-                                  timestamp = now,
-                                  action = 'flagopen',
-                                  reference = R.id)
-                log.save()
-
-                # Recording note
-                N = models.Notes(request = R,
-                                 user_name = username,
-                                 user_id = userid,
-                                 timestamp = now,
-                                 comment = entry['note'])
-                N.save()
-
-                # And a log entry stating note was left
-                log = models.Logs(request = R,
-                                  user_name = username,
-                                  user_id = userid,
-                                  timestamp = now,
-                                  action = 'addnote',
-                                  reference = N.id)
-                log.save()
-
-
-                if pageid == 0:
-                    for category in default_categories:
-                        catid = wiki.GetCategoryId(p['request_language'], category)
-                        if catid == None:
-                            continue
-
-                        C = models.Categories(request = R,
-                                              cat_id = catid,
-                                              cat_title = category,
-                                              wiki = p['request_language'] + 'wiki')
-                        C.save()
-                        log = models.Logs(request = R,
-                                          user_name = username,
-                                          user_id = userid,
-                                          timestamp = now,
-                                          action = 'addcategory',
-                                          reference = C.id)
-                        log.save()
-
-                else:
-                    categories = wiki.GetCategories(p['request_language'], pageid).split('\n')
-                    for category in categories:
-                        if category == ' ' or category == '':
-                            continue
-
-                        catid = wiki.GetCategoryId(p['request_language'], category)
-                        if catid == None:
-                            continue
-
-                        C = models.Categories(request = R,
-                                              cat_id = catid,
-                                              cat_title = category,
-                                              wiki = p['request_language'] + 'wiki')
-                        C.save()
-                        log = models.Logs(request = R,
-                                          user_name = username,
-                                          user_id = userid,
-                                          timestamp = now,
-                                          action = 'addcategory',
-                                          reference = C.id)
-                        log.save()
-
-
-                if pageid == 0:
-                    wikiprojects = default_wikiprojects
-                else:
-                    wikiprojects = list(set(default_wikiprojects + wiki.GetWikiProjects(p['request_language'], entry['pagetitle']).split('\n')))
-
-                for wikiproject in wikiprojects:
-                    if wikiproject == ' ' or wikiproject == '':
-                        continue
-
-                    projectid = wiki.GetWikiProjectId(p['request_language'], wikiproject)
-                    if projectid == None:
-                        continue
-
-                    W = models.WikiProjects(request = R,
-                                            project_id = projectid,
-                                            project_title = wikiproject,
-                                            wiki = p['request_language'] + 'wiki')
-                    W.save()
-
-                    log = models.Logs(request = R,
-                                      user_name = username,
-                                      user_id = userid,
-                                      timestamp = now,
-                                      action = 'addwikiproject',
-                                      reference = W.id)
-                    log.save()
-
-            content = {'new_requests': new_requests}
-            context = {
-                        'interface': interface_messages(request, langcode),
-                        'language': langcode,
-                        'content': content
-                      }
-
-            return render(request, 'requestoid/bulk_result.html', context = context)
-
-        else:  # render form
-            content = {'headline': _('Bulk Import'),
-                       'submit_button': _('Save'),
-                       'page_title_label': _('add_start_input_label'),
-                       'summary_label': _('Summary'),
-                       'add_a_note': _('Add a note'),
-                       'add_button': _('Add'),
-                       'categories_label': _('Categories'),
-                       'categories_placeholder': _('Bulk categories placeholder'),
-                       'wikiprojects_label': _('WikiProjects'),
-                       'divider1': _('All Requests'),
-                       'divider2': _('Per Request'),
-                       'remove_button': _('Remove'),
-                       'language_label': _('Language'),
-                       'wiki_language': wiki.GetEquivalentWiki(langcode)}
-            context = {
-                        'interface': interface_messages(request, langcode),
-                        'language': langcode,
-                        'content': content
-                      }
-            return render(request, 'requestoid/bulk_start.html', context = context)
