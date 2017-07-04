@@ -17,7 +17,7 @@ def GetId(language, pagetitle, namespace):
     q = 'select page_id from page where page_namespace = {0} and page_title = "{1}";'.format(namespace, pagetitle.replace('"','\\"'))
     result = WikipediaQuery(language, q)
     if result == []:
-        return None
+        return 0
     else:
         return result[0][0]
 

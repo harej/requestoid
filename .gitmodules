@@ -1,0 +1,3 @@
+[submodule "worldly"]
+	path = worldly
+	url = https://github.com/harej/worldly

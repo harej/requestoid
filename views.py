@@ -1,15 +1,16 @@
 import arrow
+import os
 from . import authentication, models, transactions, wiki
+from .worldly import Worldly
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from mwoauth import tokens
-from worldly import Worldly
 
 # Views! Views! Views, views, views, views, views views views views views views
 # has a has a has a has a kind of mystery
 
-ROOTDIR = '/var/www/django-src/requestoid/requestoid'
-translation = Worldly(ROOTDIR + "/i18n.yaml")
+cwd = os.path.dirname(os.path.realpath(__file__))
+translation = Worldly(cwd + "/i18n.yaml")
 _ = translation.render
 
 def _interface_messages(request, langcode):
@@ -29,7 +30,7 @@ def _interface_messages(request, langcode):
                 'footer': _('Footer')
              }
 
-    username = authentication.get_username(request, ROOTDIR)
+    username = authentication.get_username(request)
     if username != None:
         output['username'] = username  # leave 'username' key unset if no session
 
@@ -71,7 +72,7 @@ def homepage(request, langcode):  # /requests/en
 
 def auth(request):  # /requests/auth
     # This is the view called "auth," not a method that carries out authentication
-    handshaker = authentication.requests_handshaker(ROOTDIR)
+    handshaker = authentication.requests_handshaker()
     redirect, request_token = handshaker.initiate()
     request.session['request_token_key'] = request_token.key.decode('utf-8')
     request.session['request_token_secret'] = request_token.secret.decode('utf-8')
@@ -82,7 +83,7 @@ def auth(request):  # /requests/auth
 def callback(request):  # /requests/callback
     oauth_verifier = request.GET['oauth_verifier']
     oauth_token = request.GET['oauth_token']
-    handshaker = authentication.requests_handshaker(ROOTDIR)
+    handshaker = authentication.requests_handshaker()
     request_key = request.session['request_token_key'].encode('utf-8')
     request_secret = request.session['request_token_secret'].encode('utf-8')
     request_token = tokens.RequestToken(key=request_key, secret=request_secret)
@@ -94,7 +95,7 @@ def callback(request):  # /requests/callback
 
 def add(request, langcode):  # /requests/en/add
     translation.use_language = langcode
-    username = authentication.get_username(request, ROOTDIR)
+    username = authentication.get_username(request)
     g = request.GET  # `g` is short for `get`
     p = request.POST  # `p` is short for `post`
     if username == None:
@@ -186,7 +187,7 @@ def add(request, langcode):  # /requests/en/add
 def request(request, langcode, reqid):  # /requests/en/request/12345
     translation.use_language = langcode
     p = request.POST
-    username = authentication.get_username(request, ROOTDIR)
+    username = authentication.get_username(request)
     userid = wiki.GetUserId(username)
     # First, we determine if there are any POST requests to change the content.
 

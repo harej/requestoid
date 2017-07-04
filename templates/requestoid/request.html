@@ -2,7 +2,7 @@
 {% load wikipedia_link %}
 {% block content %}
 <h1>
-{% if content.requestdata.page_id = 0 %}
+{% if content.requestdata.page_id == 0 %}
 {{ content.requestdata.page_title|wikipedia_red_link:language }}
 {% else %}
 {{ content.requestdata.page_title|wikipedia_link:language }}

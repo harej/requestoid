@@ -1,0 +1,34 @@
+# Create a copy of this file and name it `config.py`
+# Leave this file, `config.py.sample`, alone.
+
+# Django secret key
+SECRET_KEY = ''
+
+# This app relies on SQL databases available through Wikimedia Cloud Services.
+# If you are not running this on WMCS hardware, you will need to tunnel in to
+# the servers:
+#    
+#    ssh -f -N -L 8888:enwiki.labsdb:3306 LDAPUSERNAME@tools-login.wmflabs.org
+#    ssh -f -N -L 9999:tools-db:3306 LDAPUSERNAME@tools-login.wmflabs.org
+#
+# You can use whichever ports you want, of course, as long as you define them
+# below.
+
+SQL_WMF_REPLICA_ADDRESS = '{0}.labsdb'
+SQL_WMF_REPLICA_PORT = 3306
+SQL_TOOLSDB_ADDRESS = 'tools-db'
+SQL_TOOLSDB_PORT = 3306
+SQL_USER = ''
+SQL_PASSWORD = ''
+
+# Register a Wikimedia OAuth consumer
+#
+#     https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration
+#
+# Note that
+
+OAUTH_CONSUMER_KEY = ''
+OAUTH_CONSUMER_SECRET = ''
+
+# Use False in production; you can use True in development
+DEBUG_STATUS = False
