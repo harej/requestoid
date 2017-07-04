@@ -1,8 +1,9 @@
 # Create a copy of this file and name it `config.py`
 # Leave this file, `config.py.sample`, alone.
 
-# Django secret key
+# Django settings
 SECRET_KEY = ''
+ALLOWED_HOSTS = ['wpx.wmflabs.org']
 
 # This app relies on SQL databases available through Wikimedia Cloud Services.
 # If you are not running this on WMCS hardware, you will need to tunnel in to
