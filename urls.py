@@ -20,7 +20,7 @@ from . import config, views
 
 # Workaround for dev purposes
 def pat(r):
-    if config.DEBUG_STATUS is True:
+    if config.DEVMODE is True:
         return r'^requests/' + r
     return r'^' + r
 

@@ -32,3 +32,4 @@ OAUTH_CONSUMER_SECRET = ''
 
 # Use False in production; you can use True in development
 DEBUG_STATUS = False
+DEVMODE = False
