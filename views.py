@@ -36,38 +36,34 @@ def _interface_messages(request, langcode):
 
     return output
 
+def _create_page(request, langcode, content, template):
+    context = {'interface': _interface_messages(request, langcode),
+                'language': langcode,
+                'content': content}
+    return render(request, template, context = context)
+
+def you_need_to_login(request, langcode):
+    content = {'headline': _('Login required'),
+               'explanation': _('login_required_message')}
+
+    return _create_page(request, langcode, content, 'requestoid/error.html')
+
 def select_language(request):  # /requests
-    available = [
-                    {'code': 'en', 'label': 'English'},
-                    {'code': 'fi', 'label': 'suomi'},
-                    {'code': 'sv', 'label': 'Svenska'},
-                    {'code': 'zh-hant', 'label': '繁體中文'}
-                ]
+    content = {'available':
+                  [{'code': 'en', 'label': 'English'},
+                   {'code': 'fi', 'label': 'suomi'},
+                   {'code': 'sv', 'label': 'Svenska'},
+                   {'code': 'zh-hant', 'label': '繁體中文'}]}
 
-    context = {
-                  'interface': _interface_messages(request, 'en'),
-                  'language': 'en',
-                  'available': available
-              }
-
-    return render(request, 'requestoid/select_language.html', context = context)
-
+    return _create_page(request, 'en', content, 'requestoid/select_language.html')
 
 def homepage(request, langcode):  # /requests/en
     translation.use_language = langcode
 
-    content = {
-                  'headline': _('Help fill in the gaps on Wikipedia'),
-                  'intro': _('homepage_intro')
-              }
+    content = {'headline': _('Help fill in the gaps on Wikipedia'),
+               'intro': _('homepage_intro')}
 
-    context = {
-                  'interface': _interface_messages(request, langcode),
-                  'language': langcode,
-                  'content': content
-              }
-
-    return render(request, 'requestoid/homepage.html', context = context)
+    return _create_page(request, langcode, content, 'requestoid/homepage.html')
 
 
 def auth(request):  # /requests/auth
@@ -156,33 +152,20 @@ def add(request, langcode):  # /requests/en/add
                     content['note_explanation'] = _('Please expand on your request. It is recommended you include additional context and sources if you have any. You may use wikitext markup.')
                     content['submit_button'] = _('add_submit_button')
 
-                    context = {
-                                'interface': _interface_messages(request, langcode),
-                                'language': langcode,
-                                'content': content,
-                                'request_language': request_language,
-                                'pagetitle': pagetitle,
-                                'pageid': pageid
-                              }
+                    content['pagetitle'] = pagetitle
+                    content['pageid'] = pageid
+                    content['request_language'] = request_language
 
-                    return render(request, 'requestoid/add_details.html', context = context)
+                    return _create_page(request, langcode, content, 'requestoid/add_details.html')
 
         # Default behavior for no pagetitle specified
-        content = {
-                    'headline': _('add_start_headline'),
-                    'inputlabel': _('add_start_input_label'),
-                    'explanation': _('add_start_explanation'),
-                    'button': _('add_start_button_label'),
-                    'wiki_language': wiki.GetEquivalentWiki(langcode)
-                  }
+        content = {'headline': _('add_start_headline'),
+                   'inputlabel': _('add_start_input_label'),
+                   'explanation': _('add_start_explanation'),
+                   'button': _('add_start_button_label'),
+                   'wiki_language': wiki.GetEquivalentWiki(langcode)}
 
-        context = {
-                    'interface': _interface_messages(request, langcode),
-                    'language': langcode,
-                    'content': content
-                  }
-
-        return render(request, 'requestoid/add_start.html', context = context)
+        return _create_page(request, langcode, content, 'requestoid/add_start.html')
 
 def request(request, langcode, reqid):  # /requests/en/request/12345
     translation.use_language = langcode
@@ -315,26 +298,13 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
         content['add_button'] = _('Add')
         content['add_a_note_explanation'] = _('Add a note explanation')
 
-    context = {
-                'interface': _interface_messages(request, langcode),
-                'language': langcode,
-                'content': content
-              }
-    return render(request, 'requestoid/request.html', context = context)
-
+    return _create_page(request, langcode, content, 'requestoid/request.html')
 
 def log(request, langcode):  # /requests/en/log
     translation.use_language = langcode
     L = models.Logs.objects.all().order_by('-timestamp')[:500]
-
-    context = {
-                'interface': _interface_messages(request, langcode),
-                'language': langcode,
-                'headline': _('Log'),
-                'content': L
-              }
-    return render(request, 'requestoid/log.html', context = context)
-
+    content = {'headline': _('Log'), 'content': L}
+    return _create_page(request, langcode, content, 'requestoid/log.html')
 
 def search(request, langcode):  # /requests/en/search
     translation.use_language = langcode
@@ -354,13 +324,7 @@ def search(request, langcode):  # /requests/en/search
                        'complete_requests_label': _('complete_requests'),
                        'open_requests_label': _('open_requests')}
 
-            context = {
-                       'interface': _interface_messages(request, langcode),
-                       'language': langcode,
-                       'content': content
-                      }
-
-            return render(request, 'requestoid/list_results.html', context = context)
+            return _create_page(request, langcode, content, 'requestoid/list_results.html')
 
     # get parameters: language, searchterm, searchtype
 
@@ -370,33 +334,17 @@ def search(request, langcode):  # /requests/en/search
                'wikiproject_label': _('WikiProject'),
                'go_label': _('Go'),
                'wiki_language': wiki.GetEquivalentWiki(langcode)}
-    context = {
-                'interface': _interface_messages(request, langcode),
-                'language': langcode,
-                'content': content
-              }
-    return render(request, 'requestoid/list_start.html', context = context)
 
+    return _create_page(request, langcode, content, 'requestoid/list_start.html')
 
 def help(request, langcode):  # /requests/en/help
     translation.use_language = langcode
     content = {'headline': _('Help'),
                'intro': _('help_body')}
-    context = {
-                'interface': _interface_messages(request, langcode),
-                'language': langcode,
-                'content': content
-              }
-    return render(request, 'requestoid/help.html', context = context)
-
+    return _create_page(request, langcode, content, 'requestoid/help.html')
 
 def about(request, langcode):  # /requests/en/about
     translation.use_language = langcode
     content = {'headline': _('About Wikipedia Requests'),
                'intro': _('about_body')}
-    context = {
-                'interface': _interface_messages(request, langcode),
-                'language': langcode,
-                'content': content
-              }
-    return render(request, 'requestoid/help.html', context = context)
+    return _create_page(request, langcode, content, 'requestoid/help.html')

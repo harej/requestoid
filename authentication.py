@@ -17,17 +17,3 @@ def get_username(request):
         return handshaker.identify(access_token)['username']
     else:
         return None
-
-def you_need_to_login(request, langcode):
-    content = {
-                  'headline': _('Login required'),
-                  'explanation': _('login_required_message')
-              }
-
-    context = {
-                  'interface': interface_messages(request, langcode),
-                  'language': langcode,
-                  'content': content
-              }
-
-    return render(request, 'requestoid/error.html', context = context)

@@ -1,7 +1,7 @@
 {% extends 'requestoid/base.html' %}
 {% block content %}
 <ul>
-{% for entry in available %}
+{% for entry in content.available %}
 <li><a href="/requests/{{ entry.code }}">{{ entry.label }}</a></li>
 {% endfor %}
 </ul>
