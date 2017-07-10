@@ -71,8 +71,8 @@ def add_note(request, content, username=None, userid=None):
         userid = request.user_id
 
     N = models.Notes(request = request,
-                     user_name = request.user_name,
-                     user_id = request.user_id,
+                     user_name = username,
+                     user_id = userid,
                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                      comment = content)
     N.save()
