@@ -183,7 +183,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             R = models.Requests.objects.get(id=reqid)
             R.status = status_index[new_status]
             R.save()
-            transactions._post_log(R, status_log_index[new_status], R.id, username, userid)
+            transactions._post_log(R, status_log_index[new_status], R.id, username=username, userid=userid)
 
     if 'categories' in p:
         R = models.Requests.objects.get(id=reqid)
@@ -205,11 +205,11 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             for category in taken_out:
                 query = models.Categories.objects.filter(cat_title=category, request_id=reqid)
                 for C in query:  # The above returns a QuerySet; doing it this way in case there's >1 result
-                    transactions._post_log(R, 'delcategory', C.id, category, username, userid)
+                    transactions._post_log(R, 'delcategory', C.id, category, username=username, userid=userid)
                     C.delete()
 
             for category in added_in:
-                    transactions.add_category(R, R.wiki[:-4], category, username, userid)
+                    transactions.add_category(R, R.wiki[:-4], category, username=username, userid=userid)
 
     if 'wikiprojects' in p:
         R = models.Requests.objects.get(id=reqid)
@@ -231,16 +231,16 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             for wikiproject in taken_out:
                 query = models.WikiProjects.objects.filter(project_title=wikiproject, request_id=reqid)
                 for W in query:  # The above returns a QuerySet; doing it this way in case there's >1 result
-                    transactions._post_log(R, 'delwikiproject', W.id, wikiproject, username, userid)
+                    transactions._post_log(R, 'delwikiproject', W.id, wikiproject, username=username, userid=userid)
                     W.delete()
 
             for wikiproject in added_in:
-                    transactions.add_wikiproject(R, R.wiki[:-4], wikiproject, username, userid)
+                    transactions.add_wikiproject(R, R.wiki[:-4], wikiproject, username=username, userid=userid)
 
     if 'newnote' in p:
         if username != None and p['newnote'] != '' and p['newnote'] != ' ' and p['newnote'] != '\r\n':
             R = models.Requests.objects.get(id=reqid)
-            transactions.add_note(R, p['newnote'], username, userid)
+            transactions.add_note(R, p['newnote'], username=username, userid=userid)
 
     # With any changes now processed, we can load the page.
 
