@@ -1,0 +1,11 @@
+{% extends 'requestoid/base.html' %}
+{% block content %}
+<h1>{{ content.headline }}</h1>
+<p>{{ content.intro }}</p>
+<form action="/requests/{{ language }}/bulk" method="post" enctype="multipart/form-data">
+ <input type="file" name="spreadsheet" />
+ <input type="hidden" name="step" value="mapping" />
+ <button class="ui blue button">{{ content.button }}</button>
+ <div style="clear:both; margin-top:-1px;"></div>
+</form>
+{% endblock %}

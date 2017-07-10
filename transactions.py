@@ -1,10 +1,16 @@
 import arrow
 from . import models, wiki
 
-def _post_log(request, action, reference, reference_text=None):
+def _post_log(request, action, reference, reference_text=None, username=None, userid=None):
+    if username == None:
+        username = request.user_name
+
+    if userid == None:
+        userid = request.user_id
+
     log = models.Logs(request = request,
-                      user_name = request.user_name,
-                      user_id = request.user_id,
+                      user_name = username,
+                      user_id = userid,
                       timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                       action = action,
                       reference = reference,
@@ -43,7 +49,7 @@ def retrieve_requests(searchterm, searchtype, language):
 
     return R
 
-def CreateRequestEntry(page_id, page_title, userid, username, wiki, summary):
+def create_request_entry(page_id, page_title, userid, username, wiki, summary):
     R = models.Requests(page_id = page_id,
                         page_title = page_title,
                         user_id = userid,
@@ -57,7 +63,13 @@ def CreateRequestEntry(page_id, page_title, userid, username, wiki, summary):
     _post_log(R, 'flagopen', R.id)
     return R
 
-def AddNote(request, content):
+def add_note(request, content, username=None, userid=None):
+    if username == None:
+        username = request.user_name
+
+    if userid == None:
+        userid = request.user_id
+
     N = models.Notes(request = request,
                      user_name = request.user_name,
                      user_id = request.user_id,
@@ -67,7 +79,13 @@ def AddNote(request, content):
     _post_log(request, 'addnote', N.id)
     return N
 
-def AddCategory(request, request_language, category):
+def add_category(request, request_language, category, username=None, userid=None):
+    if username == None:
+        username = request.user_name
+
+    if userid == None:
+        userid = request.user_id
+
     C = models.Categories(request = request,
                           cat_id = wiki.GetCategoryId(request_language, category),
                           cat_title = category,
@@ -76,7 +94,13 @@ def AddCategory(request, request_language, category):
     _post_log(request, 'addcategory', C.id)
     return C
 
-def AddWikiProject(request, request_language, wikiproject):
+def add_wikiproject(request, request_language, wikiproject, username=None, userid=None):
+    if username == None:
+        username = request.user_name
+
+    if userid == None:
+        userid = request.user_id
+
     W = models.WikiProjects(request = request,
                             project_id = wiki.GetWikiProjectId(request_language, wikiproject),
                             project_title = wikiproject,
@@ -85,8 +109,8 @@ def AddWikiProject(request, request_language, wikiproject):
     _post_log(request, 'addwikiproject', W.id)
     return W
 
-def NewEntry(page_id, page_title, userid, username, wiki, summary, note, categories, wikiprojects, request_language):
-    R = CreateRequestEntry(
+def new_entry(page_id, page_title, userid, username, wiki, summary, note, categories, wikiprojects, request_language):
+    R = create_request_entry(
             page_id,
             page_title,
             userid,
@@ -94,7 +118,7 @@ def NewEntry(page_id, page_title, userid, username, wiki, summary, note, categor
             wiki,
             summary)
 
-    AddNote(R, note)
+    add_note(R, note)
 
     for category in categories:
         if category == '' or category == ' ':
@@ -102,7 +126,7 @@ def NewEntry(page_id, page_title, userid, username, wiki, summary, note, categor
         if category[:9] == 'Category:':
             category = category[9:]  # truncate "Category:"
 
-        AddCategory(R, request_language, category)
+        add_category(R, request_language, category)
 
     for wikiproject in wikiprojects:
         if wikiproject == '' or wikiproject == ' ':
@@ -110,6 +134,11 @@ def NewEntry(page_id, page_title, userid, username, wiki, summary, note, categor
         if wikiproject[:10] == 'Wikipedia:':
             wikiproject = wikiproject[10:]  # truncate "Wikipedia:"
 
-        AddWikiProject(R, request_language, wikiproject)
+        add_wikiproject(R, request_language, wikiproject)
 
     return R
+
+def bulk_create(manifest):
+    for entry in manifest:
+        new_entry(entry['page_id'], entry['page_title'], entry['userid'],
+                  entry['username'], entry['wiki'], entry['summary'])

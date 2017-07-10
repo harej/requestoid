@@ -37,4 +37,5 @@ urlpatterns = [
     url(pat('(?P<langcode>([^\/])*)\/request$'), views.search),  # alias for above
     url(pat('(?P<langcode>([^\/])*)\/help$'), views.help),  # /requests/en/help
     url(pat('(?P<langcode>([^\/])*)\/about$'), views.about),  # /requests/en/about
+    url(pat('(?P<langcode>([^\/])*)\/bulk$'), views.bulk),  # /requests/en/bulk
 ]

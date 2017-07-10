@@ -325,3 +325,14 @@
 
 "complete_requests":
   en: "complete requests"
+
+# Bulk import
+
+"bulkimport-headline":
+  en: "Import from Spreadsheet"
+
+"bulkimport-intro":
+  en: "Start by uploading a spreadsheet below. The formats accepted are CSV and TSV. Your spreadsheet will need to have columns for: the language wiki, the page title, the request summary, an expanded description of the task, relevant categories (if the article is not already on Wikipedia), and relevant WikiProjects"
+
+"bulkimport-button":
+  en: "Upload"

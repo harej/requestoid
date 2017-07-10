@@ -1,8 +1,0 @@
-{% extends 'requestoid/base.html' %}
-{% block content %}
-<ul>
-{% for entry in content.new_requests %}
-<li><a href="/requests/{{ language }}/request/{{ entry }}">{{ entry }}</a></li>
-{% endfor %}
-</ul>
-{% endblock %}

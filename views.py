@@ -104,7 +104,7 @@ def add(request, langcode):  # /requests/en/add
                     categories = p['categories'].split('\r\n')
                     wikiprojects = p['wikiprojects'].split('\r\n')
 
-                    R = transactions.NewEntry(
+                    R = transactions.new_entry(
                         p['pageid'],
                         p['pagetitle'],
                         userid,
@@ -183,7 +183,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             R = models.Requests.objects.get(id=reqid)
             R.status = status_index[new_status]
             R.save()
-            transactions._post_log(R, status_log_index[new_status], R.id)
+            transactions._post_log(R, status_log_index[new_status], R.id, username, userid)
 
     if 'categories' in p:
         R = models.Requests.objects.get(id=reqid)
@@ -205,11 +205,11 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             for category in taken_out:
                 query = models.Categories.objects.filter(cat_title=category, request_id=reqid)
                 for C in query:  # The above returns a QuerySet; doing it this way in case there's >1 result
-                    transactions._post_log(R, 'delcategory', C.id, category)
+                    transactions._post_log(R, 'delcategory', C.id, category, username, userid)
                     C.delete()
 
             for category in added_in:
-                    transactions.AddCategory(R, R.wiki[:-4], category)
+                    transactions.add_category(R, R.wiki[:-4], category, username, userid)
 
     if 'wikiprojects' in p:
         R = models.Requests.objects.get(id=reqid)
@@ -231,16 +231,16 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
             for wikiproject in taken_out:
                 query = models.WikiProjects.objects.filter(project_title=wikiproject, request_id=reqid)
                 for W in query:  # The above returns a QuerySet; doing it this way in case there's >1 result
-                    transactions._post_log(R, 'delwikiproject', W.id, wikiproject)
+                    transactions._post_log(R, 'delwikiproject', W.id, wikiproject, username, userid)
                     W.delete()
 
             for wikiproject in added_in:
-                    transactions.AddWikiProject(R, R.wiki[:-4], wikiproject)
+                    transactions.add_wikiproject(R, R.wiki[:-4], wikiproject, username, userid)
 
     if 'newnote' in p:
         if username != None and p['newnote'] != '' and p['newnote'] != ' ' and p['newnote'] != '\r\n':
             R = models.Requests.objects.get(id=reqid)
-            transactions.AddNote(R, p['newnote'])
+            transactions.add_note(R, p['newnote'], username, userid)
 
     # With any changes now processed, we can load the page.
 
@@ -348,3 +348,30 @@ def about(request, langcode):  # /requests/en/about
     content = {'headline': _('About Wikipedia Requests'),
                'intro': _('about_body')}
     return _create_page(request, langcode, content, 'requestoid/help.html')
+
+def bulk(request, langcode):  # /requests/en/bulk
+    translation.use_language = langcode
+
+    username = authentication.get_username(request)
+    if username == None:
+        return you_need_to_login(request, langcode)
+
+    p = request.POST
+
+    if 'step' in p:  # We are on a step other than the initial landing page
+        if p['step'] == 'mapping':
+            # Make sure the file is something we can work with.
+            # Should do more intelligent checking, but file format is good enough for now.
+
+            content = {}
+            return _create_page(request, langcode, content, 'requestoid/bulk_details.html')
+
+        elif p['step'] == 'execution':
+            content = {}
+            return _create_page(request, langcode, content, 'requestoid/bulk_results.html')
+
+    # No forms filled in yet.
+    content = {'headline': _('bulkimport-headline'),
+               'intro': _('bulkimport-intro'),
+               'button': _('bulkimport-button')}
+    return _create_page(request, langcode, content, 'requestoid/bulk_start.html')
