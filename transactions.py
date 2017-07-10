@@ -59,8 +59,8 @@ def create_request_entry(page_id, page_title, userid, username, wiki, summary):
                         summary = summary,
                         status = 0)
     R.save()
-    _post_log(R, 'create', R.id)
-    _post_log(R, 'flagopen', R.id)
+    _post_log(R, 'create', R.id, username=username, userid=userid)
+    _post_log(R, 'flagopen', R.id, username=username, userid=userid)
     return R
 
 def add_note(request, content, username=None, userid=None):
@@ -76,7 +76,7 @@ def add_note(request, content, username=None, userid=None):
                      timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                      comment = content)
     N.save()
-    _post_log(request, 'addnote', N.id)
+    _post_log(request, 'addnote', N.id, username=username, userid=userid)
     return N
 
 def add_category(request, request_language, category, username=None, userid=None):
@@ -91,7 +91,7 @@ def add_category(request, request_language, category, username=None, userid=None
                           cat_title = category,
                           wiki = request.wiki)
     C.save()
-    _post_log(request, 'addcategory', C.id)
+    _post_log(request, 'addcategory', C.id, username=username, userid=userid)
     return C
 
 def add_wikiproject(request, request_language, wikiproject, username=None, userid=None):
@@ -106,7 +106,7 @@ def add_wikiproject(request, request_language, wikiproject, username=None, useri
                             project_title = wikiproject,
                             wiki = request_language + 'wiki')
     W.save()
-    _post_log(request, 'addwikiproject', W.id)
+    _post_log(request, 'addwikiproject', W.id, username=username, userid=userid)
     return W
 
 def new_entry(page_id, page_title, userid, username, wiki, summary, note, categories, wikiprojects, request_language):
