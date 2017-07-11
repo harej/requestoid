@@ -1,0 +1,44 @@
+{% extends 'requestoid/base.html' %}
+{% block content %}
+<h1>{{ content.headline }}</h1>
+<form action="/requests/{{ language }}/bulk" method="post">
+{% csrf_token %}
+<input type="hidden" name="spreadsheet_id" value="{{ content.spreadsheet_id }}" />
+<input type="hidden" name="step" value="execution" />
+<div class="ui form">
+  <div class="ui field">
+    <label>{{ content.separator_label }}</label>
+    <input type="text" name="separator" value="|"></input>
+    <p>{{ content.separator_explanation }}</p>
+  </div>
+  <div style="clear: both;"></div>
+  {% for header in content.headers %}
+    <div class="ui field" data-column="{{ forloop.counter0 }}">
+      <label>{{ forloop.counter }}: {{ header }}</label>
+      <select name="which_field_{{ forloop.counter0 }}" class="ui dropdown">
+        <option value="">{{ content.which_field }}</option>
+        <option value="_ignore">{{ content.which_field_ignorecolumn }}</option>
+        <option value="language" {% if header == 'language' %}selected{% endif %}>{{ content.which_field_language }}</option>
+        <option value="pagetitle" {% if header == 'pagetitle' %}selected{% endif %}>{{ content.which_field_pagetitle }}</option>
+        <option value="summary" {% if header == 'summary' %}selected{% endif %}>{{ content.which_field_summary }}</option>
+        <option value="note" {% if header == 'note' %}selected{% endif %}>{{ content.which_field_note }}</option>
+        <option value="categories" {% if header == 'categories' %}selected{% endif %}>{{ content.which_field_categories }}</option>
+        <option value="wikiprojects" {% if header == 'wikiprojects' %}selected{% endif %}>{{ content.which_field_wikiprojects }}</option>
+      </select>
+      <p>{{ content.sample_data }}:
+        <ul>
+          {% for row in content.content %}
+            {% for cell in row %}
+              {% if forloop.counter0 == forloop.parentloop.parentloop.counter0 %}
+                <li>{{ cell }}</li>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </p>
+    </div>
+  {% endfor %}
+  <button class="ui green button" name="submit" value="submit">{{ content.submit_button }}</button>
+</div>
+</form>
+{% endblock %}

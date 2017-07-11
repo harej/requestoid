@@ -1,5 +1,12 @@
 import arrow
-from . import models, wiki
+import json
+import random
+import redis
+from . import config, models, wiki
+from datetime import timedelta
+from celery.decorators import task
+
+REDIS = redis.Redis(host=config.REDIS_HOST, port=config.REDIS_PORT)
 
 def _post_log(request, action, reference, reference_text=None, username=None, userid=None):
     if username == None:
@@ -18,6 +25,19 @@ def _post_log(request, action, reference, reference_text=None, username=None, us
     log.save()
 
     return log
+
+def _redis_save(k, v):
+    return REDIS.setex(config.REDIS_PREFIX + k, v, timedelta(hours=48))
+
+def _redis_get(k):
+    return REDIS.get(config.REDIS_PREFIX + k)
+
+def random_id():
+    return ''.join(random.SystemRandom().choice(
+               'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+               'abcdefghijklmnopqrstuvwxyz'
+               '0123456789'
+           ) for _ in range(25))
 
 def retrieve_requests(searchterm, searchtype, language):
     database = language + 'wiki'
@@ -49,7 +69,7 @@ def retrieve_requests(searchterm, searchtype, language):
 
     return R
 
-def create_request_entry(page_id, page_title, userid, username, wiki, summary):
+def create_request_entry(page_id, page_title, userid, username, wiki, summary, spreadsheet=None):
     R = models.Requests(page_id = page_id,
                         page_title = page_title,
                         user_id = userid,
@@ -57,7 +77,8 @@ def create_request_entry(page_id, page_title, userid, username, wiki, summary):
                         wiki = wiki,
                         timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'),
                         summary = summary,
-                        status = 0)
+                        status = 0,
+                        spreadsheet = spreadsheet)
     R.save()
     _post_log(R, 'create', R.id, username=username, userid=userid)
     _post_log(R, 'flagopen', R.id, username=username, userid=userid)
@@ -109,14 +130,15 @@ def add_wikiproject(request, request_language, wikiproject, username=None, useri
     _post_log(request, 'addwikiproject', W.id, username=username, userid=userid)
     return W
 
-def new_entry(page_id, page_title, userid, username, wiki, summary, note, categories, wikiprojects, request_language):
+def new_entry(page_id, page_title, userid, username, wiki, summary, note, categories, wikiprojects, request_language, spreadsheet=None):
     R = create_request_entry(
             page_id,
             page_title,
             userid,
             username,
             wiki,
-            summary)
+            summary,
+            spreadsheet=spreadsheet)
 
     add_note(R, note)
 
@@ -138,7 +160,35 @@ def new_entry(page_id, page_title, userid, username, wiki, summary, note, catego
 
     return R
 
-def bulk_create(manifest):
+def spreadsheet_push(manifest):
+    dump = json.dumps(manifest)
+    uid = random_id()
+    _redis_save('requestoid:spreadsheet:' + uid, dump)
+    return uid
+
+def spreadsheet_get(uid):
+    return json.loads(_redis_get('requestoid:spreadsheet:' + uid))
+
+@task(name="bulk_create")
+def bulk_create(manifest, filename, code, username, userid):
+    S = models.Spreadsheet(
+            code = code,
+            filename = filename,
+            user_name = username,
+            user_id = userid,
+            timestamp = arrow.utcnow().format('YYYYMMDDHHmmss'))
+    S.save()
+
+    _post_log(None, 'importspreadsheet', S.id, username=username, userid=userid)
+
     for entry in manifest:
-        new_entry(entry['page_id'], entry['page_title'], entry['userid'],
-                  entry['username'], entry['wiki'], entry['summary'])
+        pageid = wiki.GetPageId(entry['language'], entry['pagetitle'])
+        wikidb = entry['language'] + 'wiki'
+
+        if pageid > 0:
+            entry['categories'] = wiki.GetCategories(entry['language'], pageid).split('\n')
+
+        new_entry(pageid, entry['pagetitle'], userid, username, wikidb,
+                  entry['summary'], entry['note'], entry['categories'],
+                  entry['wikiprojects'], entry['language'],
+                  spreadsheet=S)

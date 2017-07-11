@@ -9,6 +9,7 @@ ALLOWED_HOSTS = ['wpx.wmflabs.org']
 # If you are not running this on WMCS hardware, you will need to tunnel in to
 # the servers:
 #    
+#    ssh -f -N -L 7777:tools-redis:6379 LDAPUSERNAME@tools-login.wmflabs.org  (or run your own Redis)
 #    ssh -f -N -L 8888:enwiki.labsdb:3306 LDAPUSERNAME@tools-login.wmflabs.org
 #    ssh -f -N -L 9999:tools-db:3306 LDAPUSERNAME@tools-login.wmflabs.org
 #
@@ -34,3 +35,8 @@ OAUTH_CONSUMER_SECRET = ''
 # Use False in production; you can use True in development
 DEBUG_STATUS = False
 DEVMODE = False
+
+# Redis settings
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_PREFIX = ''  # Use to give a unique prefix to your keys, if operating in a shared environment

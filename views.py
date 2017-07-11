@@ -1,5 +1,6 @@
 import arrow
 import os
+import tablib
 from . import authentication, models, transactions, wiki
 from .worldly import Worldly
 from django.http.response import HttpResponseRedirect
@@ -133,8 +134,7 @@ def add(request, langcode):  # /requests/en/add
                     content['summary_explanation'] = _('What is the goal? For example: create article, expand article, add sources...')
 
                     # Does the article exist? Two different workflows if so.
-                    if pageid == None:  # new article workflow
-                        pageid = 0
+                    if pageid == 0:  # new article workflow
                         content['summary_inputbox'] = _('Create new article')
                         content['category_explanation'] = _('Enter one category per line. Case sensitive. Do not include "Category:".')
                         content['category_textarea'] = ''
@@ -363,11 +363,96 @@ def bulk(request, langcode):  # /requests/en/bulk
             # Make sure the file is something we can work with.
             # Should do more intelligent checking, but file format is good enough for now.
 
-            content = {}
-            return _create_page(request, langcode, content, 'requestoid/bulk_details.html')
+            file = request.FILES['spreadsheet']
+            spreadsheet = tablib.Dataset()
+            if file.name.endswith('.csv') or file.name.endswith('.tsv'):
+                if file.name.endswith('.tsv'):
+                    spreadsheet.tsv = file.read().decode('utf-8')
+                else:
+                    spreadsheet.csv = file.read().decode('utf-8')
+
+                manifest = {'headers': spreadsheet.headers,
+                            'content': spreadsheet[0:],
+                            'username': username,
+                            'userid': wiki.GetUserId(username),
+                            'filename': file.name}
+
+                spreadsheet_id = transactions.spreadsheet_push(manifest)
+
+                content = {'headline': _('bulkimport-headline'),
+                           'separator_label': _('Separator'),
+                           'separator_explanation': _('bulkimport-separator-explanation'),
+                           'which_field': _('bulkimport-whichfieldisthis'),
+                           'which_field_ignorecolumn': _('bulkimport-whichfieldisthis-ignore'),
+                           'which_field_language': _('bulkimport-whichfieldisthis-langcode'),
+                           'which_field_pagetitle': _('bulkimport-whichfieldisthis-pagetitle'),
+                           'which_field_summary': _('Summary'),
+                           'which_field_note': _('bulkimport-whichfieldisthis-note'),
+                           'which_field_categories': _('Categories'),
+                           'which_field_wikiprojects': _('WikiProjects'),
+                           'submit_button': _('Go'),
+                           'sample_data': _('Sample data'),
+                           'headers': spreadsheet.headers,
+                           'content': spreadsheet[:3],
+                           'spreadsheet_id': spreadsheet_id}
+                return _create_page(request, langcode, content, 'requestoid/bulk_mapping.html')
+            else:
+                content = {'headline': _('bulkimport-error-wrongtype'),
+                           'explanation': _('bulkimport-error-wrongtype-details').format(file.name)}
+                return _create_page(request, langcode, content, 'requestoid/error.html')
 
         elif p['step'] == 'execution':
-            content = {}
+            manifest = transactions.spreadsheet_get(p['spreadsheet_id'])
+            spreadsheet = manifest['content']
+            filename = manifest['filename']
+            headers = manifest['headers']
+            userid = manifest['userid']
+            username = manifest['username']
+            code = p['spreadsheet_id']
+            sep = p['separator'].strip()
+
+            if sep == '':
+                sep = '|'
+
+            matched_column_names = []  # to check for duplicates
+
+            # Update column names with canonical column names
+            for k, v in p.items():
+                if k.startswith('which_field_'):
+                    if v in matched_column_names:  # bad
+                        content = {'headline': _('bulkimport-error-dupecolumns'),
+                                   'explanation': _('bulkimport-error-dupecolumns-details').format(v)}
+                        return _create_page(request, langcode, content, 'requestoid/error.html')
+                    else:
+                        headers[int(k.replace('which_field_', ''))] = v
+                        if v not in ['', '_ignore']:  # multiple ignored columns are allowed
+                            matched_column_names.append(v)
+
+            # Check if any columns are missing:
+            for column in ['language', 'pagetitle', 'summary', 'note', 'categories', 'wikiprojects']:
+                if column not in matched_column_names:
+                    content = {'headline': _('bulkimport-error-missingcolumn'),
+                               'explanation': _('bulkimport-error-missingcolumn-details').format(column)}
+                    return _create_page(request, langcode, content, 'requestoid/error.html')
+
+            # Everything checks out; time to construct a massive data object to send to Celery.
+            # We are recycling the "manifest" name from above.
+
+            manifest = []
+            for row in spreadsheet:
+                entry = {}
+                for cellnum, cellvalue in enumerate(row):
+                    if headers[cellnum] not in ['', '_ignore']:
+                        entry[headers[cellnum]] = cellvalue
+
+                entry['categories'] = entry['categories'].split(sep)
+                entry['wikiprojects'] = entry['wikiprojects'].split(sep)
+
+                manifest.append(entry)
+
+            transactions.bulk_create.delay(manifest, filename, code, username, userid)
+
+            content = {'headline': _('bulkimport-success'), 'explanation': _('bulkimport-success-details').format(langcode)}
             return _create_page(request, langcode, content, 'requestoid/bulk_results.html')
 
     # No forms filled in yet.

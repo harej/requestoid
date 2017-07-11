@@ -332,7 +332,55 @@
   en: "Import from Spreadsheet"
 
 "bulkimport-intro":
-  en: "Start by uploading a spreadsheet below. The formats accepted are CSV and TSV. Your spreadsheet will need to have columns for: the language wiki, the page title, the request summary, an expanded description of the task, relevant categories (if the article is not already on Wikipedia), and relevant WikiProjects"
+  en: "Start by uploading a spreadsheet below. The formats accepted are <b>CSV</b> and <b>TSV</b>. Your spreadsheet will need to have columns for: the language Wikipedia (e.g. en, es, ru, zh), the page title, the request summary, an expanded description of the task, relevant categories (if the article is not already on Wikipedia), and relevant WikiProjects. <b>Make sure your data has headers.</b>"
 
 "bulkimport-button":
   en: "Upload"
+
+"bulkimport-error-wrongtype":
+  en: "Wrong file type"
+
+"bulkimport-error-wrongtype-details":
+  en: "You must upload a CSV file or a TSV file. You uploaded: {0}"
+
+"Separator":
+  en: "Separator"
+
+"bulkimport-separator-explanation":
+  en: "Character used for separating individual entries in the categories and WikiProjects fields such as a semicolon"
+
+"bulkimport-whichfieldisthis":
+  en: "Which field is this?"
+
+"bulkimport-whichfieldisthis-ignore":
+  en: "(ignore)"
+
+"bulkimport-whichfieldisthis-langcode":
+  en: "Language code"
+
+"bulkimport-whichfieldisthis-pagetitle":
+  en: "Page title"
+
+"bulkimport-whichfieldisthis-note":
+  en: "Longer request description"
+
+"Sample data":
+  en: "Sample data"
+
+"bulkimport-error-dupecolumns":
+  en: "Duplicate columns"
+
+"bulkimport-error-dupecolumns-details":
+  en: "You mapped more than one column to the same field. This is not supported by the spreadsheet import tool. The duplicated column found was: {0}"
+
+"bulkimport-error-missingcolumn":
+  en: "Missing column"
+
+"bulkimport-error-missingcolumn-details":
+  en: "You are missing the {0} column"
+
+"bulkimport-success":
+  en: "Success!"
+
+"bulkimport-success-details":
+  en: "Your spreadsheet has been successfully ingested into the import system. Keep an eye on the <a href='https://wpx.wmflabs.org/requests/{0}/log'>log</a> as entries for individual requests are created from your spreadsheet."
