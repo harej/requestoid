@@ -267,8 +267,13 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     W = models.WikiProjects.objects.filter(request_id=reqid).order_by('project_title')
 
     for note in N:
+        try:
+            ts = arrow.get(note.timestamp, 'YYYYMMDDHHmmss').format('YYYY-MM-DD | HH:mm:ss')
+        except ParserError:
+            ts = '???'
+
         noteblock = {'username': note.user_name,
-                     'timestamp': arrow.get(note.timestamp, 'YYYYMMDDHHmmss').format('YYYY-MM-DD | HH:mm:ss'),
+                     'timestamp': ts,
                      'comment': wiki.WikitextRender(R.wiki[:-4], note.comment)}
 
         requestdata['notes'].append(noteblock)
