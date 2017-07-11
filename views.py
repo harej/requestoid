@@ -269,7 +269,7 @@ def request(request, langcode, reqid):  # /requests/en/request/12345
     for note in N:
         try:
             ts = arrow.get(note.timestamp, 'YYYYMMDDHHmmss').format('YYYY-MM-DD | HH:mm:ss')
-        except ParserError:
+        except:
             ts = '???'
 
         noteblock = {'username': note.user_name,
