@@ -16,17 +16,23 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Spreadsheet',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')),
                 ('code', models.CharField(max_length=255)),
                 ('filename', models.CharField(max_length=255)),
                 ('user_name', models.CharField(max_length=255)),
                 ('user_id', models.IntegerField()),
                 ('timestamp', models.CharField(max_length=14)),
-            ],
-        ),
+            ], ),
         migrations.AddField(
             model_name='requests',
             name='spreadsheet',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='requestoid.Spreadsheet'),
-        ),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to='requestoid.Spreadsheet'), ),
     ]

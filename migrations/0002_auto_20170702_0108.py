@@ -16,22 +16,18 @@ class Migration(migrations.Migration):
             model_name='logs',
             name='reference',
             field=models.IntegerField(default='0'),
-            preserve_default=False,
-        ),
+            preserve_default=False, ),
         migrations.AddField(
             model_name='logs',
             name='reference_text',
-            field=models.CharField(blank=True, max_length=255, null=True),
-        ),
+            field=models.CharField(blank=True, max_length=255, null=True), ),
         migrations.AddField(
             model_name='notes',
             name='timestamp',
             field=models.CharField(default='0', max_length=14),
-            preserve_default=False,
-        ),
+            preserve_default=False, ),
         migrations.AlterField(
             model_name='logs',
             name='action',
-            field=models.CharField(max_length=20),
-        ),
+            field=models.CharField(max_length=20), ),
     ]

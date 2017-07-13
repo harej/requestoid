@@ -18,11 +18,13 @@ from django.conf.urls import url
 from django.contrib import admin
 from . import config, views
 
+
 # Workaround for dev purposes
 def pat(r):
     if config.DEVMODE is True:
         return r'^requests/' + r
     return r'^' + r
+
 
 urlpatterns = [
     url(pat('admin/'), admin.site.urls),
@@ -31,11 +33,16 @@ urlpatterns = [
     url(pat('callback$'), views.callback),  # /requests/callback
     url(pat('(?P<langcode>([^\/])*)$'), views.homepage),  # /requests/en
     url(pat('(?P<langcode>([^\/])*)\/add$'), views.add),  # /requests/en/add
-    url(pat('(?P<langcode>([^\/])*)\/request\/(?P<reqid>(\d)+)$'), views.request),  # /requests/en/request/12345
+    url(
+        pat('(?P<langcode>([^\/])*)\/request\/(?P<reqid>(\d)+)$'),
+        views.request),  # /requests/en/request/12345
     url(pat('(?P<langcode>([^\/])*)\/log$'), views.log),  # /requests/en/log
-    url(pat('(?P<langcode>([^\/])*)\/search$'), views.search),  # /requests/en/search
-    url(pat('(?P<langcode>([^\/])*)\/request$'), views.search),  # alias for above
+    url(pat('(?P<langcode>([^\/])*)\/search$'),
+        views.search),  # /requests/en/search
+    url(pat('(?P<langcode>([^\/])*)\/request$'),
+        views.search),  # alias for above
     url(pat('(?P<langcode>([^\/])*)\/help$'), views.help),  # /requests/en/help
-    url(pat('(?P<langcode>([^\/])*)\/about$'), views.about),  # /requests/en/about
+    url(pat('(?P<langcode>([^\/])*)\/about$'),
+        views.about),  # /requests/en/about
     url(pat('(?P<langcode>([^\/])*)\/bulk$'), views.bulk),  # /requests/en/bulk
 ]
