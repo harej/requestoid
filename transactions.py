@@ -221,7 +221,7 @@ def spreadsheet_push(manifest):
 
 
 def spreadsheet_get(uid):
-    return json.loads(_redis_get('requestoid:spreadsheet:' + uid))
+    return json.loads(_redis_get('requestoid:spreadsheet:' + uid).decode('utf-8'))
 
 
 @task(name="bulk_create")
